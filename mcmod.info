@@ -1,0 +1,19 @@
+[
+{
+"modid": "mod_Invasion",
+"name": "Invasion",
+"description": "",
+"version": "0.12.0b",
+"credits": "Lieu",
+"logoFile": "",
+"mcversion": "",
+"url": "",
+"updateUrl": "",
+"authors": [ "Lieu" ],
+"parent":"",
+"screenshots": [],
+"dependencies": [
+"mod_MinecraftForge"
+]
+}
+]
