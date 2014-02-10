@@ -352,22 +352,32 @@ import java.util.Map;
 /*     */ 
 /*     */   protected void loadEntities()
 /*     */   {
-/* 402 */     EntityRegistry.registerGlobalEntityID(EntityIMZombie.class, "IMZombie", 110);
-/* 403 */     EntityRegistry.registerGlobalEntityID(EntityIMSkeleton.class, "IMSkeleton", 111);
-/* 404 */     EntityRegistry.registerGlobalEntityID(EntityIMSpider.class, "IMSpider", 112);
-/* 405 */     EntityRegistry.registerGlobalEntityID(EntityIMPigEngy.class, "IMPigEngy", 113);
+	/*
+	 * Parameters:
+entityClass The entity class
+entityName A unique name for the entity
+id A mod specific ID for the entity
+mod The mod
+trackingRange The range at which MC will send tracking updates
+updateFrequency The frequency of tracking updates
+sendsVelocityUpdates Whether to send velocity information packets as well
+	 */
+/* 402 */     EntityRegistry.registerModEntity(EntityIMZombie.class, "IMZombie", 110, this, 80, 3, true);
+/* 403 */     EntityRegistry.registerModEntity(EntityIMSkeleton.class, "IMSkeleton", 111, this, 80, 3, true);
+/* 404 */     EntityRegistry.registerModEntity(EntityIMSpider.class, "IMSpider", 112, this, 80, 3, true);
+/* 405 */     EntityRegistry.registerModEntity(EntityIMPigEngy.class, "IMPigEngy", 113, this, 80, 3, true);
 /*     */ 
-/* 407 */     EntityRegistry.registerGlobalEntityID(EntityIMBird.class, "IMBird", 114);
-/* 408 */     EntityRegistry.registerGlobalEntityID(EntityIMThrower.class, "IMThrower", 116);
-/* 409 */     EntityRegistry.registerGlobalEntityID(EntityIMBoulder.class, "IMBoulder", 117);
+/* 407 */     EntityRegistry.registerModEntity(EntityIMBird.class, "IMBird", 114, this, 80, 3, true);
+/* 408 */     EntityRegistry.registerModEntity(EntityIMThrower.class, "IMThrower", 116, this, 80, 3, true);
+/* 409 */     EntityRegistry.registerModEntity(EntityIMBoulder.class, "IMBoulder", 117, this, 80, 3, true);
 /*     */ 
-/* 411 */     EntityRegistry.registerGlobalEntityID(EntityIMTrap.class, "IMTrap", 109);
-/* 412 */     EntityRegistry.registerGlobalEntityID(EntityIMArrowOld.class, "IMPenArrow", 118);
-/* 413 */     EntityRegistry.registerGlobalEntityID(EntityIMWolf.class, "IMWolf", 119);
-/* 414 */     EntityRegistry.registerGlobalEntityID(EntityIMBolt.class, "IMBolt", 115);
-/* 415 */     EntityRegistry.registerGlobalEntityID(EntityIMEgg.class, "IMEgg", 108);
-/* 416 */     EntityRegistry.registerGlobalEntityID(EntityIMCreeper.class, "IMCreeper", 107);
-/* 417 */     EntityRegistry.registerGlobalEntityID(EntityIMGiantBird.class, "IMGiantBird", 106);
+/* 411 */     EntityRegistry.registerModEntity(EntityIMTrap.class, "IMTrap", 109, this, 80, 3, true);
+/* 412 */     EntityRegistry.registerModEntity(EntityIMArrowOld.class, "IMPenArrow", 118);
+/* 413 */     EntityRegistry.registerModEntity(EntityIMWolf.class, "IMWolf", 119);
+/* 414 */     EntityRegistry.registerModEntity(EntityIMBolt.class, "IMBolt", 115);
+/* 415 */     EntityRegistry.registerModEntity(EntityIMEgg.class, "IMEgg", 108);
+/* 416 */     EntityRegistry.registerModEntity(EntityIMCreeper.class, "IMCreeper", 107);
+/* 417 */     EntityRegistry.registerModEntity(EntityIMGiantBird.class, "IMGiantBird", 106);
 /*     */ 
 /* 419 */     EntityRegistry.registerModEntity(EntityIMBoulder.class, "IMBoulder", 1, this, 36, 4, true);
 /* 420 */     EntityRegistry.registerModEntity(EntityIMBolt.class, "IMBolt", 2, this, 36, 5, false);

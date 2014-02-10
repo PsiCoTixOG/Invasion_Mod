@@ -28,8 +28,7 @@
 /*     */ import net.minecraft.world.ColorizerGrass;
 /*     */ import net.minecraft.world.EnumGameType;
 /*     */ 
-/*     */ public class EntityIMZombie extends EntityIMMob
-/*     */   implements ICanDig
+/*     */ public class EntityIMZombie extends EntityIMMob implements ICanDig
 /*     */ {
 /*     */   private static final int META_CHANGED = 29;
 /*     */   private static final int META_TIER = 30;
