@@ -352,16 +352,6 @@ import java.util.Map;
 /*     */ 
 /*     */   protected void loadEntities()
 /*     */   {
-	/*
-	 * Parameters:
-entityClass The entity class
-entityName A unique name for the entity
-id A mod specific ID for the entity
-mod The mod
-trackingRange The range at which MC will send tracking updates
-updateFrequency The frequency of tracking updates
-sendsVelocityUpdates Whether to send velocity information packets as well
-	 */
 /* 402 */     EntityRegistry.registerModEntity(EntityIMZombie.class, "IMZombie", 110, this, 80, 3, true);
 /* 403 */     EntityRegistry.registerModEntity(EntityIMSkeleton.class, "IMSkeleton", 111, this, 80, 3, true);
 /* 404 */     EntityRegistry.registerModEntity(EntityIMSpider.class, "IMSpider", 112, this, 80, 3, true);
@@ -372,12 +362,12 @@ sendsVelocityUpdates Whether to send velocity information packets as well
 /* 409 */     EntityRegistry.registerModEntity(EntityIMBoulder.class, "IMBoulder", 117, this, 80, 3, true);
 /*     */ 
 /* 411 */     EntityRegistry.registerModEntity(EntityIMTrap.class, "IMTrap", 109, this, 80, 3, true);
-/* 412 */     EntityRegistry.registerModEntity(EntityIMArrowOld.class, "IMPenArrow", 118);
-/* 413 */     EntityRegistry.registerModEntity(EntityIMWolf.class, "IMWolf", 119);
-/* 414 */     EntityRegistry.registerModEntity(EntityIMBolt.class, "IMBolt", 115);
-/* 415 */     EntityRegistry.registerModEntity(EntityIMEgg.class, "IMEgg", 108);
-/* 416 */     EntityRegistry.registerModEntity(EntityIMCreeper.class, "IMCreeper", 107);
-/* 417 */     EntityRegistry.registerModEntity(EntityIMGiantBird.class, "IMGiantBird", 106);
+/* 412 */     EntityRegistry.registerModEntity(EntityIMArrowOld.class, "IMPenArrow", 118, this, 80, 3, true);
+/* 413 */     EntityRegistry.registerModEntity(EntityIMWolf.class, "IMWolf", 119, this, 80, 3, true);
+/* 414 */     EntityRegistry.registerModEntity(EntityIMBolt.class, "IMBolt", 115, this, 80, 3, true);
+/* 415 */     EntityRegistry.registerModEntity(EntityIMEgg.class, "IMEgg", 108, this, 80, 3, true);
+/* 416 */     EntityRegistry.registerModEntity(EntityIMCreeper.class, "IMCreeper", 107, this, 80, 3, true);
+/* 417 */     EntityRegistry.registerModEntity(EntityIMGiantBird.class, "IMGiantBird", 106, this, 80, 3, true);
 /*     */ 
 /* 419 */     EntityRegistry.registerModEntity(EntityIMBoulder.class, "IMBoulder", 1, this, 36, 4, true);
 /* 420 */     EntityRegistry.registerModEntity(EntityIMBolt.class, "IMBolt", 2, this, 36, 5, false);
