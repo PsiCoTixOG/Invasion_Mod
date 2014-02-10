@@ -2,15 +2,23 @@ package invmod.common;
 
 import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.Player;
-import net.minecraft.nbt.NBTBase;
+import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet103SetSlot;
+import net.minecraft.network.packet.Packet250CustomPayload;
 
-public class PacketHandlerCommon
-  implements IPacketHandler
+public class PacketHandlerCommon implements IPacketHandler
 {
-  public void onPacketData(NBTBase manager, Packet103SetSlot packet, Player player)
+  public void onPacketData(INetworkManager manager, Packet103SetSlot packet, Player player)
   {
+  
   }
+
+@Override
+public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player) 
+{
+	// TODO Auto-generated method stub
+	
+}
 }
 
 /* Location:           C:\Users\PsiCoTix\Downloads\_NOOBHAUS\MCDev\DeOp\DeOpInvasionMod.zip
