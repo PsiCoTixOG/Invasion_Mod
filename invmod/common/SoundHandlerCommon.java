@@ -10,7 +10,8 @@
 /*    */   protected boolean soundsInstalled;
 /*    */   protected boolean soundEnabled;
 /*    */ 
-/*    */   public SoundHandlerCommon()
+/*    */   @SuppressWarnings({ "unchecked", "rawtypes" })
+		   public SoundHandlerCommon()
 /*    */   {
 /* 18 */     this.sfxMapToString = new HashMap();
 /* 19 */     this.sfxMapToByte = new HashMap();

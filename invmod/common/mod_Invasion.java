@@ -2,9 +2,7 @@
 /*     */ 
 /*     */ import cpw.mods.fml.common.FMLCommonHandler;
 /*     */ import cpw.mods.fml.common.Mod;
-/*     */ import cpw.mods.fml.common.Mod.Init;
-/*     */ import cpw.mods.fml.common.Mod.PreInit;
-/*     */ import cpw.mods.fml.common.Mod.ServerStarting;
+/*     */ import cpw.mods.fml.common.Mod.EventHandler;
 /*     */ import cpw.mods.fml.common.SidedProxy;
 /*     */ import cpw.mods.fml.common.event.FMLInitializationEvent;
 /*     */ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -50,6 +48,7 @@
 /*     */ import invmod.common.nexus.TileEntityNexus;
 /*     */ import invmod.common.util.ISelect;
 /*     */ import invmod.common.util.RandomSelectionPool;
+
 /*     */ import java.io.BufferedWriter;
 /*     */ import java.io.File;
 /*     */ import java.io.FileWriter;
@@ -57,8 +56,10 @@
 /*     */ import java.io.PrintStream;
 /*     */ import java.lang.reflect.Field;
 /*     */ import java.util.HashMap;
+import java.util.Map;
 /*     */ import java.util.Map.Entry;
 /*     */ import java.util.Random;
+
 /*     */ import net.minecraft.block.BlockEndPortal;
 /*     */ import net.minecraft.command.CommandHandler;
 /*     */ import net.minecraft.command.ICommandManager;
@@ -66,7 +67,7 @@
 /*     */ import net.minecraft.entity.monster.EntitySilverfish;
 /*     */ import net.minecraft.entity.monster.EntitySlime;
 /*     */ import net.minecraft.entity.monster.EntityWitch;
-/*     */ import net.minecraft.entity.player.CallableItemName;
+/*     */ import net.minecraft.entity.player.CallableItemName; //PSICOTIX NOTE: No Idea what this is ?
 /*     */ import net.minecraft.item.EnumToolMaterial;
 /*     */ import net.minecraft.item.Item;
 /*     */ import net.minecraft.item.ItemHoe;
@@ -74,8 +75,8 @@
 /*     */ import net.minecraft.network.packet.Packet103SetSlot;
 /*     */ import net.minecraft.server.MinecraftServer;
 /*     */ import net.minecraft.server.management.PlayerPositionComparator;
-/*     */ import net.minecraft.src.cu;
-/*     */ import net.minecraft.src.nm;
+/*     */ import net.minecraft.src.cu; //PSICOTIX NOTE: World Gen? 
+/*     */ import net.minecraft.src.nm; //PSICOTIX NOTE: Derp?
 /*     */ import net.minecraft.util.CombatTracker;
 /*     */ import net.minecraft.world.ColorizerGrass;
 /*     */ import net.minecraft.world.ServerBlockEventList;
@@ -197,7 +198,7 @@
 /* 226 */     guiHandler = new GuiHandler();
 /*     */   }
 /*     */ 
-/*     */   @Mod.PreInit
+/*     */   @EventHandler
 /*     */   public void preInit(FMLPreInitializationEvent event)
 /*     */   {
 /* 237 */     File logFile = proxy.getFile("/invasion_log.log");
@@ -251,7 +252,7 @@
 /* 293 */     configInvasion.saveConfig(configFile, strengthOverrides, debugMode);
 /*     */   }
 /*     */ 
-/*     */   @Mod.Init
+/*     */   @EventHandler
 /*     */   public void load(FMLInitializationEvent event)
 /*     */   {
 /* 302 */     MinecraftForge.EVENT_BUS.register(soundHandler);

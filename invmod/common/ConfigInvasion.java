@@ -5,7 +5,7 @@
 /*    */ import java.io.FileWriter;
 /*    */ import java.io.IOException;
 /*    */ import java.util.HashMap;
-         import java.util.Map;
+import java.util.Map;
 /*    */ 
 /*    */ public class ConfigInvasion extends Config
 /*    */ {
@@ -75,7 +75,7 @@
 /*    */         }
 /*    */         else
 /*    */         {
-/* 80 */           for (Map.Entry entry : strengthOverrides.entrySet())
+/* 80 */           for (@SuppressWarnings("rawtypes") Map.Entry entry : strengthOverrides.entrySet())
 /*    */           {
 /* 82 */             writer.write("block" + entry.getKey() + "-strength=" + entry.getValue());
 /* 83 */             writer.newLine();
