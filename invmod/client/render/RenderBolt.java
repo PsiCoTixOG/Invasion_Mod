@@ -4,7 +4,7 @@
 /*    */ import net.minecraft.client.renderer.ImageBufferDownload;
 /*    */ import net.minecraft.client.renderer.entity.RenderDragon;
 /*    */ import net.minecraft.client.resources.GrassColorReloadListener;
-/*    */ import net.minecraft.src.nm;
+/*    */ import net.minecraft.entity.Entity;
 /*    */ import org.lwjgl.opengl.GL11;
 /*    */ 
 /*    */ public class RenderBolt extends RenderDragon
@@ -68,12 +68,12 @@
 /* 72 */     GL11.glEnable(3553);
 /*    */   }
 /*    */ 
-/*    */   public void a(nm entity, double d, double d1, double d2, float f, float f1)
+/*    */   public void a(Entity entity, double d, double d1, double d2, float f, float f1)
 /*    */   {
 /* 78 */     render((EntityIMBolt)entity, d, d1, d2, f, f1);
 /*    */   }
 /*    */ 
-/*    */   protected GrassColorReloadListener a(nm entity)
+/*    */   protected GrassColorReloadListener a(Entity entity)
 /*    */   {
 /* 84 */     return null;
 /*    */   }

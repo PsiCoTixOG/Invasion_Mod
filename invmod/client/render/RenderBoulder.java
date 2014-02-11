@@ -3,7 +3,7 @@
 /*    */ import invmod.common.entity.EntityIMBoulder;
 /*    */ import net.minecraft.client.renderer.entity.RenderDragon;
 /*    */ import net.minecraft.client.resources.GrassColorReloadListener;
-/*    */ import net.minecraft.src.nm;
+/*    */ import net.minecraft.entity.Entity;
 /*    */ import org.lwjgl.opengl.GL11;
 /*    */ 
 /*    */ public class RenderBoulder extends RenderDragon
@@ -34,7 +34,7 @@
 /* 37 */     renderBoulder((EntityIMBoulder)entity, d, d1, d2, f, f1);
 /*    */   }
 /*    */ 
-/*    */   protected GrassColorReloadListener a(nm entity)
+/*    */   protected GrassColorReloadListener a(Entity entity)
 /*    */   {
 /* 45 */     return texture;
 /*    */   }

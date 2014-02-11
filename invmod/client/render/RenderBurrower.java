@@ -5,7 +5,7 @@
 /*    */ import net.minecraft.client.renderer.entity.RenderDragon;
 /*    */ import net.minecraft.client.renderer.tileentity.RenderEnderCrystal;
 /*    */ import net.minecraft.client.resources.GrassColorReloadListener;
-/*    */ import net.minecraft.src.nm;
+/*    */ import net.minecraft.entity.Entity;
 /*    */ import org.lwjgl.opengl.GL11;
 /*    */ 
 /*    */ public class RenderBurrower extends RenderDragon
@@ -57,7 +57,7 @@
 /* 67 */     renderBurrower((EntityIMBurrower)entity, d, d1, d2, yaw, partialTick);
 /*    */   }
 /*    */ 
-/*    */   protected GrassColorReloadListener a(nm entity)
+/*    */   protected GrassColorReloadListener a(Entity entity)
 /*    */   {
 /* 73 */     return texture;
 /*    */   }
