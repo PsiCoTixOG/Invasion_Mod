@@ -56,7 +56,7 @@
 /*     */ import java.io.PrintStream;
 /*     */ import java.lang.reflect.Field;
 /*     */ import java.util.HashMap;
-import java.util.Map;
+		  import java.util.Map;
 /*     */ import java.util.Map.Entry;
 /*     */ import java.util.Random;
 
@@ -67,7 +67,7 @@ import java.util.Map;
 /*     */ import net.minecraft.entity.monster.EntitySilverfish;
 /*     */ import net.minecraft.entity.monster.EntitySlime;
 /*     */ import net.minecraft.entity.monster.EntityWitch;
-/*     */ import net.minecraft.entity.player.CallableItemName; //PSICOTIX NOTE: No Idea what this is ?
+/*     */ import net.minecraft.entity.player.CallableItemName; //PSICOTIX NOTE: there are other methods to get player inventory - why this way; maybe because this was heave ModLoader, and not forge initially?
 /*     */ import net.minecraft.item.EnumToolMaterial;
 /*     */ import net.minecraft.item.Item;
 /*     */ import net.minecraft.item.ItemHoe;
@@ -170,7 +170,7 @@ import java.util.Map;
 /*     */   private static float nightMobStatsScaling;
 /*     */   private static boolean nightMobsBurnInDay;
 /*     */   public static BlockNexus blockNexus;
-/*     */   public static ItemHoe itemPhaseCrystal;
+/*     */   public static Item itemPhaseCrystal;
 /*     */   public static ItemHoe itemRiftFlux;
 /*     */   public static ItemHoe itemRemnants;
 /*     */   public static ItemHoe itemNexusCatalyst;
@@ -302,7 +302,7 @@ import java.util.Map;
 /* 349 */     soundHandler.setSoundEnabled(soundsEnabled);
 /*     */   }
 /*     */ 
-/*     */   @Mod.ServerStarting
+/*     */   @EventHandler
 /*     */   public void onServerStart(FMLServerStartingEvent event)
 /*     */   {
 /* 355 */     ICommandManager commandManager = FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager();

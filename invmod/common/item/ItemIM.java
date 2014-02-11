@@ -2,10 +2,10 @@
 /*    */ 
 /*    */ import cpw.mods.fml.relauncher.Side;
 /*    */ import cpw.mods.fml.relauncher.SideOnly;
-/*    */ import net.minecraft.item.ItemHoe;
+/*    */ import net.minecraft.item.Item;
 /*    */ import net.minecraft.util.Icon;
 /*    */ 
-/*    */ public class ItemIM extends ItemHoe
+/*    */ public class ItemIM extends Item
 /*    */ {
 /*    */   public ItemIM(int id)
 /*    */   {
