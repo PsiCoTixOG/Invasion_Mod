@@ -1,3 +1,18 @@
-Invasion Mod v0.12.0b
-
+Original source for Invasion Mod v0.12.0b
 Built with Forge 9.10.0, FML (19/08/2013)
+
+updating to MC 1.6.4 as it appears the original developer has ceased developement
+
+Notes:
+NOOB HAUS - PsiCoTix
+looks like this was originally developed for ModLoader; meaning there is plenty of work needed to be done.
+
+Item Notes:
+  Genreal
+Items are all extendeds of ItemHoe; I feel like this requires a switch to Item;
+
+
+Entity Notes:
+  Genreal:
+Mods where registered previously with a "Global" ID, not a Mod level ID; this needs to be changed.
+Entity Mobs implement ICanDig, this seems to be a cause of issue for the Entityreg; will need to look thru ICanDig see if it can be implemented via a diffrent means
