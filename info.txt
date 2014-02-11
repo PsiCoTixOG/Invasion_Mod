@@ -5,8 +5,9 @@ updating to MC 1.6.4 as it appears the original developer has ceased developemen
 
 Mapping Notes:
 ColorizeGrass = World
-CallableItemName = EntityPlayer or maybe Entity... Oops; i'll have some changes to fix
-import net.minecraft.src.nm = import net.minecraft.world.World;
+CallableItemName = EntityPlayer
+import net.minecraft.src.nm = import net.minecraft.entity.Entity;
+derp?? = import net.minecraft.world.World;
 bcr = ModelRenderer 
 
 T = ?? WTF
@@ -26,3 +27,5 @@ Entity Notes:
   Genreal:
 Mods where registered previously with a "Global" ID, not a Mod level ID; this needs to be changed.
 Entity Mobs implement ICanDig, this seems to be a cause of issue for the Entityreg; will need to look thru ICanDig see if it can be implemented via a diffrent means
+
+lots of entities are usinf dragon ??
