@@ -3,6 +3,14 @@ Built with Forge 9.10.0, FML (19/08/2013)
 
 updating to MC 1.6.4 as it appears the original developer has ceased developement
 
+Mapping Notes:
+ColorizeGrass = World
+import net.minecraft.src.nm = import net.minecraft.world.World;
+
+T = ?? WTF
+
+EnumToolMeterial = ItemStack (I'm rather confident)
+
 Notes:
 NOOB HAUS - PsiCoTix
 looks like this was originally developed for ModLoader; meaning there is plenty of work needed to be done.
