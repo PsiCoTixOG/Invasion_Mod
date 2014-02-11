@@ -4,50 +4,53 @@
 /*     */ import cpw.mods.fml.relauncher.SideOnly;
 /*     */ import invmod.common.mod_Invasion;
 /*     */ import java.util.Random;
+		  import net.minecraft.block.Block;
+		  import net.minecraft.block.material.Material;
 /*     */ import net.minecraft.block.material.MaterialLogic;
 /*     */ import net.minecraft.client.renderer.IconFlipped;
-/*     */ import net.minecraft.entity.player.CallableItemName;
+		  import net.minecraft.client.renderer.texture.IconRegister;
+/*     */ import net.minecraft.entity.player.EntityPlayer;
 /*     */ import net.minecraft.entity.player.PlayerCapabilities;
 /*     */ import net.minecraft.item.EnumToolMaterial;
 /*     */ import net.minecraft.item.Item;
+		  import net.minecraft.item.ItemStack;
 /*     */ import net.minecraft.tileentity.TileEntitySign;
 /*     */ import net.minecraft.util.Icon;
-/*     */ import net.minecraft.world.ColorizerGrass;
-/*     */ import net.minecraft.world.storage.IThreadedFileIO;
+		  import net.minecraft.world.World;
 /*     */ 
-/*     */ public class BlockNexus extends IThreadedFileIO
+/*     */ public class BlockNexus extends Block
 /*     */ {
 /*     */ 
 /*     */   @SideOnly(Side.CLIENT)
-/*     */   private IconFlipped sideOn;
+/*     */   private Icon sideOn;
 /*     */ 
 /*     */   @SideOnly(Side.CLIENT)
-/*     */   private IconFlipped sideOff;
+/*     */   private Icon sideOff;
 /*     */ 
 /*     */   @SideOnly(Side.CLIENT)
-/*     */   private IconFlipped topOn;
+/*     */   private Icon topOn;
 /*     */ 
 /*     */   @SideOnly(Side.CLIENT)
-/*     */   private IconFlipped topOff;
+/*     */   private Icon topOff;
 /*     */ 
 /*     */   @SideOnly(Side.CLIENT)
-/*     */   private IconFlipped botTexture;
+/*     */   private Icon botTexture;
 /*     */ 
 /*     */   public BlockNexus(int id)
 /*     */   {
-/*  35 */     super(id, MaterialLogic.e);
+/*  35 */     super(id, Material.iron);
 /*     */   }
 /*     */ 
-/*     */   public void a(Icon iconRegister)
+/*     */   public void registerIcons(IconRegister iconRegister)
 /*     */   {
-/*  40 */     this.sideOn = iconRegister.a("invmod:nexusSideOn");
-/*  41 */     this.sideOff = iconRegister.a("invmod:nexusSideOff");
-/*  42 */     this.topOn = iconRegister.a("invmod:nexusTopOn");
-/*  43 */     this.topOff = iconRegister.a("invmod:nexusTopOff");
-/*  44 */     this.botTexture = iconRegister.a("obsidian");
+/*  40 */     this.sideOn = iconRegister.registerIcon("invmod:nexusSideOn");
+/*  41 */     this.sideOff = iconRegister.registerIcon("invmod:nexusSideOff");
+/*  42 */     this.topOn = iconRegister.registerIcon("invmod:nexusTopOn");
+/*  43 */     this.topOff = iconRegister.registerIcon("invmod:nexusTopOff");
+/*  44 */     this.botTexture = iconRegister.registerIcon("obsidian");
 /*     */   }
 /*     */ 
-/*     */   public IconFlipped a(int side, int meta)
+/*     */   public Icon getIcon(int side, int meta)
 /*     */   {
 /*  50 */     if ((meta & 0x4) == 0)
 /*     */     {
@@ -65,11 +68,11 @@
 /*  64 */     return side != 0 ? this.sideOn : this.botTexture;
 /*     */   }
 /*     */ 
-/*     */   public boolean a(ColorizerGrass world, int x, int y, int z, CallableItemName entityPlayer, int par6, float par7, float par8, float par9)
+/*     */   public boolean a(World world, int x, int y, int z, EntityPlayer entityPlayer, int par6, float par7, float par8, float par9)
 /*     */   {
-/*  85 */     EnumToolMaterial item = entityPlayer.bn.h();
+/*  85 */     ItemStack item = entityPlayer.getHeldItem();
 /*  86 */     int itemId = item != null ? item.EMERALD : 0;
-/*  87 */     if (world.I)
+/*  87 */     if (world.isRemote) //PsiCoTix: should this be world.isRemote
 /*     */     {
 /*  89 */       return true;
 /*     */     }
@@ -87,15 +90,14 @@
 /* 103 */     return false;
 /*     */   }
 /*     */ 
-/*     */   public TileEntitySign b(ColorizerGrass world)
+/*     */   public TileEntitySign b(World world)
 /*     */   {
 /* 110 */     return new TileEntityNexus(world);
 /*     */   }
 /*     */ 
-/*     */   public void b(ColorizerGrass world, int x, int y, int z, Random random)
+/*     */   public void b(World world, int x, int y, int z, Random random)
 /*     */   {
 /* 119 */     int meta = world.h(x, y, z);
-/*     */     int numberOfParticles;
 /*     */     int numberOfParticles;
 /* 121 */     if ((meta & 0x4) == 0)
 /* 122 */       numberOfParticles = 0;
@@ -111,15 +113,14 @@
 /* 136 */       int direction = random.nextInt(2) * 2 - 1;
 /*     */       double x2;
 /*     */       double x1;
-/*     */       double x2;
 /*     */       double z1;
 /*     */       double z2;
 /* 141 */       if (random.nextInt(2) == 0)
 /*     */       {
-/* 145 */         double z1 = z + 0.5D + 0.25D * direction;
-/* 146 */         double z2 = random.nextFloat() * 2.0F * direction;
+/* 145 */         z1 = z + 0.5D + 0.25D * direction;
+/* 146 */         z2 = random.nextFloat() * 2.0F * direction;
 /*     */ 
-/* 150 */         double x1 = x + random.nextFloat();
+/* 150 */         x1 = x + random.nextFloat();
 /* 151 */         x2 = (random.nextFloat() - 0.5D) * 0.5D;
 /*     */       }
 /*     */       else

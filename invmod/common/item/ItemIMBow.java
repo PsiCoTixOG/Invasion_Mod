@@ -5,8 +5,11 @@
 /*     */ import invmod.client.BowHackHandler;
 /*     */ import invmod.common.entity.EntityIMArrowOld;
 /*     */ import invmod.common.mod_Invasion;
+
 /*     */ import java.util.Random;
+
 /*     */ import net.minecraft.client.renderer.IconFlipped;
+		  import net.minecraft.client.renderer.texture.IconRegister;
 /*     */ import net.minecraft.enchantment.Enchantment;
 /*     */ import net.minecraft.enchantment.EnchantmentDigging;
 /*     */ import net.minecraft.enchantment.EnumEnchantmentType;
@@ -30,13 +33,13 @@
 /*     */ {
 /*     */ 
 /*     */   @SideOnly(Side.CLIENT)
-/*     */   private IconFlipped iconCharge1;
+/*     */   private Icon iconCharge1;
 /*     */ 
 /*     */   @SideOnly(Side.CLIENT)
-/*     */   private IconFlipped iconCharge2;
+/*     */   private Icon iconCharge2;
 /*     */ 
 /*     */   @SideOnly(Side.CLIENT)
-/*     */   private IconFlipped iconCharge3;
+/*     */   private Icon iconCharge3;
 /*     */ 
 /*     */   public ItemIMBow(int i)
 /*     */   {
@@ -45,15 +48,15 @@
 /*     */   }
 /*     */ 
 /*     */   @SideOnly(Side.CLIENT)
-/*     */   public void a(Icon par1IconRegister)
+/*     */   public void registerIcons(IconRegister par1IconRegister)
 /*     */   {
-/*  43 */     this.cz = par1IconRegister.a("invmod:" + getUnlocalizedName().substring(5));
-/*  44 */     this.iconCharge1 = par1IconRegister.a("invmod:sbowc1");
-/*  45 */     this.iconCharge2 = par1IconRegister.a("invmod:sbowc2");
-/*  46 */     this.iconCharge3 = par1IconRegister.a("invmod:sbowc3");
+/*  43 */     this.itemIcon = par1IconRegister.registerIcon("invmod:" + getUnlocalizedName().substring(5));
+/*  44 */     this.iconCharge1 = par1IconRegister.registerIcon("invmod:sbowc1");
+/*  45 */     this.iconCharge2 = par1IconRegister.registerIcon("invmod:sbowc2");
+/*  46 */     this.iconCharge3 = par1IconRegister.registerIcon("invmod:sbowc3");
 /*     */   }
 /*     */ 
-/*     */   public void a(EnumToolMaterial par1ItemStack, ColorizerGrass par2World, CallableItemName par3EntityPlayer, int par4)
+/*     */   public void onPlayerStoppedUsing(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer, int par4)
 /*     */   {
 /*  52 */     mod_Invasion.getBowHackHandler().setBowReleased();
 /*  53 */     int var6 = d_(par1ItemStack) - par4;

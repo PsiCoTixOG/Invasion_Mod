@@ -11,14 +11,16 @@
 /*     */ import invmod.common.mod_Invasion;
 /*     */ import invmod.common.nexus.BlockNexus;
 /*     */ import invmod.common.nexus.TileEntityNexus;
+
 /*     */ import java.util.ArrayList;
+
 /*     */ import net.minecraft.entity.EntityLeashKnot;
 /*     */ import net.minecraft.entity.monster.EntityWitch;
 /*     */ import net.minecraft.entity.passive.EntityWaterMob;
-/*     */ import net.minecraft.entity.player.CallableItemName;
+/*     */ import net.minecraft.entity.player.EntityPlayer;
 /*     */ import net.minecraft.item.EnumToolMaterial;
-/*     */ import net.minecraft.src.nm;
-/*     */ import net.minecraft.world.ColorizerGrass;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 /*     */ 
 /*     */ public class ItemDebugWand extends ItemIM
 /*     */ {
@@ -28,18 +30,19 @@
 /*     */   {
 /*  31 */     super(itemId);
 /*  32 */     this.maxStackSize = 1;
-/*  33 */     e(0);
+/*  33 */     this.setHasSubtypes(false);
 /*     */   }
 /*     */ 
-/*     */   public boolean onItemUseFirst(EnumToolMaterial itemstack, CallableItemName entityplayer, ColorizerGrass world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
+/*     */   public boolean onItemUseFirst(EnumToolMaterial itemstack, EntityPlayer entityplayer, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
 /*     */   {
-/*  39 */     if (world.I) {
+/*  39 */     if (world.isRemote) 
+			  {
 /*  40 */       return false;
 /*     */     }
-/*  42 */     int id = world.a(x, y, z);
-/*  43 */     if (id == mod_Invasion.blockNexus.cF)
+/*  42 */     int id = world.getBlockId(x, y, z);
+/*  43 */     if (id == mod_Invasion.blockNexus.blockID)
 /*     */     {
-/*  45 */       this.nexus = ((TileEntityNexus)world.r(x, y, z));
+/*  45 */       this.nexus = ((TileEntityNexus)world.getBlockTileEntity(x, y, z));
 /*  46 */       return true;
 /*     */     }
 /*     */ 
@@ -108,13 +111,14 @@
 /* 150 */     return true;
 /*     */   }
 /*     */ 
-/*     */   public boolean a(EnumToolMaterial itemstack, CallableItemName player, EntityLeashKnot targetEntity)
+/*     */   public boolean onItemUse(ItemStack itemstack, EntityPlayer player, EntityLeashKnot targetEntity)
 /*     */   {
 /* 156 */     if ((targetEntity instanceof EntityWaterMob))
 /*     */     {
 /* 159 */       EntityWaterMob wolf = (EntityWaterMob)targetEntity;
 /*     */ 
-/* 161 */       if (player != null) {
+/* 161 */       if (player != null) 
+				{
 /* 162 */         wolf.b(player.bu);
 /*     */       }
 /* 164 */       return true;

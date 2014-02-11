@@ -56,30 +56,32 @@
 /*     */ import java.io.PrintStream;
 /*     */ import java.lang.reflect.Field;
 /*     */ import java.util.HashMap;
-import java.util.Map;
+		  import java.util.Map;
 /*     */ import java.util.Map.Entry;
 /*     */ import java.util.Random;
 
+		  import net.minecraft.block.Block;
 /*     */ import net.minecraft.block.BlockEndPortal;
 /*     */ import net.minecraft.command.CommandHandler;
 /*     */ import net.minecraft.command.ICommandManager;
 /*     */ import net.minecraft.entity.EntityLiving;
+		  import net.minecraft.entity.EnumCreatureType;
 /*     */ import net.minecraft.entity.monster.EntitySilverfish;
 /*     */ import net.minecraft.entity.monster.EntitySlime;
 /*     */ import net.minecraft.entity.monster.EntityWitch;
-/*     */ import net.minecraft.entity.player.CallableItemName; //PSICOTIX NOTE: there are other methods to get player inventory - why this way; maybe because this was heave ModLoader, and not forge initially?
+		  import net.minecraft.entity.player.EntityPlayer;
 /*     */ import net.minecraft.item.EnumToolMaterial;
 /*     */ import net.minecraft.item.Item;
 /*     */ import net.minecraft.item.ItemHoe;
 /*     */ import net.minecraft.item.ItemMapBase;
+		  import net.minecraft.item.ItemStack;
 /*     */ import net.minecraft.network.packet.Packet103SetSlot;
 /*     */ import net.minecraft.server.MinecraftServer;
 /*     */ import net.minecraft.server.management.PlayerPositionComparator;
-/*     */ import net.minecraft.src.cu; //PSICOTIX NOTE: World Gen? 
-/*     */ import net.minecraft.src.nm; //PSICOTIX NOTE: Derp?
+/*     */ import net.minecraft.src.cu; //PSICOTIX NOTE: Derp? 
 /*     */ import net.minecraft.util.CombatTracker;
-/*     */ import net.minecraft.world.ColorizerGrass;
 /*     */ import net.minecraft.world.ServerBlockEventList;
+		  import net.minecraft.world.World;
 /*     */ import net.minecraft.world.biome.BiomeGenBeach;
 /*     */ import net.minecraftforge.common.DimensionManager;
 /*     */ import net.minecraftforge.common.MinecraftForge;
@@ -170,24 +172,24 @@ import java.util.Map;
 /*     */   private static int maxNightMobs;
 /*     */   private static float nightMobStatsScaling;
 /*     */   private static boolean nightMobsBurnInDay;
-/*     */   public static BlockNexus blockNexus;
+/*     */   public static Block blockNexus;
 /*     */   public static Item itemPhaseCrystal;
-/*     */   public static ItemHoe itemRiftFlux;
-/*     */   public static ItemHoe itemRemnants;
-/*     */   public static ItemHoe itemNexusCatalyst;
-/*     */   public static ItemHoe itemInfusedSword;
-/*     */   public static ItemHoe itemIMTrap;
-/*     */   public static ItemHoe itemPenBow;
-/*     */   public static ItemHoe itemCataMixture;
-/*     */   public static ItemHoe itemStableCataMixture;
-/*     */   public static ItemHoe itemStableNexusCatalyst;
-/*     */   public static ItemHoe itemDampingAgent;
-/*     */   public static ItemHoe itemStrongDampingAgent;
-/*     */   public static ItemHoe itemStrangeBone;
-/*     */   public static ItemHoe itemProbe;
-/*     */   public static ItemHoe itemStrongCatalyst;
-/*     */   public static ItemHoe itemEngyHammer;
-/*     */   public static ItemHoe itemDebugWand;
+/*     */   public static Item itemRiftFlux;
+/*     */   public static Item itemRemnants;
+/*     */   public static Item itemNexusCatalyst;
+/*     */   public static Item itemInfusedSword;
+/*     */   public static Item itemIMTrap;
+/*     */   public static Item itemPenBow;
+/*     */   public static Item itemCataMixture;
+/*     */   public static Item itemStableCataMixture;
+/*     */   public static Item itemStableNexusCatalyst;
+/*     */   public static Item itemDampingAgent;
+/*     */   public static Item itemStrongDampingAgent;
+/*     */   public static Item itemStrangeBone;
+/*     */   public static Item itemProbe;
+/*     */   public static Item itemStrongCatalyst;
+/*     */   public static Item itemEngyHammer;
+/*     */   public static Item itemDebugWand;
 /*     */   public static mod_Invasion instance;
 /*     */ 
 /* 220 */   public mod_Invasion() { instance = this;
@@ -275,10 +277,10 @@ import java.util.Map;
 /*     */     {
 /* 320 */       BiomeGenBeach[] biomes = { BiomeGenBeach.c, BiomeGenBeach.e, BiomeGenBeach.f, BiomeGenBeach.g, BiomeGenBeach.h, BiomeGenBeach.t, BiomeGenBeach.u, BiomeGenBeach.v, BiomeGenBeach.w, BiomeGenBeach.x };
 /*     */ 
-/* 323 */       EntityRegistry.addSpawn(EntityIMSpawnProxy.class, nightMobSpawnChance, 1, 1, EntityLiving.a, biomes);
-/* 324 */       EntityRegistry.addSpawn(EntityWitch.class, 1, 1, 1, EntityLiving.a, biomes);
-/* 325 */       EntityRegistry.addSpawn(EntitySlime.class, 1, 1, 1, EntityLiving.a, biomes);
-/* 326 */       EntityRegistry.addSpawn(EntitySilverfish.class, 1, 1, 1, EntityLiving.a, biomes);
+/* 323 */       EntityRegistry.addSpawn(EntityIMSpawnProxy.class, nightMobSpawnChance, 1, 1, EnumCreatureType.monster, biomes);
+/* 324 */       EntityRegistry.addSpawn(EntityWitch.class, 1, 1, 1, EnumCreatureType.monster, biomes);
+/* 325 */       EntityRegistry.addSpawn(EntitySlime.class, 1, 1, 1, EnumCreatureType.monster, biomes);
+/* 326 */       EntityRegistry.addSpawn(EntitySilverfish.class, 1, 1, 1, EnumCreatureType.monster, biomes);
 /*     */     }
 /*     */ 
 /* 330 */     if (maxNightMobs != 70)
@@ -316,7 +318,7 @@ import java.util.Map;
 /*     */   protected void loadBlocks()
 /*     */   {
 /* 364 */     blockNexus = new BlockNexus(configInvasion.getPropertyValueInt("blockID-Nexus", 216));
-/* 365 */     blockNexus.b(6000000.0F).c(3.0F).a(BlockEndPortal.m).c("blockNexus");
+/* 365 */     blockNexus.b(6000000.0F).c(3.0F).a(BlockEndPortal.m).setUnlocalizedName("blockNexus");
 /* 366 */     blockNexus.a(ItemMapBase.f);
 /* 367 */     GameRegistry.registerBlock(blockNexus, "Nexus");
 /* 368 */     GameRegistry.registerTileEntity(TileEntityNexus.class, "Nexus");
@@ -324,26 +326,26 @@ import java.util.Map;
 /*     */ 
 /*     */   protected void loadItems()
 /*     */   {
-/* 373 */     itemPhaseCrystal = new ItemIM(configInvasion.getPropertyValueInt("itemID-PhaseCrystal", 24400)).b("phaseCrystal").d(1).a(ItemMapBase.f);
-/* 374 */     itemRiftFlux = new ItemRiftFlux(configInvasion.getPropertyValueInt("itemID-RiftFlux", 24401)).b("riftFlux").a(ItemMapBase.f);
-/* 375 */     itemRemnants = new ItemRemnants(configInvasion.getPropertyValueInt("itemID-Remnants", 24402)).b("remnants").a(ItemMapBase.f);
-/* 376 */     itemNexusCatalyst = new ItemIM(configInvasion.getPropertyValueInt("itemID-NexusCatalyst", 24403)).b("nexusCatalyst").d(1).a(ItemMapBase.f);
-/* 377 */     itemInfusedSword = new ItemInfusedSword(configInvasion.getPropertyValueInt("itemID-InfusedSword", 24404)).b("infusedSword").d(1).a(ItemMapBase.f);
-/* 378 */     itemPenBow = new ItemIMBow(configInvasion.getPropertyValueInt("itemID-IMBow", 24406)).b("searingBow").a(ItemMapBase.f);
-/* 379 */     itemCataMixture = new ItemIM(configInvasion.getPropertyValueInt("itemID-CataMixture", 24407)).b("catalystMixture").d(1).a(ItemMapBase.f);
-/* 380 */     itemStableCataMixture = new ItemIM(configInvasion.getPropertyValueInt("itemID-StableCataMixture", 24408)).b("stableCatalystMixture").d(1).a(ItemMapBase.f);
-/* 381 */     itemStableNexusCatalyst = new ItemIM(configInvasion.getPropertyValueInt("itemID-StableNexusCatalyst", 24409)).b("stableNexusCatalyst").d(1).a(ItemMapBase.f);
-/* 382 */     itemDampingAgent = new ItemIM(configInvasion.getPropertyValueInt("itemID-DampingAgent", 24410)).b("dampingAgent").d(1).a(ItemMapBase.f);
-/* 383 */     itemStrongDampingAgent = new ItemIM(configInvasion.getPropertyValueInt("itemID-StrongDampingAgent", 24411)).b("strongDampingAgent").d(1).a(ItemMapBase.f);
-/* 384 */     itemStrangeBone = new ItemStrangeBone(configInvasion.getPropertyValueInt("itemID-StrangeBone", 24412)).b("strangeBone").d(1).a(ItemMapBase.f);
-/* 385 */     itemStrongCatalyst = new ItemIM(configInvasion.getPropertyValueInt("itemID-StrongCatalyst", 24414)).b("strongCatalyst").d(1).a(ItemMapBase.f);
-/* 386 */     itemEngyHammer = new ItemIM(configInvasion.getPropertyValueInt("itemID-EngyHammer", 24415)).b("engyHammer").d(1);
-/* 387 */     itemProbe = new ItemProbe(configInvasion.getPropertyValueInt("itemID-Probe", 24413)).b("probe").a(ItemMapBase.f);
-/* 388 */     itemIMTrap = new ItemIMTrap(configInvasion.getPropertyValueInt("itemID-IMTrap", 24405)).b("trap").a(ItemMapBase.f);
+/* 373 */     itemPhaseCrystal = new ItemIM(configInvasion.getPropertyValueInt("itemID-PhaseCrystal", 24400)).setUnlocalizedName("phaseCrystal").d(1).a(ItemMapBase.f);
+/* 374 */     itemRiftFlux = new ItemRiftFlux(configInvasion.getPropertyValueInt("itemID-RiftFlux", 24401)).setUnlocalizedName("riftFlux").a(ItemMapBase.f);
+/* 375 */     itemRemnants = new ItemRemnants(configInvasion.getPropertyValueInt("itemID-Remnants", 24402)).setUnlocalizedName("remnants").a(ItemMapBase.f);
+/* 376 */     itemNexusCatalyst = new ItemIM(configInvasion.getPropertyValueInt("itemID-NexusCatalyst", 24403)).setUnlocalizedName("nexusCatalyst").d(1).a(ItemMapBase.f);
+/* 377 */     itemInfusedSword = new ItemInfusedSword(configInvasion.getPropertyValueInt("itemID-InfusedSword", 24404)).setUnlocalizedName("infusedSword").d(1).a(ItemMapBase.f);
+/* 378 */     itemPenBow = new ItemIMBow(configInvasion.getPropertyValueInt("itemID-IMBow", 24406)).setUnlocalizedName("searingBow").a(ItemMapBase.f);
+/* 379 */     itemCataMixture = new ItemIM(configInvasion.getPropertyValueInt("itemID-CataMixture", 24407)).setUnlocalizedName("catalystMixture").d(1).a(ItemMapBase.f);
+/* 380 */     itemStableCataMixture = new ItemIM(configInvasion.getPropertyValueInt("itemID-StableCataMixture", 24408)).setUnlocalizedName("stableCatalystMixture").d(1).a(ItemMapBase.f);
+/* 381 */     itemStableNexusCatalyst = new ItemIM(configInvasion.getPropertyValueInt("itemID-StableNexusCatalyst", 24409)).setUnlocalizedName("stableNexusCatalyst").d(1).a(ItemMapBase.f);
+/* 382 */     itemDampingAgent = new ItemIM(configInvasion.getPropertyValueInt("itemID-DampingAgent", 24410)).setUnlocalizedName("dampingAgent").d(1).a(ItemMapBase.f);
+/* 383 */     itemStrongDampingAgent = new ItemIM(configInvasion.getPropertyValueInt("itemID-StrongDampingAgent", 24411)).setUnlocalizedName("strongDampingAgent").d(1).a(ItemMapBase.f);
+/* 384 */     itemStrangeBone = new ItemStrangeBone(configInvasion.getPropertyValueInt("itemID-StrangeBone", 24412)).setUnlocalizedName("strangeBone").d(1).a(ItemMapBase.f);
+/* 385 */     itemStrongCatalyst = new ItemIM(configInvasion.getPropertyValueInt("itemID-StrongCatalyst", 24414)).setUnlocalizedName("strongCatalyst").d(1).a(ItemMapBase.f);
+/* 386 */     itemEngyHammer = new ItemIM(configInvasion.getPropertyValueInt("itemID-EngyHammer", 24415)).setUnlocalizedName("engyHammer").d(1);
+/* 387 */     itemProbe = new ItemProbe(configInvasion.getPropertyValueInt("itemID-Probe", 24413)).setUnlocalizedName("probe").a(ItemMapBase.f);
+/* 388 */     itemIMTrap = new ItemIMTrap(configInvasion.getPropertyValueInt("itemID-IMTrap", 24405)).setUnlocalizedName("trap").a(ItemMapBase.f);
 /*     */ 
 /* 390 */     if (debugMode)
 /*     */     {
-/* 392 */       itemDebugWand = new ItemDebugWand(configInvasion.getPropertyValueInt("itemID-DebugWand", 24399)).b("debugWand");
+/* 392 */       itemDebugWand = new ItemDebugWand(configInvasion.getPropertyValueInt("itemID-DebugWand", 24399)).setUnlocalizedName("debugWand");
 /*     */     }
 /*     */     else
 /*     */     {
@@ -413,18 +415,18 @@ import java.util.Map;
 /* 459 */     LanguageRegistry.addName(itemStrangeBone, "Strange Bone");
 /* 460 */     LanguageRegistry.addName(itemProbe, "Probe");
 /* 461 */     LanguageRegistry.addName(itemStrongCatalyst, "Strong Catalyst");
-/* 462 */     LanguageRegistry.addName(new EnumToolMaterial(itemRemnants, 1, 0), ItemRemnants.remnantNames[0]);
-/* 463 */     LanguageRegistry.addName(new EnumToolMaterial(itemRemnants, 1, 1), ItemRemnants.remnantNames[1]);
-/* 464 */     LanguageRegistry.addName(new EnumToolMaterial(itemRemnants, 1, 2), ItemRemnants.remnantNames[2]);
-/* 465 */     LanguageRegistry.addName(new EnumToolMaterial(itemRiftFlux, 1, 0), ItemRiftFlux.fluxNames[0]);
-/* 466 */     LanguageRegistry.addName(new EnumToolMaterial(itemRiftFlux, 1, 1), ItemRiftFlux.fluxNames[1]);
-/* 467 */     LanguageRegistry.addName(new EnumToolMaterial(itemRiftFlux, 1, 2), ItemRiftFlux.fluxNames[2]);
-/* 468 */     LanguageRegistry.addName(new EnumToolMaterial(itemRiftFlux, 1, 3), ItemRiftFlux.fluxNames[3]);
-/* 469 */     LanguageRegistry.addName(new EnumToolMaterial(itemIMTrap, 1, 0), ItemIMTrap.trapNames[0]);
-/* 470 */     LanguageRegistry.addName(new EnumToolMaterial(itemIMTrap, 1, 1), ItemIMTrap.trapNames[1]);
-/* 471 */     LanguageRegistry.addName(new EnumToolMaterial(itemIMTrap, 1, 2), ItemIMTrap.trapNames[2]);
-/* 472 */     LanguageRegistry.addName(new EnumToolMaterial(itemProbe, 1, 0), ItemProbe.probeNames[0]);
-/* 473 */     LanguageRegistry.addName(new EnumToolMaterial(itemProbe, 1, 1), ItemProbe.probeNames[1]);
+/* 462 */     LanguageRegistry.addName(new ItemStack(itemRemnants, 1, 0), ItemRemnants.remnantNames[0]);
+/* 463 */     LanguageRegistry.addName(new ItemStack(itemRemnants, 1, 1), ItemRemnants.remnantNames[1]);
+/* 464 */     LanguageRegistry.addName(new ItemStack(itemRemnants, 1, 2), ItemRemnants.remnantNames[2]);
+/* 465 */     LanguageRegistry.addName(new ItemStack(itemRiftFlux, 1, 0), ItemRiftFlux.fluxNames[0]);
+/* 466 */     LanguageRegistry.addName(new ItemStack(itemRiftFlux, 1, 1), ItemRiftFlux.fluxNames[1]);
+/* 467 */     LanguageRegistry.addName(new ItemStack(itemRiftFlux, 1, 2), ItemRiftFlux.fluxNames[2]);
+/* 468 */     LanguageRegistry.addName(new ItemStack(itemRiftFlux, 1, 3), ItemRiftFlux.fluxNames[3]);
+/* 469 */     LanguageRegistry.addName(new ItemStack(itemIMTrap, 1, 0), ItemIMTrap.trapNames[0]);
+/* 470 */     LanguageRegistry.addName(new ItemStack(itemIMTrap, 1, 1), ItemIMTrap.trapNames[1]);
+/* 471 */     LanguageRegistry.addName(new ItemStack(itemIMTrap, 1, 2), ItemIMTrap.trapNames[2]);
+/* 472 */     LanguageRegistry.addName(new ItemStack(itemProbe, 1, 0), ItemProbe.probeNames[0]);
+/* 473 */     LanguageRegistry.addName(new ItemStack(itemProbe, 1, 1), ItemProbe.probeNames[1]);
 /*     */ 
 /* 475 */     if (debugMode)
 /* 476 */       LanguageRegistry.addName(itemDebugWand, "Debug Wand");
@@ -432,49 +434,49 @@ import java.util.Map;
 /*     */ 
 /*     */   protected void addRecipes()
 /*     */   {
-/* 481 */     GameRegistry.addRecipe(new EnumToolMaterial(blockNexus, 1), new Object[] { " X ", "#D#", " # ", Character.valueOf('X'), itemPhaseCrystal, Character.valueOf('#'), ItemHoe.aE, Character.valueOf('D'), BlockEndPortal.au });
+/* 481 */     GameRegistry.addRecipe(new ItemStack(blockNexus, 1), new Object[] { " X ", "#D#", " # ", Character.valueOf('X'), itemPhaseCrystal, Character.valueOf('#'), ItemHoe.aE, Character.valueOf('D'), BlockEndPortal.au });
 /*     */ 
-/* 484 */     GameRegistry.addRecipe(new EnumToolMaterial(itemPhaseCrystal, 1), new Object[] { " X ", "#D#", " X ", Character.valueOf('X'), new EnumToolMaterial(ItemHoe.aY, 1, 4), Character.valueOf('#'), ItemHoe.aE, Character.valueOf('D'), ItemHoe.p });
+/* 484 */     GameRegistry.addRecipe(new ItemStack(itemPhaseCrystal, 1), new Object[] { " X ", "#D#", " X ", Character.valueOf('X'), new EnumToolMaterial(ItemHoe.aY, 1, 4), Character.valueOf('#'), ItemHoe.aE, Character.valueOf('D'), ItemHoe.p });
 /*     */ 
-/* 487 */     GameRegistry.addRecipe(new EnumToolMaterial(itemPhaseCrystal, 1), new Object[] { " X ", "#D#", " X ", Character.valueOf('X'), ItemHoe.aE, Character.valueOf('#'), new EnumToolMaterial(ItemHoe.aY, 1, 4), Character.valueOf('D'), ItemHoe.p });
+/* 487 */     GameRegistry.addRecipe(new ItemStack(itemPhaseCrystal, 1), new Object[] { " X ", "#D#", " X ", Character.valueOf('X'), ItemHoe.aE, Character.valueOf('#'), new EnumToolMaterial(ItemHoe.aY, 1, 4), Character.valueOf('D'), ItemHoe.p });
 /*     */ 
-/* 490 */     GameRegistry.addRecipe(new EnumToolMaterial(itemRiftFlux, 1, 1), new Object[] { "XXX", "XXX", "XXX", Character.valueOf('X'), new EnumToolMaterial(itemRemnants, 1, 1) });
+/* 490 */     GameRegistry.addRecipe(new ItemStack(itemRiftFlux, 1, 1), new Object[] { "XXX", "XXX", "XXX", Character.valueOf('X'), new EnumToolMaterial(itemRemnants, 1, 1) });
 /*     */ 
-/* 493 */     GameRegistry.addRecipe(new EnumToolMaterial(itemInfusedSword, 1), new Object[] { "X  ", "X# ", "X  ", Character.valueOf('X'), new EnumToolMaterial(itemRiftFlux, 1, 1), Character.valueOf('#'), ItemHoe.B });
+/* 493 */     GameRegistry.addRecipe(new ItemStack(itemInfusedSword, 1), new Object[] { "X  ", "X# ", "X  ", Character.valueOf('X'), new EnumToolMaterial(itemRiftFlux, 1, 1), Character.valueOf('#'), ItemHoe.B });
 /*     */ 
-/* 496 */     GameRegistry.addRecipe(new EnumToolMaterial(itemCataMixture, 1), new Object[] { "   ", "D#H", " X ", Character.valueOf('X'), ItemHoe.G, Character.valueOf('#'), ItemHoe.aE, Character.valueOf('D'), ItemHoe.aZ, Character.valueOf('H'), ItemHoe.bo });
+/* 496 */     GameRegistry.addRecipe(new ItemStack(itemCataMixture, 1), new Object[] { "   ", "D#H", " X ", Character.valueOf('X'), ItemHoe.G, Character.valueOf('#'), ItemHoe.aE, Character.valueOf('D'), ItemHoe.aZ, Character.valueOf('H'), ItemHoe.bo });
 /*     */ 
-/* 499 */     GameRegistry.addRecipe(new EnumToolMaterial(itemCataMixture, 1), new Object[] { "   ", "H#D", " X ", Character.valueOf('X'), ItemHoe.G, Character.valueOf('#'), ItemHoe.aE, Character.valueOf('D'), ItemHoe.aZ, Character.valueOf('H'), ItemHoe.bo });
+/* 499 */     GameRegistry.addRecipe(new ItemStack(itemCataMixture, 1), new Object[] { "   ", "H#D", " X ", Character.valueOf('X'), ItemHoe.G, Character.valueOf('#'), ItemHoe.aE, Character.valueOf('D'), ItemHoe.aZ, Character.valueOf('H'), ItemHoe.bo });
 /*     */ 
-/* 502 */     GameRegistry.addRecipe(new EnumToolMaterial(itemStableCataMixture, 1), new Object[] { "   ", "D#D", " X ", Character.valueOf('X'), ItemHoe.G, Character.valueOf('#'), ItemHoe.o, Character.valueOf('D'), ItemHoe.aZ, Character.valueOf('H'), ItemHoe.bo });
+/* 502 */     GameRegistry.addRecipe(new ItemStack(itemStableCataMixture, 1), new Object[] { "   ", "D#D", " X ", Character.valueOf('X'), ItemHoe.G, Character.valueOf('#'), ItemHoe.o, Character.valueOf('D'), ItemHoe.aZ, Character.valueOf('H'), ItemHoe.bo });
 /*     */ 
-/* 505 */     GameRegistry.addRecipe(new EnumToolMaterial(itemDampingAgent, 1), new Object[] { "   ", "#X#", "   ", Character.valueOf('X'), new EnumToolMaterial(itemRiftFlux, 1, 1), Character.valueOf('#'), new EnumToolMaterial(ItemHoe.aY, 1, 4) });
+/* 505 */     GameRegistry.addRecipe(new ItemStack(itemDampingAgent, 1), new Object[] { "   ", "#X#", "   ", Character.valueOf('X'), new EnumToolMaterial(itemRiftFlux, 1, 1), Character.valueOf('#'), new EnumToolMaterial(ItemHoe.aY, 1, 4) });
 /*     */ 
-/* 508 */     GameRegistry.addRecipe(new EnumToolMaterial(itemStrongDampingAgent, 1), new Object[] { " X ", " X ", " X ", Character.valueOf('X'), itemDampingAgent });
+/* 508 */     GameRegistry.addRecipe(new ItemStack(itemStrongDampingAgent, 1), new Object[] { " X ", " X ", " X ", Character.valueOf('X'), itemDampingAgent });
 /*     */ 
-/* 511 */     GameRegistry.addRecipe(new EnumToolMaterial(itemStrongDampingAgent, 1), new Object[] { "   ", "XXX", "   ", Character.valueOf('X'), itemDampingAgent });
+/* 511 */     GameRegistry.addRecipe(new ItemStack(itemStrongDampingAgent, 1), new Object[] { "   ", "XXX", "   ", Character.valueOf('X'), itemDampingAgent });
 /*     */ 
-/* 514 */     GameRegistry.addRecipe(new EnumToolMaterial(itemStrangeBone, 1), new Object[] { "   ", "X#X", "   ", Character.valueOf('X'), new EnumToolMaterial(itemRiftFlux, 1, 1), Character.valueOf('#'), ItemHoe.aZ });
+/* 514 */     GameRegistry.addRecipe(new ItemStack(itemStrangeBone, 1), new Object[] { "   ", "X#X", "   ", Character.valueOf('X'), new EnumToolMaterial(itemRiftFlux, 1, 1), Character.valueOf('#'), ItemHoe.aZ });
 /*     */ 
-/* 517 */     GameRegistry.addRecipe(new EnumToolMaterial(itemPenBow, 1), new Object[] { "XXX", "X# ", "X  ", Character.valueOf('X'), new EnumToolMaterial(itemRiftFlux, 1, 1), Character.valueOf('#'), ItemHoe.m });
+/* 517 */     GameRegistry.addRecipe(new ItemStack(itemPenBow, 1), new Object[] { "XXX", "X# ", "X  ", Character.valueOf('X'), new EnumToolMaterial(itemRiftFlux, 1, 1), Character.valueOf('#'), ItemHoe.m });
 /*     */ 
-/* 520 */     GameRegistry.addRecipe(new EnumToolMaterial(ItemHoe.p, 1), new Object[] { " X ", " X ", " X ", Character.valueOf('X'), new EnumToolMaterial(itemRiftFlux, 1, 1) });
+/* 520 */     GameRegistry.addRecipe(new ItemStack(Item.diamond, 1), new Object[] { " X ", " X ", " X ", Character.valueOf('X'), new EnumToolMaterial(itemRiftFlux, 1, 1) });
 /*     */ 
-/* 523 */     GameRegistry.addRecipe(new EnumToolMaterial(ItemHoe.p, 1), new Object[] { "   ", "XXX", "   ", Character.valueOf('X'), new EnumToolMaterial(itemRiftFlux, 1, 1) });
+/* 523 */     GameRegistry.addRecipe(new ItemStack(Item.diamond, 1), new Object[] { "   ", "XXX", "   ", Character.valueOf('X'), new EnumToolMaterial(itemRiftFlux, 1, 1) });
 /*     */ 
-/* 526 */     GameRegistry.addRecipe(new EnumToolMaterial(ItemHoe.q, 4), new Object[] { "   ", " X ", "   ", Character.valueOf('X'), new EnumToolMaterial(itemRiftFlux, 1, 1) });
+/* 526 */     GameRegistry.addRecipe(new ItemStack(Item.ingotIron, 4), new Object[] { "   ", " X ", "   ", Character.valueOf('X'), new EnumToolMaterial(itemRiftFlux, 1, 1) });
 /*     */ 
-/* 529 */     GameRegistry.addRecipe(new EnumToolMaterial(ItemHoe.aE, 24), new Object[] { "   ", "X X", "   ", Character.valueOf('X'), new EnumToolMaterial(itemRiftFlux, 1, 1) });
+/* 529 */     GameRegistry.addRecipe(new ItemStack(Item.redstone, 24), new Object[] { "   ", "X X", "   ", Character.valueOf('X'), new EnumToolMaterial(itemRiftFlux, 1, 1) });
 /*     */ 
-/* 532 */     GameRegistry.addRecipe(new EnumToolMaterial(ItemHoe.aY, 12, 4), new Object[] { " X ", "   ", " X ", Character.valueOf('X'), new EnumToolMaterial(itemRiftFlux, 1, 1) });
+/* 532 */     GameRegistry.addRecipe(new ItemStack(Item.dyePowder, 12, 4), new Object[] { " X ", "   ", " X ", Character.valueOf('X'), new EnumToolMaterial(itemRiftFlux, 1, 1) });
 /*     */ 
-/* 535 */     GameRegistry.addRecipe(new EnumToolMaterial(itemIMTrap, 1, 0), new Object[] { " X ", "X#X", " X ", Character.valueOf('X'), ItemHoe.q, Character.valueOf('#'), new EnumToolMaterial(itemRiftFlux, 1, 1) });
+/* 535 */     GameRegistry.addRecipe(new ItemStack(itemIMTrap, 1, 0), new Object[] { " X ", "X#X", " X ", Character.valueOf('X'), ItemHoe.q, Character.valueOf('#'), new EnumToolMaterial(itemRiftFlux, 1, 1) });
 /*     */ 
-/* 538 */     GameRegistry.addRecipe(new EnumToolMaterial(itemIMTrap, 1, 2), new Object[] { "   ", " # ", " X ", Character.valueOf('X'), new EnumToolMaterial(itemIMTrap, 1, 0), Character.valueOf('#'), ItemHoe.aA });
+/* 538 */     GameRegistry.addRecipe(new ItemStack(itemIMTrap, 1, 2), new Object[] { "   ", " # ", " X ", Character.valueOf('X'), new EnumToolMaterial(itemIMTrap, 1, 0), Character.valueOf('#'), ItemHoe.aA });
 /*     */ 
-/* 541 */     GameRegistry.addRecipe(new EnumToolMaterial(itemProbe, 1, 0), new Object[] { " X ", "XX ", "XX ", Character.valueOf('X'), ItemHoe.q });
+/* 541 */     GameRegistry.addRecipe(new ItemStack(itemProbe, 1, 0), new Object[] { " X ", "XX ", "XX ", Character.valueOf('X'), ItemHoe.q });
 /*     */ 
-/* 544 */     GameRegistry.addRecipe(new EnumToolMaterial(itemProbe, 1, 1), new Object[] { " D ", " # ", " X ", Character.valueOf('X'), ItemHoe.bq, Character.valueOf('#'), itemPhaseCrystal, Character.valueOf('D'), new EnumToolMaterial(itemProbe, 1, 0) });
+/* 544 */     GameRegistry.addRecipe(new ItemStack(itemProbe, 1, 1), new Object[] { " D ", " # ", " X ", Character.valueOf('X'), ItemHoe.bq, Character.valueOf('#'), itemPhaseCrystal, Character.valueOf('D'), new EnumToolMaterial(itemProbe, 1, 0) });
 /*     */ 
 /* 548 */     if (debugMode);
 /* 579 */     GameRegistry.addSmelting(itemCataMixture.itemID, new EnumToolMaterial(itemNexusCatalyst), 1.0F);
@@ -565,9 +567,9 @@ import java.util.Map;
 /*     */           }
 /*     */           else
 /*     */           {
-/* 668 */             for (ColorizerGrass world : DimensionManager.getWorlds())
+/* 668 */             for (World world : DimensionManager.getWorlds())
 /*     */             {
-/* 670 */               CallableItemName player = world.a((String)entry.getKey());
+/* 670 */               EntityPlayer player = world.a((String)entry.getKey());
 /* 671 */               if (player != null)
 /*     */               {
 /* 673 */                 player.a(CombatTracker.k, 500.0F);
@@ -670,11 +672,11 @@ import java.util.Map;
 /* 771 */     return focusNexus;
 /*     */   }
 /*     */ 
-/*     */   public static nm[] getNightMobSpawns1(ColorizerGrass world)
+/*     */   public static World[] getNightMobSpawns1(World world)
 /*     */   {
 /* 776 */     ISelect mobPool = getMobSpawnPool();
 /* 777 */     int numberOfMobs = world.s.nextInt(nightMobMaxGroupSize) + 1;
-/* 778 */     nm[] entities = new nm[numberOfMobs];
+/* 778 */     World[] entities = new World[numberOfMobs];
 /* 779 */     for (int i = 0; i < numberOfMobs; i++)
 /*     */     {
 /* 781 */       EntityIMLiving mob = getMobBuilder().createMobFromConstruct(((IEntityIMPattern)mobPool.selectNext()).generateEntityConstruct(), world, null);
@@ -722,9 +724,9 @@ import java.util.Map;
 /* 823 */     return nightMobsBurnInDay;
 /*     */   }
 /*     */ 
-/*     */   public static EnumToolMaterial getRenderHammerItem()
+/*     */   public static ItemStack getRenderHammerItem()
 /*     */   {
-/* 828 */     return new EnumToolMaterial(itemEngyHammer, 1);
+/* 828 */     return new ItemStack(itemEngyHammer, 1);
 /*     */   }
 /*     */ 
 /*     */   public static int getGuiIdNexus()
