@@ -178,7 +178,6 @@
 /* 197 */       buffer.add(currFrame);
 /*     */     }
 /*     */     KeyFrame fencepostStart;
-/*     */     KeyFrame fencepostStart;
 /* 202 */     if (!MathUtil.floatEquals(currFrame.getTime(), k1, 0.001F))
 /*     */     {
 /* 204 */       iter.previous();
@@ -232,7 +231,7 @@
 /*     */ 
 /* 257 */     while (iter.hasNext())
 /*     */     {
-/* 259 */       keyFrames.add(iter.next());
+/* 259 */       keyFrames.add((KeyFrame)iter.next());
 /*     */     }
 /*     */   }
 /*     */ }
