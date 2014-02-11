@@ -70,6 +70,7 @@
 /*     */ import net.minecraft.entity.monster.EntitySlime;
 /*     */ import net.minecraft.entity.monster.EntityWitch;
 		  import net.minecraft.entity.player.EntityPlayer;
+		  import net.minecraft.entity.Entity;
 /*     */ import net.minecraft.item.EnumToolMaterial;
 /*     */ import net.minecraft.item.Item;
 /*     */ import net.minecraft.item.ItemHoe;
@@ -287,14 +288,14 @@
 /*     */     {
 /*     */       try
 /*     */       {
-/* 334 */         System.out.println(EntityLiving.a.b());
+/* 334 */         System.out.println(EntityLiving.class.getClass());
 /* 335 */         Class c = EntityLiving.class;
 /* 336 */         Object[] consts = c.getEnumConstants();
 /* 337 */         Class sub = consts[0].getClass();
 /* 338 */         Field field = sub.getDeclaredField("maxNumberOfCreature");
 /* 339 */         field.setAccessible(true);
-/* 340 */         field.set(EntityLiving.a, Integer.valueOf(maxNightMobs));
-/* 341 */         System.out.println(EntityLiving.a.b());
+/* 340 */         field.set(EntityLiving.class, Integer.valueOf(maxNightMobs));
+/* 341 */         System.out.println(EntityLiving.class.getClass());
 /*     */       }
 /*     */       catch (Exception e)
 /*     */       {
@@ -318,7 +319,7 @@
 /*     */   protected void loadBlocks()
 /*     */   {
 /* 364 */     blockNexus = new BlockNexus(configInvasion.getPropertyValueInt("blockID-Nexus", 216));
-/* 365 */     blockNexus.b(6000000.0F).c(3.0F).a(BlockEndPortal.m).setUnlocalizedName("blockNexus");
+/* 365 */     blockNexus.b(6000000.0F).setHardness(3.0F).a(BlockEndPortal.m).setUnlocalizedName("blockNexus");
 /* 366 */     blockNexus.a(ItemMapBase.f);
 /* 367 */     GameRegistry.registerBlock(blockNexus, "Nexus");
 /* 368 */     GameRegistry.registerTileEntity(TileEntityNexus.class, "Nexus");

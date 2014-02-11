@@ -3,23 +3,16 @@
 /*     */ import cpw.mods.fml.relauncher.Side;
 /*     */ import cpw.mods.fml.relauncher.SideOnly;
 /*     */ import invmod.common.mod_Invasion;
-
 /*     */ import java.util.Random;
-
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-/*     */ import net.minecraft.block.material.MaterialLogic;
-/*     */ import net.minecraft.client.renderer.IconFlipped;
-import net.minecraft.client.renderer.texture.IconRegister;
+		  import net.minecraft.block.Block;
+		  import net.minecraft.block.material.Material;
+		  import net.minecraft.client.renderer.texture.IconRegister;
 /*     */ import net.minecraft.entity.player.EntityPlayer;
-/*     */ import net.minecraft.entity.player.PlayerCapabilities;
-/*     */ import net.minecraft.item.EnumToolMaterial;
 /*     */ import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-/*     */ import net.minecraft.tileentity.TileEntitySign;
+		  import net.minecraft.item.ItemStack;
+		  import net.minecraft.tileentity.TileEntity;
 /*     */ import net.minecraft.util.Icon;
-import net.minecraft.world.World;
+		  import net.minecraft.world.World;
 /*     */ 
 /*     */ public class BlockNexus extends Block
 /*     */ {
@@ -83,7 +76,7 @@ import net.minecraft.world.World;
 
 /*  91 */     if ((itemId != mod_Invasion.itemProbe.itemID) && ((!mod_Invasion.isDebug()) || (itemId != mod_Invasion.itemDebugWand.itemID)))
 /*     */     {
-/*  93 */       TileEntityNexus tileEntityNexus = (TileEntityNexus)world.r(x, y, z);
+/*  93 */       TileEntityNexus tileEntityNexus = (TileEntityNexus)world.getBlockTileEntity(x, y, z);
 /*  94 */       if (tileEntityNexus != null)
 /*     */       {
 /*  96 */         mod_Invasion.setNexusClicked(tileEntityNexus);
@@ -95,14 +88,14 @@ import net.minecraft.world.World;
 /* 103 */     return false;
 /*     */   }
 /*     */ 
-/*     */   public TileEntity b(World world)
+/*     */   public TileEntity createTileEntity(World world)
 /*     */   {
-/* 110 */     return new TileEntityNexus(world);
+/* 110 */     return new TileEntityNexus();
 /*     */   }
 /*     */ 
-/*     */   public void b(World world, int x, int y, int z, Random random)
+/*     */   public void randomDisplayTick(World world, int x, int y, int z, Random random)
 /*     */   {
-/* 119 */     int meta = world.h(x, y, z);
+/* 119 */     int meta = world.getBlockMetadata(x, y, z);
 /*     */     int numberOfParticles;
 /* 121 */     if ((meta & 0x4) == 0)
 /* 122 */       numberOfParticles = 0;
@@ -137,7 +130,7 @@ import net.minecraft.world.World;
 /* 159 */         z2 = (random.nextFloat() - 0.5D) * 0.5D;
 /*     */       }
 /*     */ 
-/* 163 */       world.a("portal", x1, y1, z1, x2, y2, z2);
+/* 163 */       world.spawnParticle("portal", x1, y1, z1, x2, y2, z2);
 /*     */     }
 /*     */   }
 /*     */ }
