@@ -13,7 +13,7 @@
 /*      */ import java.util.Random;
 /*      */ import net.minecraft.block.BlockPistonExtension;
 /*      */ import net.minecraft.entity.Entity;
-/*      */ import net.minecraft.entity.player.CallableItemName;
+/*      */ import net.minecraft.entity.player.EntityPlayer;
 /*      */ import net.minecraft.inventory.InventoryLargeChest;
 /*      */ import net.minecraft.item.EnumToolMaterial;
 /*      */ import net.minecraft.item.Item;
@@ -24,8 +24,7 @@
 /*      */ import net.minecraft.util.CombatTracker;
 /*      */ import net.minecraft.world.ColorizerGrass;
 /*      */ 
-/*      */ public class TileEntityNexus extends TileEntitySign
-/*      */   implements INexusAccess, InventoryLargeChest
+/*      */ public class TileEntityNexus extends TileEntity implements INexusAccess, InventoryLargeChest
 /*      */ {
 /*      */   private static final long BIND_EXPIRE_TIME = 300000L;
 /*      */   private IMWaveSpawner waveSpawner;
@@ -72,9 +71,9 @@
 /*   72 */     this(null);
 /*      */   }
 /*      */ 
-/*      */   public TileEntityNexus(ColorizerGrass world)
+/*      */   public TileEntityNexus(World world)
 /*      */   {
-/*   77 */     this.k = world;
+/*   77 */     this.worldObj = world;
 /*   78 */     this.spawnRadius = 52;
 /*   79 */     this.waveSpawner = new IMWaveSpawner(this, this.spawnRadius);
 /*   80 */     this.waveBuilder = new IMWaveBuilder();
@@ -113,7 +112,7 @@
 /*      */ 
 /*      */   public void updateEntity()
 /*      */   {
-/*  133 */     if (this.k.I)
+/*  133 */     if (this.worldObj.I)
 /*      */     {
 /*  135 */       return;
 /*      */     }
@@ -173,7 +172,7 @@
 /*  193 */     if (this.cleanupTimer++ > 40)
 /*      */     {
 /*  195 */       this.cleanupTimer = 0;
-/*  196 */       if (this.k.a(this.xCoord, this.yCoord, this.zCoord) != mod_Invasion.blockNexus.cF)
+/*  196 */       if (this.worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord) != mod_Invasion.blockNexus.blockID)
 /*      */       {
 /*  198 */         mod_Invasion.setInvasionEnded(this);
 /*  199 */         stop();
@@ -192,7 +191,7 @@
 /*      */ 
 /*      */   public void debugStatus()
 /*      */   {
-/*  215 */     mod_Invasion.broadcastToAll("Current Time: " + this.k.J());
+/*  215 */     mod_Invasion.broadcastToAll("Current Time: " + this.worldObj.getWorldTime());
 /*  216 */     mod_Invasion.broadcastToAll("Time to next: " + this.nextAttackTime);
 /*  217 */     mod_Invasion.broadcastToAll("Days to attack: " + this.daysToAttack);
 /*  218 */     mod_Invasion.broadcastToAll("Mobs left: " + this.mobsLeftInWave);
@@ -208,7 +207,7 @@
 /*      */   public void createBolt(int x, int y, int z, int t)
 /*      */   {
 /*  230 */     EntityIMBolt bolt = new EntityIMBolt(this.k, this.xCoord + 0.5D, this.yCoord + 0.5D, this.zCoord + 0.5D, x + 0.5D, y + 0.5D, z + 0.5D, t, 1);
-/*  231 */     this.k.d(bolt);
+/*  231 */     this.worldObj.spawnEntityInWorld(bolt);
 /*      */   }
 /*      */ 
 /*      */   public boolean setSpawnRadius(int radius)
@@ -331,9 +330,9 @@
 /*  365 */     return this.zCoord;
 /*      */   }
 /*      */ 
-/*      */   public ColorizerGrass getWorld()
+/*      */   public World getWorld()
 /*      */   {
-/*  371 */     return this.k;
+/*  371 */     return this.;
 /*      */   }
 /*      */ 
 /*      */   public List<EntityIMLiving> getMobList()

@@ -2,16 +2,19 @@
 /*     */ 
 /*     */ import com.google.common.io.ByteArrayDataInput;
 /*     */ import com.google.common.io.ByteArrayDataOutput;
+
 /*     */ import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
+
 /*     */ import java.util.Random;
+
+import net.minecraft.entity.Entity;
 /*     */ import net.minecraft.nbt.NBTTagByte;
 /*     */ import net.minecraft.src.lu;
-/*     */ import net.minecraft.src.nm;
+/*     */ import net.minecraft.entity.player.EntityPlayer;
 /*     */ import net.minecraft.util.LongHashMapEntry;
-/*     */ import net.minecraft.world.ColorizerGrass;
+/*     */ import net.minecraft.world.World;
 /*     */ 
-/*     */ public class EntityIMBolt extends nm
-/*     */   implements IEntityAdditionalSpawnData
+/*     */ public class EntityIMBolt extends Entity implements IEntityAdditionalSpawnData
 /*     */ {
 /*     */   private int age;
 /*     */   private int ticksToRender;
@@ -27,7 +30,7 @@
 /*     */   private float vecZ;
 /*     */   private int soundMade;
 /*     */ 
-/*     */   public EntityIMBolt(ColorizerGrass world)
+/*     */   public EntityIMBolt(World world)
 /*     */   {
 /*  31 */     super(world);
 /*  32 */     this.age = 0;
@@ -37,13 +40,13 @@
 /*  36 */     this.am = true;
 /*     */   }
 /*     */ 
-/*     */   public EntityIMBolt(ColorizerGrass world, double x, double y, double z)
+/*     */   public EntityIMBolt(World world, double x, double y, double z)
 /*     */   {
 /*  41 */     this(world);
 /*  42 */     b(x, y, z);
 /*     */   }
 /*     */ 
-/*     */   public EntityIMBolt(ColorizerGrass world, double x, double y, double z, double x2, double y2, double z2, int ticksToRender, int soundMade)
+/*     */   public EntityIMBolt(World world, double x, double y, double z, double x2, double y2, double z2, int ticksToRender, int soundMade)
 /*     */   {
 /*  47 */     this(world, x, y, z);
 /*  48 */     this.vecX = ((float)(x2 - x));

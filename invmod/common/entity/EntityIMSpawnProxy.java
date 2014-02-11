@@ -1,19 +1,22 @@
 /*    */ package invmod.common.entity;
 /*    */ 
 /*    */ import invmod.common.mod_Invasion;
+
 /*    */ import java.util.Random;
+
 /*    */ import net.minecraft.block.BlockPistonExtension;
 /*    */ import net.minecraft.entity.Entity;
 /*    */ import net.minecraft.entity.EntityLivingBase;
 /*    */ import net.minecraft.nbt.NBTTagByte;
-/*    */ import net.minecraft.src.nm;
+/*    */ import net.minecraft.entity.player.EntityPlayer;
+		 import net.minecraft.item.ItemStack;
 /*    */ import net.minecraft.util.LongHashMapEntry;
-/*    */ import net.minecraft.world.ColorizerGrass;
+/*    */ import net.minecraft.world.World;
 /*    */ import net.minecraft.world.WorldType;
 /*    */ 
 /*    */ public class EntityIMSpawnProxy extends EntityLivingBase
 /*    */ {
-/*    */   public EntityIMSpawnProxy(ColorizerGrass world)
+/*    */   public EntityIMSpawnProxy(World world)
 /*    */   {
 /* 21 */     super(world);
 /*    */   }
@@ -22,8 +25,8 @@
 /*    */   {
 /* 27 */     if (this.q != null)
 /*    */     {
-/* 30 */       nm[] entities = mod_Invasion.getNightMobSpawns1(this.q);
-/* 31 */       for (nm entity : entities)
+/* 30 */       World[] entities = mod_Invasion.getNightMobSpawns1(this.q);
+/* 31 */       for (World entity : entities)
 /*    */       {
 /* 33 */         entity.b(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
 /* 34 */         this.q.d(entity);
@@ -72,7 +75,34 @@
 /* 80 */     int k = LongHashMapEntry.c(this.posZ);
 /* 81 */     return (darkEnoughToSpawn()) && (super.bs()) && (getBlockPathWeight(i, j, k) >= 0.0F);
 /*    */   }
-/*    */ }
+/*    */
+		  @Override
+		  public ItemStack getHeldItem() 
+		  {
+			  // TODO Auto-generated method stub
+			  return null;
+		  }
+		  
+		  @Override
+		  public ItemStack getCurrentItemOrArmor(int i) 
+		  {
+			  // TODO Auto-generated method stub
+			  return null;
+		  }
+		  
+		  @Override
+		  public void setCurrentItemOrArmor(int i, ItemStack itemstack) 
+		  {
+			  // TODO Auto-generated method stub
+		  }
+
+		  @Override
+		  public ItemStack[] getLastActiveItems() 
+		  {
+			  // TODO Auto-generated method stub
+			  return null;
+		  } 
+	}
 
 /* Location:           C:\Users\PsiCoTix\Downloads\_NOOBHAUS\MCDev\DeOp\DeOpInvasionMod.zip
  * Qualified Name:     invmod.common.entity.EntityIMSpawnProxy

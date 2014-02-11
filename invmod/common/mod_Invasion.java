@@ -78,7 +78,7 @@
 /*     */ import net.minecraft.network.packet.Packet103SetSlot;
 /*     */ import net.minecraft.server.MinecraftServer;
 /*     */ import net.minecraft.server.management.PlayerPositionComparator;
-/*     */ import net.minecraft.src.cu; //PSICOTIX NOTE: Derp? 
+/*     */ import net.minecraft.world.biome.BiomeGenBase; //PSICOTIX NOTE: Derp? 
 /*     */ import net.minecraft.util.CombatTracker;
 /*     */ import net.minecraft.world.ServerBlockEventList;
 		  import net.minecraft.world.World;
@@ -275,7 +275,7 @@
 /*     */     }
 /* 318 */     if (nightSpawnsEnabled)
 /*     */     {
-/* 320 */       BiomeGenBeach[] biomes = { BiomeGenBeach.c, BiomeGenBeach.e, BiomeGenBeach.f, BiomeGenBeach.g, BiomeGenBeach.h, BiomeGenBeach.t, BiomeGenBeach.u, BiomeGenBeach.v, BiomeGenBeach.w, BiomeGenBeach.x };
+/* 320 */       BiomeGenBase[] biomes = { BiomeGenBase.desert, BiomeGenBase.desertHills, BiomeGenBase.extremeHills, BiomeGenBase.extremeHillsEdge, BiomeGenBase.forest, BiomeGenBase.forestHills, BiomeGenBase.iceMountains, BiomeGenBase.icePlains, BiomeGenBase.jungle, BiomeGenBase.jungleHills, BiomeGenBase.plains, BiomeGenBase.swampland, BiomeGenBase.taiga, BiomeGenBase.taigaHills };
 /*     */ 
 /* 323 */       EntityRegistry.addSpawn(EntityIMSpawnProxy.class, nightMobSpawnChance, 1, 1, EnumCreatureType.monster, biomes);
 /* 324 */       EntityRegistry.addSpawn(EntityWitch.class, 1, 1, 1, EnumCreatureType.monster, biomes);

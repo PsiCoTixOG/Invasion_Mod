@@ -3,20 +3,23 @@
 /*     */ import cpw.mods.fml.relauncher.Side;
 /*     */ import cpw.mods.fml.relauncher.SideOnly;
 /*     */ import invmod.common.mod_Invasion;
+
 /*     */ import java.util.Random;
-		  import net.minecraft.block.Block;
-		  import net.minecraft.block.material.Material;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 /*     */ import net.minecraft.block.material.MaterialLogic;
 /*     */ import net.minecraft.client.renderer.IconFlipped;
-		  import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IconRegister;
 /*     */ import net.minecraft.entity.player.EntityPlayer;
 /*     */ import net.minecraft.entity.player.PlayerCapabilities;
 /*     */ import net.minecraft.item.EnumToolMaterial;
 /*     */ import net.minecraft.item.Item;
-		  import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 /*     */ import net.minecraft.tileentity.TileEntitySign;
 /*     */ import net.minecraft.util.Icon;
-		  import net.minecraft.world.World;
+import net.minecraft.world.World;
 /*     */ 
 /*     */ public class BlockNexus extends Block
 /*     */ {
@@ -68,14 +71,16 @@
 /*  64 */     return side != 0 ? this.sideOn : this.botTexture;
 /*     */   }
 /*     */ 
-/*     */   public boolean a(World world, int x, int y, int z, EntityPlayer entityPlayer, int par6, float par7, float par8, float par9)
+/*     */   public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer entityPlayer, int par6, float par7, float par8, float par9)
 /*     */   {
 /*  85 */     ItemStack item = entityPlayer.getHeldItem();
-/*  86 */     int itemId = item != null ? item.EMERALD : 0;
+/*  86 */     int itemId = item != null ? Item.emerald.itemID : 0;
+
 /*  87 */     if (world.isRemote) //PsiCoTix: should this be world.isRemote
 /*     */     {
 /*  89 */       return true;
 /*     */     }
+
 /*  91 */     if ((itemId != mod_Invasion.itemProbe.itemID) && ((!mod_Invasion.isDebug()) || (itemId != mod_Invasion.itemDebugWand.itemID)))
 /*     */     {
 /*  93 */       TileEntityNexus tileEntityNexus = (TileEntityNexus)world.r(x, y, z);
@@ -90,7 +95,7 @@
 /* 103 */     return false;
 /*     */   }
 /*     */ 
-/*     */   public TileEntitySign b(World world)
+/*     */   public TileEntity b(World world)
 /*     */   {
 /* 110 */     return new TileEntityNexus(world);
 /*     */   }
@@ -101,7 +106,8 @@
 /*     */     int numberOfParticles;
 /* 121 */     if ((meta & 0x4) == 0)
 /* 122 */       numberOfParticles = 0;
-/*     */     else {
+/*     */     else 
+			  {
 /* 124 */       numberOfParticles = 6;
 /*     */     }
 /*     */ 
