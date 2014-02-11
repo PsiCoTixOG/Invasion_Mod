@@ -56,7 +56,7 @@
 /*     */ import java.io.PrintStream;
 /*     */ import java.lang.reflect.Field;
 /*     */ import java.util.HashMap;
-		  import java.util.Map;
+import java.util.Map;
 /*     */ import java.util.Map.Entry;
 /*     */ import java.util.Random;
 
@@ -90,6 +90,7 @@
 /*     */ public class mod_Invasion
 /*     */ {
 /*     */ 
+			public static final String modid ="mod_Invasion";
 /*     */   @SidedProxy(clientSide="invmod.client.PacketHandlerClient", serverSide="invmod.common.PacketHandlerCommon")
 /*     */   public static PacketHandlerCommon packetHandler;
 /*     */ 

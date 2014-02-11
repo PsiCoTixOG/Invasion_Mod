@@ -2,8 +2,8 @@
 /*    */ 
 /*    */ import cpw.mods.fml.relauncher.Side;
 /*    */ import cpw.mods.fml.relauncher.SideOnly;
+		 import net.minecraft.client.renderer.texture.IconRegister;
 /*    */ import net.minecraft.item.Item;
-/*    */ import net.minecraft.util.Icon;
 /*    */ 
 /*    */ public class ItemIM extends Item
 /*    */ {
@@ -13,9 +13,9 @@
 /*    */   }
 /*    */ 
 /*    */   @SideOnly(Side.CLIENT)
-/*    */   public void a(Icon par1IconRegister)
+/*    */   public void registerIcons(IconRegister par1IconRegister)
 /*    */   {
-/* 19 */     this.cz = par1IconRegister.a("invmod:" + getUnlocalizedName().substring(5));
+/* 19 */     this.itemIcon = par1IconRegister.registerIcon("invmod:" + (getUnlocalizedName().substring(5)));
 /*    */   }
 /*    */ }
 
