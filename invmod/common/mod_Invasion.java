@@ -65,6 +65,7 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -180,7 +181,8 @@ public class mod_Invasion {
 	public static Item itemDebugWand;
 	public static mod_Invasion instance;
 
-	public mod_Invasion() {
+	public mod_Invasion() 
+	{
 		instance = this;
 		runFlag = true;
 		serverRunFlag = true;
@@ -190,14 +192,18 @@ public class mod_Invasion {
 		guiHandler = new GuiHandler();
 	}
 
-	@Mod.PreInit
-	public void preInit(FMLPreInitializationEvent event) {
+	@EventHandler
+	public void preInit(FMLPreInitializationEvent event) 
+	{
 		File logFile = proxy.getFile("/invasion_log.log");
-		try {
+		try 
+		{
 			if (!logFile.exists())
 				logFile.createNewFile();
 			logOut = new BufferedWriter(new FileWriter(logFile));
-		} catch (Exception e) {
+		} 
+		catch (Exception e) 
+		{
 			logOut = null;
 			log("Couldn't write to logfile");
 			log(e.getMessage());
@@ -237,7 +243,7 @@ public class mod_Invasion {
 		configInvasion.saveConfig(configFile, strengthOverrides, debugMode);
 	}
 
-	@Mod.Init
+	@EventHandler
 	public void load(FMLInitializationEvent event) {
 		MinecraftForge.EVENT_BUS.register(soundHandler);
 
@@ -281,7 +287,7 @@ public class mod_Invasion {
 		soundHandler.setSoundEnabled(soundsEnabled);
 	}
 
-	@Mod.ServerStarting
+	@EventHandler
 	public void onServerStart(FMLServerStartingEvent event) {
 		ICommandManager commandManager = FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager();
 		if ((commandManager instanceof CommandHandler)) {
@@ -297,7 +303,8 @@ public class mod_Invasion {
 		GameRegistry.registerTileEntity(TileEntityNexus.class, "Nexus");
 	}
 
-	protected void loadItems() {
+	protected void loadItems() 
+	{
 		itemPhaseCrystal = new ItemIM(configInvasion.getPropertyValueInt("itemID-PhaseCrystal", 24400)).setUnlocalizedName("phaseCrystal").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabMisc);
 		itemRiftFlux = new ItemRiftFlux(configInvasion.getPropertyValueInt("itemID-RiftFlux", 24401)).setUnlocalizedName("riftFlux").setCreativeTab(CreativeTabs.tabMisc);
 		itemRemnants = new ItemRemnants(configInvasion.getPropertyValueInt("itemID-Remnants", 24402)).setUnlocalizedName("remnants").setCreativeTab(CreativeTabs.tabMisc);
@@ -315,9 +322,12 @@ public class mod_Invasion {
 		itemProbe = new ItemProbe(configInvasion.getPropertyValueInt("itemID-Probe", 24413)).setUnlocalizedName("probe").setCreativeTab(CreativeTabs.tabMisc);
 		itemIMTrap = new ItemIMTrap(configInvasion.getPropertyValueInt("itemID-IMTrap", 24405)).setUnlocalizedName("trap").setCreativeTab(CreativeTabs.tabMisc);
 
-		if (debugMode) {
+		if (debugMode) 
+		{
 			itemDebugWand = new ItemDebugWand(configInvasion.getPropertyValueInt("itemID-DebugWand", 24399)).setUnlocalizedName("debugWand");
-		} else {
+		} 
+		else 
+		{
 			itemDebugWand = null;
 		}
 	}

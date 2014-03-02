@@ -1,65 +1,48 @@
 package invmod.common;
 
-import java.util.HashMap;
-import java.util.Map;
+import net.minecraft.entity.Entity;
 
-public class SoundHandlerCommon
+public abstract interface SparrowAPI
 {
-  protected Map<Byte, String> sfxMapToString;
-  protected Map<String, Byte> sfxMapToByte;
-  protected boolean soundsInstalled;
-  protected boolean soundEnabled;
+  public abstract boolean isStupidToAttack();
 
-  public SoundHandlerCommon()
-  {
-    this.sfxMapToString = new HashMap();
-    this.sfxMapToByte = new HashMap();
-    this.soundsInstalled = false;
-    this.soundEnabled = true;
-    addNetworkSoundMapping("random.explode", (byte)0);
-    addNetworkSoundMapping("invmod:scrape", (byte)1);
-    addNetworkSoundMapping("invmod:chime", (byte)2);
-    addNetworkSoundMapping("invmod:rumble", (byte)3);
-    addNetworkSoundMapping("invmod:zap", (byte)4);
-    addNetworkSoundMapping("invmod:fireball", (byte)5);
-    addNetworkSoundMapping("invmod:bigzombie", (byte)6);
-    addNetworkSoundMapping("invmod:egghatch", (byte)7);
-    addNetworkSoundMapping("invmod:v_squawk", (byte)8);
-    addNetworkSoundMapping("invmod:v_hiss", (byte)9);
-    addNetworkSoundMapping("invmod:v_screech", (byte)10);
-    addNetworkSoundMapping("invmod:v_longscreech", (byte)11);
-    addNetworkSoundMapping("invmod:v_death", (byte)12);
-  }
+  public abstract boolean doNotVaporize();
 
-  public void addNetworkSoundMapping(String soundName, byte id)
-  {
-    this.sfxMapToByte.put(soundName, Byte.valueOf(id));
-    this.sfxMapToString.put(Byte.valueOf(id), soundName);
-  }
+  public abstract boolean isPredator();
 
-  public void playGlobalSFX(String s)
-  {
-    if (this.sfxMapToByte.containsKey(s))
-    {
-      mod_Invasion.sendInvasionPacketToAll(new byte[] { 0, ((Byte)this.sfxMapToByte.get(s)).byteValue() });
-    }
-  }
+  public abstract boolean isHostile();
 
-  public void playSingleSFX(String s)
-  {
-  }
+  public abstract boolean isPeaceful();
 
-  public void playSingleSFX(byte id)
-  {
-  }
+  public abstract boolean isPrey();
 
-  public void setSoundEnabled(boolean enabled)
-  {
-    this.soundEnabled = enabled;
-  }
+  public abstract boolean isNeutral();
 
-  public boolean soundsInstalled()
-  {
-    return this.soundsInstalled;
-  }
+  public abstract boolean isUnkillable();
+
+  public abstract boolean isThreatTo(Entity paramEntity);
+
+  public abstract boolean isFriendOf(Entity paramEntity);
+
+  public abstract boolean isNPC();
+
+  public abstract int isPet();
+
+  public abstract Entity getPetOwner();
+
+  public abstract String getName();
+
+  public abstract Entity getAttackingTarget();
+
+  public abstract float getSize();
+
+  public abstract String getSpecies();
+
+  public abstract int getTier();
+
+  public abstract int getGender();
+
+  public abstract String customStringAndResponse(String paramString);
+
+  public abstract String getSimplyID();
 }
