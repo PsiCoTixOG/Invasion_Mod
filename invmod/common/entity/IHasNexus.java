@@ -8,8 +8,3 @@ public abstract interface IHasNexus
 
   public abstract void acquiredByNexus(INexusAccess paramINexusAccess);
 }
-
-/* Location:           C:\Users\PsiCoTix\Downloads\_NOOBHAUS\MCDev\DeOp\DeOpInvasionMod.zip
- * Qualified Name:     invmod.common.entity.IHasNexus
- * JD-Core Version:    0.6.2
- */

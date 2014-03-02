@@ -4,7 +4,7 @@ import invmod.common.entity.AttackerAI;
 import invmod.common.entity.EntityIMLiving;
 import invmod.common.util.IPosition;
 import java.util.List;
-import net.minecraft.world.ColorizerGrass;
+import net.minecraft.world.World;
 
 public abstract interface INexusAccess extends IPosition
 {
@@ -28,7 +28,7 @@ public abstract interface INexusAccess extends IPosition
 
   public abstract int getCurrentWave();
 
-  public abstract ColorizerGrass getWorld();
+  public abstract World getWorld();
 
   public abstract List<EntityIMLiving> getMobList();
 
@@ -36,8 +36,3 @@ public abstract interface INexusAccess extends IPosition
 
   public abstract void askForRespawn(EntityIMLiving paramEntityIMLiving);
 }
-
-/* Location:           C:\Users\PsiCoTix\Downloads\_NOOBHAUS\MCDev\DeOp\DeOpInvasionMod.zip
- * Qualified Name:     invmod.common.nexus.INexusAccess
- * JD-Core Version:    0.6.2
- */

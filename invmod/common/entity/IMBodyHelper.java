@@ -1,21 +1,16 @@
-/*    */ package invmod.common.entity;
-/*    */ 
-/*    */ import net.minecraft.entity.EntityLivingBase;
-/*    */ import net.minecraft.entity.ai.attributes.ServersideAttributeMap;
-/*    */ 
-/*    */ public class IMBodyHelper extends ServersideAttributeMap
-/*    */ {
-/*    */   public IMBodyHelper(EntityLivingBase par1EntityLiving)
-/*    */   {
-/* 10 */     super(par1EntityLiving);
-/*    */   }
-/*    */ 
-/*    */   public void a()
-/*    */   {
-/*    */   }
-/*    */ }
+package invmod.common.entity;
 
-/* Location:           C:\Users\PsiCoTix\Downloads\_NOOBHAUS\MCDev\DeOp\DeOpInvasionMod.zip
- * Qualified Name:     invmod.common.entity.IMBodyHelper
- * JD-Core Version:    0.6.2
- */
+import net.minecraft.entity.EntityBodyHelper;
+import net.minecraft.entity.EntityLiving;
+
+public class IMBodyHelper extends EntityBodyHelper
+{
+  public IMBodyHelper(EntityLiving par1EntityLiving)
+  {
+    super(par1EntityLiving);
+  }
+
+  public void func_75664_a()
+  {
+  }
+}

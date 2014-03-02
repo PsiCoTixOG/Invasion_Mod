@@ -1,11 +1,6 @@
-/*   */ package invmod.client.render.animation;
-/*   */ 
-/*   */ public enum BonesWings
-/*   */ {
-/* 5 */   LEFT_SHOULDER, RIGHT_SHOULDER, LEFT_ELBOW, RIGHT_ELBOW;
-/*   */ }
+package invmod.client.render.animation;
 
-/* Location:           C:\Users\PsiCoTix\Downloads\_NOOBHAUS\MCDev\DeOp\DeOpInvasionMod.zip
- * Qualified Name:     invmod.client.render.animation.BonesWings
- * JD-Core Version:    0.6.2
- */
+public enum BonesWings
+{
+  LEFT_SHOULDER, RIGHT_SHOULDER, LEFT_ELBOW, RIGHT_ELBOW;
+}

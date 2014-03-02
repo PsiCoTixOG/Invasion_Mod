@@ -13,8 +13,3 @@ public abstract interface ITerrainBuild
 
   public abstract boolean askBuildBridge(IPosition paramIPosition, INotifyTask paramINotifyTask);
 }
-
-/* Location:           C:\Users\PsiCoTix\Downloads\_NOOBHAUS\MCDev\DeOp\DeOpInvasionMod.zip
- * Qualified Name:     invmod.common.entity.ITerrainBuild
- * JD-Core Version:    0.6.2
- */

@@ -1,11 +1,6 @@
-/*   */ package invmod.common.nexus;
-/*   */ 
-/*   */ public enum IMEntityType
-/*   */ {
-/* 5 */   ZOMBIE, SPIDER, SKELETON, PIG_ENGINEER, THROWER, IMP, PIG_ZOMBIE, BURROWER, CREEPER;
-/*   */ }
+package invmod.common.nexus;
 
-/* Location:           C:\Users\PsiCoTix\Downloads\_NOOBHAUS\MCDev\DeOp\DeOpInvasionMod.zip
- * Qualified Name:     invmod.common.nexus.IMEntityType
- * JD-Core Version:    0.6.2
- */
+public enum IMEntityType
+{
+  ZOMBIE, SPIDER, SKELETON, PIG_ENGINEER, THROWER, IMP, PIG_ZOMBIE, BURROWER, CREEPER;
+}

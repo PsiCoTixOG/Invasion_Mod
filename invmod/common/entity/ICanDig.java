@@ -1,7 +1,7 @@
 package invmod.common.entity;
 
 import invmod.common.util.IPosition;
-import net.minecraft.world.EnumGameType;
+import net.minecraft.world.IBlockAccess;
 
 public abstract interface ICanDig
 {
@@ -13,10 +13,5 @@ public abstract interface ICanDig
 
   public abstract void onBlockRemoved(int paramInt1, int paramInt2, int paramInt3, int paramInt4);
 
-  public abstract EnumGameType getTerrain();
+  public abstract IBlockAccess getTerrain();
 }
-
-/* Location:           C:\Users\PsiCoTix\Downloads\_NOOBHAUS\MCDev\DeOp\DeOpInvasionMod.zip
- * Qualified Name:     invmod.common.entity.ICanDig
- * JD-Core Version:    0.6.2
- */

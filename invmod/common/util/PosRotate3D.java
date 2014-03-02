@@ -1,98 +1,93 @@
-/*    */ package invmod.common.util;
-/*    */ 
-/*    */ import net.minecraft.util.AABBPool;
-/*    */ 
-/*    */ public class PosRotate3D
-/*    */ {
-/*    */   private double posX;
-/*    */   private double posY;
-/*    */   private double posZ;
-/*    */   private float rotX;
-/*    */   private float rotY;
-/*    */   private float rotZ;
-/*    */ 
-/*    */   public PosRotate3D()
-/*    */   {
-/*  9 */     this(0.0D, 0.0D, 0.0D, 0.0F, 0.0F, 0.0F);
-/*    */   }
-/*    */ 
-/*    */   public PosRotate3D(double posX, double posY, double posZ, float rotX, float rotY, float rotZ)
-/*    */   {
-/* 14 */     this.posX = posX;
-/* 15 */     this.posY = posY;
-/* 16 */     this.posZ = posZ;
-/* 17 */     this.rotX = rotX;
-/* 18 */     this.rotY = rotY;
-/* 19 */     this.rotZ = rotZ;
-/*    */   }
-/*    */ 
-/*    */   public AABBPool getPos()
-/*    */   {
-/* 24 */     return AABBPool.a(this.posX, this.posY, this.posZ);
-/*    */   }
-/*    */ 
-/*    */   public double getPosX()
-/*    */   {
-/* 29 */     return this.posX;
-/*    */   }
-/*    */ 
-/*    */   public double getPosY()
-/*    */   {
-/* 34 */     return this.posY;
-/*    */   }
-/*    */ 
-/*    */   public double getPosZ()
-/*    */   {
-/* 39 */     return this.posZ;
-/*    */   }
-/*    */ 
-/*    */   public float getRotX()
-/*    */   {
-/* 44 */     return this.rotX;
-/*    */   }
-/*    */ 
-/*    */   public float getRotY()
-/*    */   {
-/* 49 */     return this.rotY;
-/*    */   }
-/*    */ 
-/*    */   public float getRotZ()
-/*    */   {
-/* 54 */     return this.rotZ;
-/*    */   }
-/*    */ 
-/*    */   public void setPosX(double pos)
-/*    */   {
-/* 59 */     this.posX = pos;
-/*    */   }
-/*    */ 
-/*    */   public void setPosY(double pos)
-/*    */   {
-/* 64 */     this.posY = pos;
-/*    */   }
-/*    */ 
-/*    */   public void setPosZ(double pos)
-/*    */   {
-/* 69 */     this.posZ = pos;
-/*    */   }
-/*    */ 
-/*    */   public void setRotX(float rot)
-/*    */   {
-/* 74 */     this.rotX = rot;
-/*    */   }
-/*    */ 
-/*    */   public void setRotY(float rot)
-/*    */   {
-/* 79 */     this.rotY = rot;
-/*    */   }
-/*    */ 
-/*    */   public void setRotZ(float rot)
-/*    */   {
-/* 84 */     this.rotZ = rot;
-/*    */   }
-/*    */ }
+package invmod.common.util;
 
-/* Location:           C:\Users\PsiCoTix\Downloads\_NOOBHAUS\MCDev\DeOp\DeOpInvasionMod.zip
- * Qualified Name:     invmod.common.util.PosRotate3D
- * JD-Core Version:    0.6.2
- */
+import net.minecraft.util.Vec3;
+
+public class PosRotate3D
+{
+  private double posX;
+  private double posY;
+  private double posZ;
+  private float rotX;
+  private float rotY;
+  private float rotZ;
+
+  public PosRotate3D()
+  {
+    this(0.0D, 0.0D, 0.0D, 0.0F, 0.0F, 0.0F);
+  }
+
+  public PosRotate3D(double posX, double posY, double posZ, float rotX, float rotY, float rotZ)
+  {
+    this.posX = posX;
+    this.posY = posY;
+    this.posZ = posZ;
+    this.rotX = rotX;
+    this.rotY = rotY;
+    this.rotZ = rotZ;
+  }
+
+  public Vec3 getPos()
+  {
+    return Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
+  }
+
+  public double getPosX()
+  {
+    return this.posX;
+  }
+
+  public double getPosY()
+  {
+    return this.posY;
+  }
+
+  public double getPosZ()
+  {
+    return this.posZ;
+  }
+
+  public float getRotX()
+  {
+    return this.rotX;
+  }
+
+  public float getRotY()
+  {
+    return this.rotY;
+  }
+
+  public float getRotZ()
+  {
+    return this.rotZ;
+  }
+
+  public void setPosX(double pos)
+  {
+    this.posX = pos;
+  }
+
+  public void setPosY(double pos)
+  {
+    this.posY = pos;
+  }
+
+  public void setPosZ(double pos)
+  {
+    this.posZ = pos;
+  }
+
+  public void setRotX(float rot)
+  {
+    this.rotX = rot;
+  }
+
+  public void setRotY(float rot)
+  {
+    this.rotY = rot;
+  }
+
+  public void setRotZ(float rot)
+  {
+    this.rotZ = rot;
+  }
+}

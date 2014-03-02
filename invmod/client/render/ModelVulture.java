@@ -1,430 +1,425 @@
-/*     */ package invmod.client.render;
-/*     */ 
-/*     */ import invmod.client.render.animation.AnimationAction;
-/*     */ import invmod.client.render.animation.AnimationState;
-/*     */ import invmod.client.render.animation.BonesBirdLegs;
-/*     */ import invmod.client.render.animation.BonesMouth;
-/*     */ import invmod.client.render.animation.BonesWings;
-/*     */ import invmod.client.render.animation.ModelAnimator;
-/*     */ import invmod.common.util.MathUtil;
-/*     */ import java.util.EnumMap;
-/*     */ import net.minecraft.client.model.ModelMagmaCube;
-/*     */ import net.minecraft.src.bcr;
-/*     */ import net.minecraft.src.nm;
-/*     */ import net.minecraft.util.LongHashMapEntry;
-/*     */ 
-/*     */ public class ModelVulture extends ModelMagmaCube
-/*     */ {
-/*     */   private ModelAnimator animationFlap;
-/*     */   private ModelAnimator animationRun;
-/*     */   private ModelAnimator animationBeak;
-/*     */   bcr body;
-/*     */   bcr rightThigh;
-/*     */   bcr rightLeg;
-/*     */   bcr rightAnkle;
-/*     */   bcr rightToeB;
-/*     */   bcr rightClawB;
-/*     */   bcr rightToeL;
-/*     */   bcr rightClawL;
-/*     */   bcr rightToeM;
-/*     */   bcr rightClawM;
-/*     */   bcr rightToeR;
-/*     */   bcr rightClawR;
-/*     */   bcr leftThigh;
-/*     */   bcr leftLeg;
-/*     */   bcr leftAnkle;
-/*     */   bcr leftToeB;
-/*     */   bcr leftClawB;
-/*     */   bcr leftToeL;
-/*     */   bcr leftClawL;
-/*     */   bcr leftToeM;
-/*     */   bcr leftClawM;
-/*     */   bcr leftToeR;
-/*     */   bcr leftClawR;
-/*     */   bcr neck1;
-/*     */   bcr neck2;
-/*     */   bcr neck3;
-/*     */   bcr head;
-/*     */   bcr upperBeak;
-/*     */   bcr upperBeakTip;
-/*     */   bcr lowerBeak;
-/*     */   bcr lowerBeakTip;
-/*     */   bcr leftWing1;
-/*     */   bcr leftWing2;
-/*     */   bcr leftWing3;
-/*     */   bcr tail;
-/*     */   bcr rightWing1;
-/*     */   bcr rightWing2;
-/*     */   bcr rightWing3;
-/*     */ 
-/*     */   public ModelVulture()
-/*     */   {
-/*  65 */     this(0.0F);
-/*     */   }
-/*     */ 
-/*     */   public ModelVulture(float par1)
-/*     */   {
-/*  70 */     this.body = new bcr(this, 0, 0);
-/*  71 */     this.body.b(128, 128);
-/*  72 */     this.body.a(-10.0F, -10.0F, -10.0F, 20, 30, 20);
-/*  73 */     this.body.a(0.0F, -19.0F, 0.0F);
-/*  74 */     this.rightThigh = new bcr(this, 84, 82);
-/*  75 */     this.rightThigh.b(128, 128);
-/*  76 */     this.rightThigh.a(-4.5F, -3.5F, -4.5F, 9, 15, 9);
-/*  77 */     this.rightThigh.a(-5.0F, 20.0F, -2.0F);
-/*  78 */     this.rightLeg = new bcr(this, 56, 50);
-/*  79 */     this.rightLeg.b(128, 128);
-/*  80 */     this.rightLeg.a(-2.0F, -3.0F, -2.0F, 4, 16, 4);
-/*  81 */     this.rightLeg.a(0.0F, 11.0F, 0.0F);
-/*  82 */     this.rightAnkle = new bcr(this, 16, 16);
-/*  83 */     this.rightAnkle.b(128, 128);
-/*  84 */     this.rightAnkle.a(0.0F, 0.0F, 0.0F, 0, 0, 0);
-/*  85 */     this.rightAnkle.a(0.0F, 12.0F, 0.0F);
-/*  86 */     this.rightToeB = new bcr(this, 60, 0);
-/*  87 */     this.rightToeB.b(128, 128);
-/*  88 */     this.rightToeB.a(-1.0F, -1.0F, -1.0F, 2, 8, 2);
-/*  89 */     this.rightToeB.a(0.0F, 0.0F, 2.0F);
-/*  90 */     this.rightClawB = new bcr(this, 0, 11);
-/*  91 */     this.rightClawB.b(128, 128);
-/*  92 */     this.rightClawB.a(-0.5F, 0.0F, -1.0F, 1, 4, 2);
-/*  93 */     this.rightClawB.a(0.0F, 6.0F, 0.0F);
-/*  94 */     this.rightToeL = new bcr(this, 0, 0);
-/*  95 */     this.rightToeL.b(128, 128);
-/*  96 */     this.rightToeL.a(-1.0F, 0.5F, -1.0F, 2, 9, 2);
-/*  97 */     this.rightToeL.a(-0.5F, 0.0F, 1.0F);
-/*  98 */     this.rightClawL = new bcr(this, 0, 11);
-/*  99 */     this.rightClawL.b(128, 128);
-/* 100 */     this.rightClawL.a(-0.5F, 0.0F, -1.0F, 1, 4, 2);
-/* 101 */     this.rightClawL.a(0.0F, 9.0F, 0.0F);
-/* 102 */     this.rightToeM = new bcr(this, 8, 0);
-/* 103 */     this.rightToeM.b(128, 128);
-/* 104 */     this.rightToeM.a(-1.0F, 0.0F, -1.0F, 2, 10, 2);
-/* 105 */     this.rightToeM.a(0.0F, 0.0F, 0.0F);
-/* 106 */     this.rightClawM = new bcr(this, 0, 11);
-/* 107 */     this.rightClawM.b(128, 128);
-/* 108 */     this.rightClawM.a(-0.5F, 0.0F, -1.0F, 1, 4, 2);
-/* 109 */     this.rightClawM.a(0.0F, 9.0F, 0.0F);
-/* 110 */     this.rightToeR = new bcr(this, 0, 0);
-/* 111 */     this.rightToeR.b(128, 128);
-/* 112 */     this.rightToeR.a(-1.0F, -0.5F, -1.0F, 2, 9, 2);
-/* 113 */     this.rightToeR.a(1.0F, 0.0F, 1.0F);
-/* 114 */     this.rightClawR = new bcr(this, 0, 11);
-/* 115 */     this.rightClawR.b(128, 128);
-/* 116 */     this.rightClawR.a(-0.5F, 0.0F, -1.0F, 1, 4, 2);
-/* 117 */     this.rightClawR.a(0.0F, 8.0F, 0.0F);
-/* 118 */     this.leftThigh = new bcr(this, 84, 82);
-/* 119 */     this.leftThigh.b(128, 128);
-/* 120 */     this.leftThigh.a(-4.5F, -3.5F, -4.5F, 9, 15, 9);
-/* 121 */     this.leftThigh.a(5.0F, 20.0F, -2.0F);
-/* 122 */     this.leftThigh.i = true;
-/* 123 */     this.leftLeg = new bcr(this, 56, 50);
-/* 124 */     this.leftLeg.b(128, 128);
-/* 125 */     this.leftLeg.a(-2.0F, -3.0F, -2.0F, 4, 16, 4);
-/* 126 */     this.leftLeg.a(0.0F, 11.0F, 0.0F);
-/* 127 */     this.leftLeg.i = true;
-/* 128 */     this.leftAnkle = new bcr(this, 16, 16);
-/* 129 */     this.leftAnkle.b(128, 128);
-/* 130 */     this.leftAnkle.a(0.0F, 0.0F, 0.0F, 0, 0, 0);
-/* 131 */     this.leftAnkle.a(0.0F, 12.0F, 0.0F);
-/* 132 */     this.leftToeB = new bcr(this, 60, 0);
-/* 133 */     this.leftToeB.b(128, 128);
-/* 134 */     this.leftToeB.a(-1.0F, -1.0F, -1.0F, 2, 8, 2);
-/* 135 */     this.leftToeB.a(0.0F, 0.0F, 2.0F);
-/* 136 */     this.leftClawB = new bcr(this, 0, 11);
-/* 137 */     this.leftClawB.b(128, 128);
-/* 138 */     this.leftClawB.a(-0.5F, 0.0F, -1.0F, 1, 4, 2);
-/* 139 */     this.leftClawB.a(0.0F, 6.0F, 0.0F);
-/* 140 */     this.leftToeL = new bcr(this, 0, 0);
-/* 141 */     this.leftToeL.b(128, 128);
-/* 142 */     this.leftToeL.a(-1.0F, 0.5F, -1.0F, 2, 9, 2);
-/* 143 */     this.leftToeL.a(0.5F, 0.0F, 1.0F);
-/* 144 */     this.leftClawL = new bcr(this, 0, 11);
-/* 145 */     this.leftClawL.b(128, 128);
-/* 146 */     this.leftClawL.a(-0.5F, 0.0F, -1.0F, 1, 4, 2);
-/* 147 */     this.leftClawL.a(0.0F, 9.0F, 0.0F);
-/* 148 */     this.leftToeM = new bcr(this, 8, 0);
-/* 149 */     this.leftToeM.b(128, 128);
-/* 150 */     this.leftToeM.a(-1.0F, 0.0F, -1.0F, 2, 10, 2);
-/* 151 */     this.leftToeM.a(0.0F, 0.0F, 0.0F);
-/* 152 */     this.leftClawM = new bcr(this, 0, 11);
-/* 153 */     this.leftClawM.b(128, 128);
-/* 154 */     this.leftClawM.a(-0.5F, 0.0F, -1.0F, 1, 4, 2);
-/* 155 */     this.leftClawM.a(0.0F, 9.0F, 0.0F);
-/* 156 */     this.leftToeR = new bcr(this, 0, 0);
-/* 157 */     this.leftToeR.b(128, 128);
-/* 158 */     this.leftToeR.a(-1.0F, -0.5F, -1.0F, 2, 9, 2);
-/* 159 */     this.leftToeR.a(-1.0F, 0.0F, 1.0F);
-/* 160 */     this.leftClawR = new bcr(this, 0, 11);
-/* 161 */     this.leftClawR.b(128, 128);
-/* 162 */     this.leftClawR.a(-0.5F, 0.0F, -1.0F, 1, 4, 2);
-/* 163 */     this.leftClawR.a(0.0F, 8.0F, 0.0F);
-/* 164 */     this.neck1 = new bcr(this, 43, 95);
-/* 165 */     this.neck1.b(128, 128);
-/* 166 */     this.neck1.a(-7.0F, -7.0F, -6.5F, 14, 10, 13);
-/* 167 */     this.neck1.a(0.0F, -10.0F, 1.0F);
-/* 168 */     this.neck2 = new bcr(this, 50, 73);
-/* 169 */     this.neck2.b(128, 128);
-/* 170 */     this.neck2.a(-5.0F, -4.0F, -5.0F, 10, 8, 10);
-/* 171 */     this.neck2.a(0.0F, -8.0F, 0.0F);
-/* 172 */     this.neck3 = new bcr(this, 80, 65);
-/* 173 */     this.neck3.b(128, 128);
-/* 174 */     this.neck3.a(-4.0F, -5.5F, -5.0F, 8, 5, 10);
-/* 175 */     this.neck3.a(0.0F, -2.0F, 0.0F);
-/* 176 */     this.head = new bcr(this, 14, 108);
-/* 177 */     this.head.b(128, 128);
-/* 178 */     this.head.a(-4.5F, -5.0F, -9.5F, 9, 8, 11);
-/* 179 */     this.head.a(0.0F, -4.0F, 0.0F);
-/* 180 */     this.upperBeak = new bcr(this, 54, 118);
-/* 181 */     this.upperBeak.b(128, 128);
-/* 182 */     this.upperBeak.a(-2.5F, -1.0F, -5.0F, 5, 2, 8);
-/* 183 */     this.upperBeak.a(0.0F, -0.8F, -10.0F);
-/* 184 */     this.upperBeakTip = new bcr(this, 72, 118);
-/* 185 */     this.upperBeakTip.b(128, 128);
-/* 186 */     this.upperBeakTip.a(-1.0F, -1.0F, -1.0F, 2, 2, 2);
-/* 187 */     this.upperBeakTip.a(0.0F, 0.0F, -6.0F);
-/* 188 */     this.lowerBeak = new bcr(this, 80, 118);
-/* 189 */     this.lowerBeak.b(128, 128);
-/* 190 */     this.lowerBeak.a(-2.5F, -1.0F, -5.0F, 5, 2, 8);
-/* 191 */     this.lowerBeak.a(0.0F, 1.5F, -10.0F);
-/* 192 */     this.lowerBeakTip = new bcr(this, 78, 121);
-/* 193 */     this.lowerBeakTip.b(128, 128);
-/* 194 */     this.lowerBeakTip.a(-1.0F, -0.5F, -1.0F, 2, 1, 2);
-/* 195 */     this.lowerBeakTip.a(0.0F, -0.5F, -6.0F);
-/* 196 */     this.leftWing1 = new bcr(this, 0, 50);
-/* 197 */     this.leftWing1.i = true;
-/* 198 */     this.leftWing1.b(128, 128);
-/* 199 */     this.leftWing1.a(-0.5F, -4.5F, -1.5F, 25, 29, 3);
-/* 200 */     this.leftWing1.a(7.0F, -8.0F, 6.0F);
-/* 201 */     this.leftWing2 = new bcr(this, 0, 82);
-/* 202 */     this.leftWing2.i = true;
-/* 203 */     this.leftWing2.b(128, 128);
-/* 204 */     this.leftWing2.a(-2.5F, -5.0F, -1.0F, 23, 24, 2);
-/* 205 */     this.leftWing2.a(23.0F, 1.0F, 0.0F);
-/* 206 */     this.leftWing3 = new bcr(this, 80, 0);
-/* 207 */     this.leftWing3.i = true;
-/* 208 */     this.leftWing3.b(128, 128);
-/* 209 */     this.leftWing3.a(-2.5F, -5.0F, -0.5F, 23, 22, 1);
-/* 210 */     this.leftWing3.a(21.0F, 0.2F, 0.3F);
-/* 211 */     this.tail = new bcr(this, 80, 23);
-/* 212 */     this.tail.b(128, 128);
-/* 213 */     this.tail.a(-8.5F, -5.0F, -1.0F, 17, 40, 2);
-/* 214 */     this.tail.a(0.0F, 19.0F, 8.0F);
-/* 215 */     this.rightWing1 = new bcr(this, 0, 50);
-/* 216 */     this.rightWing1.b(128, 128);
-/* 217 */     this.rightWing1.a(-24.5F, -4.5F, -1.5F, 25, 29, 3);
-/* 218 */     this.rightWing1.a(-7.0F, -8.0F, 6.0F);
-/* 219 */     this.rightWing2 = new bcr(this, 0, 82);
-/* 220 */     this.rightWing2.b(128, 128);
-/* 221 */     this.rightWing2.a(-20.5F, -5.0F, -1.0F, 23, 24, 2);
-/* 222 */     this.rightWing2.a(-23.0F, 1.0F, 0.0F);
-/* 223 */     this.rightWing3 = new bcr(this, 80, 0);
-/* 224 */     this.rightWing3.b(128, 128);
-/* 225 */     this.rightWing3.a(-20.5F, -5.0F, -0.5F, 23, 22, 1);
-/* 226 */     this.rightWing3.a(-21.0F, 0.2F, 0.3F);
-/*     */ 
-/* 228 */     this.rightToeB.a(this.rightClawB);
-/* 229 */     this.rightToeR.a(this.rightClawR);
-/* 230 */     this.rightToeM.a(this.rightClawM);
-/* 231 */     this.rightToeL.a(this.rightClawL);
-/* 232 */     this.leftToeB.a(this.leftClawB);
-/* 233 */     this.leftToeR.a(this.leftClawR);
-/* 234 */     this.leftToeM.a(this.leftClawM);
-/* 235 */     this.leftToeL.a(this.leftClawL);
-/* 236 */     this.rightAnkle.a(this.rightToeB);
-/* 237 */     this.rightAnkle.a(this.rightToeR);
-/* 238 */     this.rightAnkle.a(this.rightToeM);
-/* 239 */     this.rightAnkle.a(this.rightToeL);
-/* 240 */     this.leftAnkle.a(this.leftToeB);
-/* 241 */     this.leftAnkle.a(this.leftToeR);
-/* 242 */     this.leftAnkle.a(this.leftToeM);
-/* 243 */     this.leftAnkle.a(this.leftToeL);
-/* 244 */     this.rightLeg.a(this.rightAnkle);
-/* 245 */     this.leftLeg.a(this.leftAnkle);
-/* 246 */     this.rightThigh.a(this.rightLeg);
-/* 247 */     this.leftThigh.a(this.leftLeg);
-/* 248 */     this.upperBeak.a(this.upperBeakTip);
-/* 249 */     this.lowerBeak.a(this.lowerBeakTip);
-/* 250 */     this.head.a(this.upperBeak);
-/* 251 */     this.head.a(this.lowerBeak);
-/* 252 */     this.neck3.a(this.head);
-/* 253 */     this.neck2.a(this.neck3);
-/* 254 */     this.neck1.a(this.neck2);
-/* 255 */     this.leftWing2.a(this.leftWing3);
-/* 256 */     this.leftWing1.a(this.leftWing2);
-/* 257 */     this.rightWing2.a(this.rightWing3);
-/* 258 */     this.rightWing1.a(this.rightWing2);
-/* 259 */     this.body.a(this.rightThigh);
-/* 260 */     this.body.a(this.leftThigh);
-/* 261 */     this.body.a(this.neck1);
-/* 262 */     this.body.a(this.tail);
-/* 263 */     this.body.a(this.leftWing1);
-/* 264 */     this.body.a(this.rightWing1);
-/*     */ 
-/* 266 */     EnumMap legMap = new EnumMap(BonesBirdLegs.class);
-/* 267 */     legMap.put(BonesBirdLegs.LEFT_KNEE, this.leftThigh);
-/* 268 */     legMap.put(BonesBirdLegs.RIGHT_KNEE, this.rightThigh);
-/* 269 */     legMap.put(BonesBirdLegs.LEFT_ANKLE, this.leftLeg);
-/* 270 */     legMap.put(BonesBirdLegs.RIGHT_ANKLE, this.rightLeg);
-/* 271 */     legMap.put(BonesBirdLegs.LEFT_METATARSOPHALANGEAL_ARTICULATIONS, this.leftAnkle);
-/* 272 */     legMap.put(BonesBirdLegs.RIGHT_METATARSOPHALANGEAL_ARTICULATIONS, this.rightAnkle);
-/* 273 */     legMap.put(BonesBirdLegs.LEFT_BACK_CLAW, this.leftToeB);
-/* 274 */     legMap.put(BonesBirdLegs.RIGHT_BACK_CLAW, this.rightToeB);
-/* 275 */     this.animationRun = new ModelAnimator(legMap, AnimationRegistry.instance().getAnimation("bird_run"));
-/*     */ 
-/* 277 */     EnumMap wingMap = new EnumMap(BonesWings.class);
-/* 278 */     wingMap.put(BonesWings.LEFT_SHOULDER, this.leftWing1);
-/* 279 */     wingMap.put(BonesWings.RIGHT_SHOULDER, this.rightWing1);
-/* 280 */     wingMap.put(BonesWings.LEFT_ELBOW, this.leftWing2);
-/* 281 */     wingMap.put(BonesWings.RIGHT_ELBOW, this.rightWing2);
-/* 282 */     this.animationFlap = new ModelAnimator(wingMap, AnimationRegistry.instance().getAnimation("wing_flap_2_piece"));
-/*     */ 
-/* 284 */     EnumMap beakMap = new EnumMap(BonesMouth.class);
-/* 285 */     beakMap.put(BonesMouth.UPPER_MOUTH, this.upperBeak);
-/* 286 */     beakMap.put(BonesMouth.LOWER_MOUTH, this.lowerBeak);
-/* 287 */     this.animationBeak = new ModelAnimator(beakMap, AnimationRegistry.instance().getAnimation("bird_beak"));
-/*     */ 
-/* 289 */     setRotation(this.body, 0.7F, 0.0F, 0.0F);
-/* 290 */     setRotation(this.rightThigh, -0.39F, 0.0F, 0.09F);
-/* 291 */     setRotation(this.leftThigh, -0.39F, 0.0F, -0.09F);
-/* 292 */     setRotation(this.rightLeg, -0.72F, 0.0F, 0.0F);
-/* 293 */     setRotation(this.leftLeg, -0.72F, 0.0F, 0.0F);
-/* 294 */     setRotation(this.rightAnkle, 0.1F, 0.2F, 0.0F);
-/* 295 */     setRotation(this.leftAnkle, 0.1F, -0.2F, 0.0F);
-/* 296 */     setRotation(this.rightToeB, 1.34F, 0.0F, 0.0F);
-/* 297 */     setRotation(this.rightToeR, -0.8F, -0.28F, -0.28F);
-/* 298 */     setRotation(this.rightToeM, -0.8F, 0.0F, 0.0F);
-/* 299 */     setRotation(this.rightToeL, -0.8F, 0.28F, 0.28F);
-/* 300 */     setRotation(this.leftToeB, 1.34F, 0.0F, 0.0F);
-/* 301 */     setRotation(this.leftToeR, -0.8F, 0.28F, 0.28F);
-/* 302 */     setRotation(this.leftToeM, -0.8F, 0.0F, 0.0F);
-/* 303 */     setRotation(this.leftToeL, -0.8F, -0.28F, -0.28F);
-/* 304 */     setRotation(this.rightClawB, -36.0F, 0.0F, 0.0F);
-/*     */ 
-/* 306 */     setRotation(this.neck1, -0.18F, 0.0F, 0.0F);
-/* 307 */     setRotation(this.neck2, 0.52F, 0.0F, 0.0F);
-/* 308 */     setRotation(this.neck3, 0.26F, 0.0F, 0.0F);
-/* 309 */     setRotation(this.head, -0.97F, 0.0F, 0.0F);
-/*     */ 
-/* 311 */     setRotation(this.tail, 0.3F, 0.0F, 0.0F);
-/*     */   }
-/*     */ 
-/*     */   public void a(nm par1Entity, float par2, float par3, float par4, float par5, float par6, float par7)
-/*     */   {
-/* 330 */     this.body.a(par7);
-/*     */   }
-/*     */ 
-/*     */   public void setFlyingAnimations(AnimationState wingState, AnimationState legState, AnimationState beakState, float roll, float headYaw, float headPitch, float parTick)
-/*     */   {
-/* 335 */     AnimationAction legAction = legState.getCurrentAction();
-/* 336 */     AnimationAction wingAction = wingState.getCurrentAction();
-/* 337 */     float flapProgress = wingState.getCurrentAnimationTimeInterp(parTick);
-/* 338 */     float legProgress = legState.getCurrentAnimationTimeInterp(parTick);
-/* 339 */     float beakProgress = beakState.getCurrentAnimationTimeInterp(parTick);
-/* 340 */     this.animationFlap.updateAnimation(flapProgress);
-/* 341 */     this.animationRun.updateAnimation(legProgress);
-/* 342 */     this.animationBeak.updateAnimation(beakProgress);
-/* 343 */     if (legAction == AnimationAction.RUN)
-/*     */     {
-/* 346 */       if ((legProgress >= 0.109195F) && (legProgress < 0.5373563F))
-/*     */       {
-/* 348 */         legProgress += 0.03735632F;
-/* 349 */         if (legProgress >= 0.5373563F) {
-/* 350 */           legProgress -= 0.4281609F;
-/*     */         }
-/* 352 */         float t = 25.132742F * legProgress / 0.8908046F;
-/* 353 */         this.body.f += (float)(-Math.cos(t) * 0.04D);
-/* 354 */         this.neck1.f += (float)(Math.cos(t) * 0.08D);
-/* 355 */         this.body.d += -(float)(Math.cos(t) * 1.9D);
-/*     */       }
-/*     */     }
-/*     */ 
-/* 359 */     if (wingAction == AnimationAction.WINGFLAP)
-/*     */     {
-/* 361 */       float flapCycle = flapProgress / 0.2714932F;
-/*     */ 
-/* 363 */       this.body.d += LongHashMapEntry.b(flapCycle * 3.141593F * 2.0F) * 1.4F;
-/*     */       bcr tmp244_241 = this.rightThigh; tmp244_241.f = ((float)(tmp244_241.f + LongHashMapEntry.b(flapCycle * 3.141593F * 2.0F) * 0.08726646324990228D));
-/*     */       bcr tmp274_271 = this.leftThigh; tmp274_271.f = ((float)(tmp274_271.f + LongHashMapEntry.b(flapCycle * 3.141593F * 2.0F) * 0.08726646324990228D));
-/*     */       bcr tmp304_301 = this.tail; tmp304_301.f = ((float)(tmp304_301.f + LongHashMapEntry.b(flapCycle * 3.141593F * 2.0F) * 0.03490658588512815D));
-/*     */     }
-/*     */ 
-/* 369 */     this.body.h = (-roll / 180.0F * 3.141593F);
-/*     */ 
-/* 372 */     headPitch = (float)MathUtil.boundAngle180Deg(headPitch);
-/* 373 */     if (headPitch > 37.16F)
-/* 374 */       headPitch = 37.16F;
-/* 375 */     else if (headPitch < -56.650002F) {
-/* 376 */       headPitch = -56.650002F;
-/*     */     }
-/* 378 */     float pitchFactor = (headPitch + 56.650002F) / 93.800003F;
-/* 379 */     this.head.f += -0.96F + pitchFactor * -0.1400001F;
-/* 380 */     this.neck3.f += 0.378F + pitchFactor * -0.528F;
-/* 381 */     this.neck2.f += 0.4F + pitchFactor * -0.4F;
-/* 382 */     this.neck1.f += 0.513F + pitchFactor * -0.613F;
-/*     */ 
-/* 384 */     headYaw = (float)MathUtil.boundAngle180Deg(headYaw);
-/* 385 */     if (headYaw > 30.5F)
-/* 386 */       headYaw = 30.5F;
-/* 387 */     else if (headYaw < -30.5F) {
-/* 388 */       headYaw = -30.5F;
-/*     */     }
-/* 390 */     float yawFactor = (headYaw + 30.5F) / 61.0F;
-/* 391 */     this.head.h += 0.8F + yawFactor * 2.0F * -0.8F;
-/* 392 */     this.neck3.h += 0.38F + yawFactor * 2.0F * -0.38F;
-/* 393 */     this.neck2.h += 0.14F + yawFactor * 2.0F * -0.14F;
-/* 394 */     this.head.g += -0.7F + yawFactor * 2.0F * 0.7F;
-/* 395 */     this.neck3.g += -0.12F + yawFactor * 2.0F * 0.12F;
-/*     */   }
-/*     */ 
-/*     */   public void a(float limbPeriod, float limbMaxMovement, float ticksExisted, float headYaw, float entityPitch, float unitScale, nm entity)
-/*     */   {
-/* 400 */     super.a(limbPeriod, limbMaxMovement, ticksExisted, headYaw, entityPitch, unitScale, entity);
-/*     */     bcr tmp19_16 = this.body; tmp19_16.f = ((float)(tmp19_16.f + (0.8707963705062867D - entityPitch / 180.0F * 3.141593F)));
-/* 402 */     float pitchFactor = entityPitch / 50.0F;
-/* 403 */     if (pitchFactor > 1.0F)
-/* 404 */       pitchFactor = 1.0F;
-/* 405 */     else if (pitchFactor < 0.0F)
-/* 406 */       pitchFactor = 0.0F;
-/*     */   }
-/*     */ 
-/*     */   public void resetSkeleton()
-/*     */   {
-/* 413 */     setRotation(this.body, 0.7F, 0.0F, 0.0F);
-/* 414 */     setRotation(this.rightThigh, -0.39F, 0.0F, 0.09F);
-/* 415 */     setRotation(this.leftThigh, -0.39F, 0.0F, -0.09F);
-/* 416 */     setRotation(this.rightLeg, -0.72F, 0.0F, 0.0F);
-/* 417 */     setRotation(this.leftLeg, -0.72F, 0.0F, 0.0F);
-/* 418 */     setRotation(this.rightAnkle, 0.1F, 0.2F, 0.0F);
-/* 419 */     setRotation(this.leftAnkle, 0.1F, -0.2F, 0.0F);
-/* 420 */     setRotation(this.rightToeB, 1.34F, 0.0F, 0.0F);
-/* 421 */     setRotation(this.rightToeR, -0.8F, -0.28F, -0.28F);
-/* 422 */     setRotation(this.rightToeM, -0.8F, 0.0F, 0.0F);
-/* 423 */     setRotation(this.rightToeL, -0.8F, 0.28F, 0.28F);
-/* 424 */     setRotation(this.leftToeB, 1.34F, 0.0F, 0.0F);
-/* 425 */     setRotation(this.leftToeR, -0.8F, 0.28F, 0.28F);
-/* 426 */     setRotation(this.leftToeM, -0.8F, 0.0F, 0.0F);
-/* 427 */     setRotation(this.leftToeL, -0.8F, -0.28F, -0.28F);
-/*     */ 
-/* 429 */     setRotation(this.neck1, 0.0F, 0.0F, 0.0F);
-/* 430 */     setRotation(this.neck2, 0.0F, 0.0F, 0.0F);
-/* 431 */     setRotation(this.neck3, 0.0F, 0.0F, 0.0F);
-/* 432 */     setRotation(this.head, 0.0F, 0.0F, 0.0F);
-/* 433 */     setRotation(this.tail, 0.3F, 0.0F, 0.0F);
-/* 434 */     setRotation(this.upperBeak, 0.0F, 0.0F, 0.0F);
-/* 435 */     setRotation(this.lowerBeak, 0.0F, 0.0F, 0.0F);
-/*     */ 
-/* 437 */     this.body.a(0.0F, -19.0F, 0.0F);
-/*     */   }
-/*     */ 
-/*     */   private void setRotation(bcr model, float x, float y, float z)
-/*     */   {
-/* 442 */     model.f = x;
-/* 443 */     model.g = y;
-/* 444 */     model.h = z;
-/*     */   }
-/*     */ }
+package invmod.client.render;
 
-/* Location:           C:\Users\PsiCoTix\Downloads\_NOOBHAUS\MCDev\DeOp\DeOpInvasionMod.zip
- * Qualified Name:     invmod.client.render.ModelVulture
- * JD-Core Version:    0.6.2
- */
+import invmod.client.render.animation.AnimationAction;
+import invmod.client.render.animation.AnimationState;
+import invmod.client.render.animation.BonesBirdLegs;
+import invmod.client.render.animation.BonesMouth;
+import invmod.client.render.animation.BonesWings;
+import invmod.client.render.animation.ModelAnimator;
+import invmod.common.util.MathUtil;
+import java.util.EnumMap;
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.MathHelper;
+
+public class ModelVulture extends ModelBase
+{
+  private ModelAnimator animationFlap;
+  private ModelAnimator animationRun;
+  private ModelAnimator animationBeak;
+  ModelRenderer body;
+  ModelRenderer rightThigh;
+  ModelRenderer rightLeg;
+  ModelRenderer rightAnkle;
+  ModelRenderer rightToeB;
+  ModelRenderer rightClawB;
+  ModelRenderer rightToeL;
+  ModelRenderer rightClawL;
+  ModelRenderer rightToeM;
+  ModelRenderer rightClawM;
+  ModelRenderer rightToeR;
+  ModelRenderer rightClawR;
+  ModelRenderer leftThigh;
+  ModelRenderer leftLeg;
+  ModelRenderer leftAnkle;
+  ModelRenderer leftToeB;
+  ModelRenderer leftClawB;
+  ModelRenderer leftToeL;
+  ModelRenderer leftClawL;
+  ModelRenderer leftToeM;
+  ModelRenderer leftClawM;
+  ModelRenderer leftToeR;
+  ModelRenderer leftClawR;
+  ModelRenderer neck1;
+  ModelRenderer neck2;
+  ModelRenderer neck3;
+  ModelRenderer head;
+  ModelRenderer upperBeak;
+  ModelRenderer upperBeakTip;
+  ModelRenderer lowerBeak;
+  ModelRenderer lowerBeakTip;
+  ModelRenderer leftWing1;
+  ModelRenderer leftWing2;
+  ModelRenderer leftWing3;
+  ModelRenderer tail;
+  ModelRenderer rightWing1;
+  ModelRenderer rightWing2;
+  ModelRenderer rightWing3;
+
+  public ModelVulture()
+  {
+    this(0.0F);
+  }
+
+  public ModelVulture(float par1)
+  {
+    this.body = new ModelRenderer(this, 0, 0);
+    this.body.setTextureSize(128, 128);
+    this.body.addBox(-10.0F, -10.0F, -10.0F, 20, 30, 20);
+    this.body.setRotationPoint(0.0F, -19.0F, 0.0F);
+    this.rightThigh = new ModelRenderer(this, 84, 82);
+    this.rightThigh.setTextureSize(128, 128);
+    this.rightThigh.addBox(-4.5F, -3.5F, -4.5F, 9, 15, 9);
+    this.rightThigh.setRotationPoint(-5.0F, 20.0F, -2.0F);
+    this.rightLeg = new ModelRenderer(this, 56, 50);
+    this.rightLeg.setTextureSize(128, 128);
+    this.rightLeg.addBox(-2.0F, -3.0F, -2.0F, 4, 16, 4);
+    this.rightLeg.setRotationPoint(0.0F, 11.0F, 0.0F);
+    this.rightAnkle = new ModelRenderer(this, 16, 16);
+    this.rightAnkle.setTextureSize(128, 128);
+    this.rightAnkle.addBox(0.0F, 0.0F, 0.0F, 0, 0, 0);
+    this.rightAnkle.setRotationPoint(0.0F, 12.0F, 0.0F);
+    this.rightToeB = new ModelRenderer(this, 60, 0);
+    this.rightToeB.setTextureSize(128, 128);
+    this.rightToeB.addBox(-1.0F, -1.0F, -1.0F, 2, 8, 2);
+    this.rightToeB.setRotationPoint(0.0F, 0.0F, 2.0F);
+    this.rightClawB = new ModelRenderer(this, 0, 11);
+    this.rightClawB.setTextureSize(128, 128);
+    this.rightClawB.addBox(-0.5F, 0.0F, -1.0F, 1, 4, 2);
+    this.rightClawB.setRotationPoint(0.0F, 6.0F, 0.0F);
+    this.rightToeL = new ModelRenderer(this, 0, 0);
+    this.rightToeL.setTextureSize(128, 128);
+    this.rightToeL.addBox(-1.0F, 0.5F, -1.0F, 2, 9, 2);
+    this.rightToeL.setRotationPoint(-0.5F, 0.0F, 1.0F);
+    this.rightClawL = new ModelRenderer(this, 0, 11);
+    this.rightClawL.setTextureSize(128, 128);
+    this.rightClawL.addBox(-0.5F, 0.0F, -1.0F, 1, 4, 2);
+    this.rightClawL.setRotationPoint(0.0F, 9.0F, 0.0F);
+    this.rightToeM = new ModelRenderer(this, 8, 0);
+    this.rightToeM.setTextureSize(128, 128);
+    this.rightToeM.addBox(-1.0F, 0.0F, -1.0F, 2, 10, 2);
+    this.rightToeM.setRotationPoint(0.0F, 0.0F, 0.0F);
+    this.rightClawM = new ModelRenderer(this, 0, 11);
+    this.rightClawM.setTextureSize(128, 128);
+    this.rightClawM.addBox(-0.5F, 0.0F, -1.0F, 1, 4, 2);
+    this.rightClawM.setRotationPoint(0.0F, 9.0F, 0.0F);
+    this.rightToeR = new ModelRenderer(this, 0, 0);
+    this.rightToeR.setTextureSize(128, 128);
+    this.rightToeR.addBox(-1.0F, -0.5F, -1.0F, 2, 9, 2);
+    this.rightToeR.setRotationPoint(1.0F, 0.0F, 1.0F);
+    this.rightClawR = new ModelRenderer(this, 0, 11);
+    this.rightClawR.setTextureSize(128, 128);
+    this.rightClawR.addBox(-0.5F, 0.0F, -1.0F, 1, 4, 2);
+    this.rightClawR.setRotationPoint(0.0F, 8.0F, 0.0F);
+    this.leftThigh = new ModelRenderer(this, 84, 82);
+    this.leftThigh.setTextureSize(128, 128);
+    this.leftThigh.addBox(-4.5F, -3.5F, -4.5F, 9, 15, 9);
+    this.leftThigh.setRotationPoint(5.0F, 20.0F, -2.0F);
+    this.leftThigh.mirror = true;
+    this.leftLeg = new ModelRenderer(this, 56, 50);
+    this.leftLeg.setTextureSize(128, 128);
+    this.leftLeg.addBox(-2.0F, -3.0F, -2.0F, 4, 16, 4);
+    this.leftLeg.setRotationPoint(0.0F, 11.0F, 0.0F);
+    this.leftLeg.mirror = true;
+    this.leftAnkle = new ModelRenderer(this, 16, 16);
+    this.leftAnkle.setTextureSize(128, 128);
+    this.leftAnkle.addBox(0.0F, 0.0F, 0.0F, 0, 0, 0);
+    this.leftAnkle.setRotationPoint(0.0F, 12.0F, 0.0F);
+    this.leftToeB = new ModelRenderer(this, 60, 0);
+    this.leftToeB.setTextureSize(128, 128);
+    this.leftToeB.addBox(-1.0F, -1.0F, -1.0F, 2, 8, 2);
+    this.leftToeB.setRotationPoint(0.0F, 0.0F, 2.0F);
+    this.leftClawB = new ModelRenderer(this, 0, 11);
+    this.leftClawB.setTextureSize(128, 128);
+    this.leftClawB.addBox(-0.5F, 0.0F, -1.0F, 1, 4, 2);
+    this.leftClawB.setRotationPoint(0.0F, 6.0F, 0.0F);
+    this.leftToeL = new ModelRenderer(this, 0, 0);
+    this.leftToeL.setTextureSize(128, 128);
+    this.leftToeL.addBox(-1.0F, 0.5F, -1.0F, 2, 9, 2);
+    this.leftToeL.setRotationPoint(0.5F, 0.0F, 1.0F);
+    this.leftClawL = new ModelRenderer(this, 0, 11);
+    this.leftClawL.setTextureSize(128, 128);
+    this.leftClawL.addBox(-0.5F, 0.0F, -1.0F, 1, 4, 2);
+    this.leftClawL.setRotationPoint(0.0F, 9.0F, 0.0F);
+    this.leftToeM = new ModelRenderer(this, 8, 0);
+    this.leftToeM.setTextureSize(128, 128);
+    this.leftToeM.addBox(-1.0F, 0.0F, -1.0F, 2, 10, 2);
+    this.leftToeM.setRotationPoint(0.0F, 0.0F, 0.0F);
+    this.leftClawM = new ModelRenderer(this, 0, 11);
+    this.leftClawM.setTextureSize(128, 128);
+    this.leftClawM.addBox(-0.5F, 0.0F, -1.0F, 1, 4, 2);
+    this.leftClawM.setRotationPoint(0.0F, 9.0F, 0.0F);
+    this.leftToeR = new ModelRenderer(this, 0, 0);
+    this.leftToeR.setTextureSize(128, 128);
+    this.leftToeR.addBox(-1.0F, -0.5F, -1.0F, 2, 9, 2);
+    this.leftToeR.setRotationPoint(-1.0F, 0.0F, 1.0F);
+    this.leftClawR = new ModelRenderer(this, 0, 11);
+    this.leftClawR.setTextureSize(128, 128);
+    this.leftClawR.addBox(-0.5F, 0.0F, -1.0F, 1, 4, 2);
+    this.leftClawR.setRotationPoint(0.0F, 8.0F, 0.0F);
+    this.neck1 = new ModelRenderer(this, 43, 95);
+    this.neck1.setTextureSize(128, 128);
+    this.neck1.addBox(-7.0F, -7.0F, -6.5F, 14, 10, 13);
+    this.neck1.setRotationPoint(0.0F, -10.0F, 1.0F);
+    this.neck2 = new ModelRenderer(this, 50, 73);
+    this.neck2.setTextureSize(128, 128);
+    this.neck2.addBox(-5.0F, -4.0F, -5.0F, 10, 8, 10);
+    this.neck2.setRotationPoint(0.0F, -8.0F, 0.0F);
+    this.neck3 = new ModelRenderer(this, 80, 65);
+    this.neck3.setTextureSize(128, 128);
+    this.neck3.addBox(-4.0F, -5.5F, -5.0F, 8, 5, 10);
+    this.neck3.setRotationPoint(0.0F, -2.0F, 0.0F);
+    this.head = new ModelRenderer(this, 14, 108);
+    this.head.setTextureSize(128, 128);
+    this.head.addBox(-4.5F, -5.0F, -9.5F, 9, 8, 11);
+    this.head.setRotationPoint(0.0F, -4.0F, 0.0F);
+    this.upperBeak = new ModelRenderer(this, 54, 118);
+    this.upperBeak.setTextureSize(128, 128);
+    this.upperBeak.addBox(-2.5F, -1.0F, -5.0F, 5, 2, 8);
+    this.upperBeak.setRotationPoint(0.0F, -0.8F, -10.0F);
+    this.upperBeakTip = new ModelRenderer(this, 72, 118);
+    this.upperBeakTip.setTextureSize(128, 128);
+    this.upperBeakTip.addBox(-1.0F, -1.0F, -1.0F, 2, 2, 2);
+    this.upperBeakTip.setRotationPoint(0.0F, 0.0F, -6.0F);
+    this.lowerBeak = new ModelRenderer(this, 80, 118);
+    this.lowerBeak.setTextureSize(128, 128);
+    this.lowerBeak.addBox(-2.5F, -1.0F, -5.0F, 5, 2, 8);
+    this.lowerBeak.setRotationPoint(0.0F, 1.5F, -10.0F);
+    this.lowerBeakTip = new ModelRenderer(this, 78, 121);
+    this.lowerBeakTip.setTextureSize(128, 128);
+    this.lowerBeakTip.addBox(-1.0F, -0.5F, -1.0F, 2, 1, 2);
+    this.lowerBeakTip.setRotationPoint(0.0F, -0.5F, -6.0F);
+    this.leftWing1 = new ModelRenderer(this, 0, 50);
+    this.leftWing1.mirror = true;
+    this.leftWing1.setTextureSize(128, 128);
+    this.leftWing1.addBox(-0.5F, -4.5F, -1.5F, 25, 29, 3);
+    this.leftWing1.setRotationPoint(7.0F, -8.0F, 6.0F);
+    this.leftWing2 = new ModelRenderer(this, 0, 82);
+    this.leftWing2.mirror = true;
+    this.leftWing2.setTextureSize(128, 128);
+    this.leftWing2.addBox(-2.5F, -5.0F, -1.0F, 23, 24, 2);
+    this.leftWing2.setRotationPoint(23.0F, 1.0F, 0.0F);
+    this.leftWing3 = new ModelRenderer(this, 80, 0);
+    this.leftWing3.mirror = true;
+    this.leftWing3.setTextureSize(128, 128);
+    this.leftWing3.addBox(-2.5F, -5.0F, -0.5F, 23, 22, 1);
+    this.leftWing3.setRotationPoint(21.0F, 0.2F, 0.3F);
+    this.tail = new ModelRenderer(this, 80, 23);
+    this.tail.setTextureSize(128, 128);
+    this.tail.addBox(-8.5F, -5.0F, -1.0F, 17, 40, 2);
+    this.tail.setRotationPoint(0.0F, 19.0F, 8.0F);
+    this.rightWing1 = new ModelRenderer(this, 0, 50);
+    this.rightWing1.setTextureSize(128, 128);
+    this.rightWing1.addBox(-24.5F, -4.5F, -1.5F, 25, 29, 3);
+    this.rightWing1.setRotationPoint(-7.0F, -8.0F, 6.0F);
+    this.rightWing2 = new ModelRenderer(this, 0, 82);
+    this.rightWing2.setTextureSize(128, 128);
+    this.rightWing2.addBox(-20.5F, -5.0F, -1.0F, 23, 24, 2);
+    this.rightWing2.setRotationPoint(-23.0F, 1.0F, 0.0F);
+    this.rightWing3 = new ModelRenderer(this, 80, 0);
+    this.rightWing3.setTextureSize(128, 128);
+    this.rightWing3.addBox(-20.5F, -5.0F, -0.5F, 23, 22, 1);
+    this.rightWing3.setRotationPoint(-21.0F, 0.2F, 0.3F);
+
+    this.rightToeB.addChild(this.rightClawB);
+    this.rightToeR.addChild(this.rightClawR);
+    this.rightToeM.addChild(this.rightClawM);
+    this.rightToeL.addChild(this.rightClawL);
+    this.leftToeB.addChild(this.leftClawB);
+    this.leftToeR.addChild(this.leftClawR);
+    this.leftToeM.addChild(this.leftClawM);
+    this.leftToeL.addChild(this.leftClawL);
+    this.rightAnkle.addChild(this.rightToeB);
+    this.rightAnkle.addChild(this.rightToeR);
+    this.rightAnkle.addChild(this.rightToeM);
+    this.rightAnkle.addChild(this.rightToeL);
+    this.leftAnkle.addChild(this.leftToeB);
+    this.leftAnkle.addChild(this.leftToeR);
+    this.leftAnkle.addChild(this.leftToeM);
+    this.leftAnkle.addChild(this.leftToeL);
+    this.rightLeg.addChild(this.rightAnkle);
+    this.leftLeg.addChild(this.leftAnkle);
+    this.rightThigh.addChild(this.rightLeg);
+    this.leftThigh.addChild(this.leftLeg);
+    this.upperBeak.addChild(this.upperBeakTip);
+    this.lowerBeak.addChild(this.lowerBeakTip);
+    this.head.addChild(this.upperBeak);
+    this.head.addChild(this.lowerBeak);
+    this.neck3.addChild(this.head);
+    this.neck2.addChild(this.neck3);
+    this.neck1.addChild(this.neck2);
+    this.leftWing2.addChild(this.leftWing3);
+    this.leftWing1.addChild(this.leftWing2);
+    this.rightWing2.addChild(this.rightWing3);
+    this.rightWing1.addChild(this.rightWing2);
+    this.body.addChild(this.rightThigh);
+    this.body.addChild(this.leftThigh);
+    this.body.addChild(this.neck1);
+    this.body.addChild(this.tail);
+    this.body.addChild(this.leftWing1);
+    this.body.addChild(this.rightWing1);
+
+    EnumMap legMap = new EnumMap(BonesBirdLegs.class);
+    legMap.put(BonesBirdLegs.LEFT_KNEE, this.leftThigh);
+    legMap.put(BonesBirdLegs.RIGHT_KNEE, this.rightThigh);
+    legMap.put(BonesBirdLegs.LEFT_ANKLE, this.leftLeg);
+    legMap.put(BonesBirdLegs.RIGHT_ANKLE, this.rightLeg);
+    legMap.put(BonesBirdLegs.LEFT_METATARSOPHALANGEAL_ARTICULATIONS, this.leftAnkle);
+    legMap.put(BonesBirdLegs.RIGHT_METATARSOPHALANGEAL_ARTICULATIONS, this.rightAnkle);
+    legMap.put(BonesBirdLegs.LEFT_BACK_CLAW, this.leftToeB);
+    legMap.put(BonesBirdLegs.RIGHT_BACK_CLAW, this.rightToeB);
+    this.animationRun = new ModelAnimator(legMap, AnimationRegistry.instance().getAnimation("bird_run"));
+
+    EnumMap wingMap = new EnumMap(BonesWings.class);
+    wingMap.put(BonesWings.LEFT_SHOULDER, this.leftWing1);
+    wingMap.put(BonesWings.RIGHT_SHOULDER, this.rightWing1);
+    wingMap.put(BonesWings.LEFT_ELBOW, this.leftWing2);
+    wingMap.put(BonesWings.RIGHT_ELBOW, this.rightWing2);
+    this.animationFlap = new ModelAnimator(wingMap, AnimationRegistry.instance().getAnimation("wing_flap_2_piece"));
+
+    EnumMap beakMap = new EnumMap(BonesMouth.class);
+    beakMap.put(BonesMouth.UPPER_MOUTH, this.upperBeak);
+    beakMap.put(BonesMouth.LOWER_MOUTH, this.lowerBeak);
+    this.animationBeak = new ModelAnimator(beakMap, AnimationRegistry.instance().getAnimation("bird_beak"));
+
+    setRotation(this.body, 0.7F, 0.0F, 0.0F);
+    setRotation(this.rightThigh, -0.39F, 0.0F, 0.09F);
+    setRotation(this.leftThigh, -0.39F, 0.0F, -0.09F);
+    setRotation(this.rightLeg, -0.72F, 0.0F, 0.0F);
+    setRotation(this.leftLeg, -0.72F, 0.0F, 0.0F);
+    setRotation(this.rightAnkle, 0.1F, 0.2F, 0.0F);
+    setRotation(this.leftAnkle, 0.1F, -0.2F, 0.0F);
+    setRotation(this.rightToeB, 1.34F, 0.0F, 0.0F);
+    setRotation(this.rightToeR, -0.8F, -0.28F, -0.28F);
+    setRotation(this.rightToeM, -0.8F, 0.0F, 0.0F);
+    setRotation(this.rightToeL, -0.8F, 0.28F, 0.28F);
+    setRotation(this.leftToeB, 1.34F, 0.0F, 0.0F);
+    setRotation(this.leftToeR, -0.8F, 0.28F, 0.28F);
+    setRotation(this.leftToeM, -0.8F, 0.0F, 0.0F);
+    setRotation(this.leftToeL, -0.8F, -0.28F, -0.28F);
+    setRotation(this.rightClawB, -36.0F, 0.0F, 0.0F);
+
+    setRotation(this.neck1, -0.18F, 0.0F, 0.0F);
+    setRotation(this.neck2, 0.52F, 0.0F, 0.0F);
+    setRotation(this.neck3, 0.26F, 0.0F, 0.0F);
+    setRotation(this.head, -0.97F, 0.0F, 0.0F);
+
+    setRotation(this.tail, 0.3F, 0.0F, 0.0F);
+  }
+
+  public void render(Entity par1Entity, float par2, float par3, float par4, float par5, float par6, float par7)
+  {
+    this.body.render(par7);
+  }
+
+  public void setFlyingAnimations(AnimationState wingState, AnimationState legState, AnimationState beakState, float roll, float headYaw, float headPitch, float parTick)
+  {
+    AnimationAction legAction = legState.getCurrentAction();
+    AnimationAction wingAction = wingState.getCurrentAction();
+    float flapProgress = wingState.getCurrentAnimationTimeInterp(parTick);
+    float legProgress = legState.getCurrentAnimationTimeInterp(parTick);
+    float beakProgress = beakState.getCurrentAnimationTimeInterp(parTick);
+    this.animationFlap.updateAnimation(flapProgress);
+    this.animationRun.updateAnimation(legProgress);
+    this.animationBeak.updateAnimation(beakProgress);
+    if (legAction == AnimationAction.RUN)
+    {
+      if ((legProgress >= 0.109195F) && (legProgress < 0.5373563F))
+      {
+        legProgress += 0.03735632F;
+        if (legProgress >= 0.5373563F) {
+          legProgress -= 0.4281609F;
+        }
+        float t = 25.132742F * legProgress / 0.8908046F;
+        this.body.rotateAngleX += (float)(-Math.cos(t) * 0.04D);
+        this.neck1.rotateAngleX += (float)(Math.cos(t) * 0.08D);
+        this.body.rotationPointY += -(float)(Math.cos(t) * 1.9D);
+      }
+    }
+
+    if (wingAction == AnimationAction.WINGFLAP)
+    {
+      float flapCycle = flapProgress / 0.2714932F;
+
+      this.body.rotationPointY += MathHelper.cos(flapCycle * 3.141593F * 2.0F) * 1.4F;
+      ModelRenderer tmp244_241 = this.rightThigh; tmp244_241.rotateAngleX = ((float)(tmp244_241.rotateAngleX + MathHelper.cos(flapCycle * 3.141593F * 2.0F) * 0.08726646324990228D));
+      ModelRenderer tmp274_271 = this.leftThigh; tmp274_271.rotateAngleX = ((float)(tmp274_271.rotateAngleX + MathHelper.cos(flapCycle * 3.141593F * 2.0F) * 0.08726646324990228D));
+      ModelRenderer tmp304_301 = this.tail; tmp304_301.rotateAngleX = ((float)(tmp304_301.rotateAngleX + MathHelper.cos(flapCycle * 3.141593F * 2.0F) * 0.03490658588512815D));
+    }
+
+    this.body.rotateAngleZ = (-roll / 180.0F * 3.141593F);
+
+    headPitch = (float)MathUtil.boundAngle180Deg(headPitch);
+    if (headPitch > 37.16F)
+      headPitch = 37.16F;
+    else if (headPitch < -56.650002F) {
+      headPitch = -56.650002F;
+    }
+    float pitchFactor = (headPitch + 56.650002F) / 93.800003F;
+    this.head.rotateAngleX += -0.96F + pitchFactor * -0.1400001F;
+    this.neck3.rotateAngleX += 0.378F + pitchFactor * -0.528F;
+    this.neck2.rotateAngleX += 0.4F + pitchFactor * -0.4F;
+    this.neck1.rotateAngleX += 0.513F + pitchFactor * -0.613F;
+
+    headYaw = (float)MathUtil.boundAngle180Deg(headYaw);
+    if (headYaw > 30.5F)
+      headYaw = 30.5F;
+    else if (headYaw < -30.5F) {
+      headYaw = -30.5F;
+    }
+    float yawFactor = (headYaw + 30.5F) / 61.0F;
+    this.head.rotateAngleZ += 0.8F + yawFactor * 2.0F * -0.8F;
+    this.neck3.rotateAngleZ += 0.38F + yawFactor * 2.0F * -0.38F;
+    this.neck2.rotateAngleZ += 0.14F + yawFactor * 2.0F * -0.14F;
+    this.head.rotateAngleY += -0.7F + yawFactor * 2.0F * 0.7F;
+    this.neck3.rotateAngleY += -0.12F + yawFactor * 2.0F * 0.12F;
+  }
+
+  public void setRotationAngles(float limbPeriod, float limbMaxMovement, float ticksExisted, float headYaw, float entityPitch, float unitScale, Entity entity)
+  {
+    super.setRotationAngles(limbPeriod, limbMaxMovement, ticksExisted, headYaw, entityPitch, unitScale, entity);
+    ModelRenderer tmp19_16 = this.body; tmp19_16.rotateAngleX = ((float)(tmp19_16.rotateAngleX + (0.8707963705062867D - entityPitch / 180.0F * 3.141593F)));
+    float pitchFactor = entityPitch / 50.0F;
+    if (pitchFactor > 1.0F)
+      pitchFactor = 1.0F;
+    else if (pitchFactor < 0.0F)
+      pitchFactor = 0.0F;
+  }
+
+  public void resetSkeleton()
+  {
+    setRotation(this.body, 0.7F, 0.0F, 0.0F);
+    setRotation(this.rightThigh, -0.39F, 0.0F, 0.09F);
+    setRotation(this.leftThigh, -0.39F, 0.0F, -0.09F);
+    setRotation(this.rightLeg, -0.72F, 0.0F, 0.0F);
+    setRotation(this.leftLeg, -0.72F, 0.0F, 0.0F);
+    setRotation(this.rightAnkle, 0.1F, 0.2F, 0.0F);
+    setRotation(this.leftAnkle, 0.1F, -0.2F, 0.0F);
+    setRotation(this.rightToeB, 1.34F, 0.0F, 0.0F);
+    setRotation(this.rightToeR, -0.8F, -0.28F, -0.28F);
+    setRotation(this.rightToeM, -0.8F, 0.0F, 0.0F);
+    setRotation(this.rightToeL, -0.8F, 0.28F, 0.28F);
+    setRotation(this.leftToeB, 1.34F, 0.0F, 0.0F);
+    setRotation(this.leftToeR, -0.8F, 0.28F, 0.28F);
+    setRotation(this.leftToeM, -0.8F, 0.0F, 0.0F);
+    setRotation(this.leftToeL, -0.8F, -0.28F, -0.28F);
+
+    setRotation(this.neck1, 0.0F, 0.0F, 0.0F);
+    setRotation(this.neck2, 0.0F, 0.0F, 0.0F);
+    setRotation(this.neck3, 0.0F, 0.0F, 0.0F);
+    setRotation(this.head, 0.0F, 0.0F, 0.0F);
+    setRotation(this.tail, 0.3F, 0.0F, 0.0F);
+    setRotation(this.upperBeak, 0.0F, 0.0F, 0.0F);
+    setRotation(this.lowerBeak, 0.0F, 0.0F, 0.0F);
+
+    this.body.setRotationPoint(0.0F, -19.0F, 0.0F);
+  }
+
+  private void setRotation(ModelRenderer model, float x, float y, float z)
+  {
+    model.rotateAngleX = x;
+    model.rotateAngleY = y;
+    model.rotateAngleZ = z;
+  }
+}

@@ -1,59 +1,55 @@
-/*    */ package invmod.common.entity;
-/*    */ 
-/*    */ import net.minecraft.block.material.MaterialLogic;
-/*    */ import net.minecraft.entity.ai.EntityAIFollowParent;
-/*    */ import net.minecraft.world.ColorizerGrass;
-/*    */ 
-/*    */ public class EntityAIStoop extends EntityAIFollowParent
-/*    */ {
-/*    */   private EntityIMLiving theEntity;
-/*    */   private int updateTimer;
-/*    */   private boolean stopStoop;
-/*    */ 
-/*    */   public EntityAIStoop(EntityIMLiving entity)
-/*    */   {
-/* 13 */     this.theEntity = entity;
-/* 14 */     this.stopStoop = true;
-/*    */   }
-/*    */ 
-/*    */   public boolean shouldExecute()
-/*    */   {
-/* 20 */     if (--this.updateTimer <= 0)
-/*    */     {
-/* 22 */       this.updateTimer = 10;
-/* 23 */       if (this.theEntity.q.g(this.theEntity.getXCoord(), this.theEntity.getYCoord() + 2, this.theEntity.getZCoord()).blocksMovement()) {
-/* 24 */         return true;
-/*    */       }
-/*    */     }
-/* 27 */     return false;
-/*    */   }
-/*    */ 
-/*    */   public boolean continueExecuting()
-/*    */   {
-/* 33 */     return !this.stopStoop;
-/*    */   }
-/*    */ 
-/*    */   public void startExecuting()
-/*    */   {
-/* 39 */     this.theEntity.setSneaking(true);
-/* 40 */     this.stopStoop = false;
-/*    */   }
-/*    */ 
-/*    */   public void updateTask()
-/*    */   {
-/* 46 */     if (--this.updateTimer <= 0)
-/*    */     {
-/* 48 */       this.updateTimer = 10;
-/* 49 */       if (!this.theEntity.q.g(this.theEntity.getXCoord(), this.theEntity.getYCoord() + 2, this.theEntity.getZCoord()).blocksMovement())
-/*    */       {
-/* 51 */         this.theEntity.setSneaking(false);
-/* 52 */         this.stopStoop = true;
-/*    */       }
-/*    */     }
-/*    */   }
-/*    */ }
+package invmod.common.entity;
 
-/* Location:           C:\Users\PsiCoTix\Downloads\_NOOBHAUS\MCDev\DeOp\DeOpInvasionMod.zip
- * Qualified Name:     invmod.common.entity.EntityAIStoop
- * JD-Core Version:    0.6.2
- */
+import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.world.World;
+
+public class EntityAIStoop extends EntityAIBase
+{
+  private EntityIMLiving theEntity;
+  private int updateTimer;
+  private boolean stopStoop;
+
+  public EntityAIStoop(EntityIMLiving entity)
+  {
+    this.theEntity = entity;
+    this.stopStoop = true;
+  }
+
+  public boolean shouldExecute()
+  {
+    if (--this.updateTimer <= 0)
+    {
+      this.updateTimer = 10;
+      if (this.theEntity.worldObj.getBlockMaterial(this.theEntity.getXCoord(), this.theEntity.getYCoord() + 2, this.theEntity.getZCoord()).blocksMovement()) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public boolean continueExecuting()
+  {
+    return !this.stopStoop;
+  }
+
+  public void startExecuting()
+  {
+    this.theEntity.setSneaking(true);
+    this.stopStoop = false;
+  }
+
+  public void updateTask()
+  {
+    if (--this.updateTimer <= 0)
+    {
+      this.updateTimer = 10;
+      if (!this.theEntity.worldObj.getBlockMaterial(this.theEntity.getXCoord(), this.theEntity.getYCoord() + 2, this.theEntity.getZCoord()).blocksMovement())
+      {
+        this.theEntity.setSneaking(false);
+        this.stopStoop = true;
+      }
+    }
+  }
+}

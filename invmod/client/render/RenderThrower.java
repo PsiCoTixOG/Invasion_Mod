@@ -1,39 +1,30 @@
-/*    */ package invmod.client.render;
-/*    */ 
-/*    */ import invmod.common.entity.EntityIMThrower;
-/*    */ import net.minecraft.client.model.ModelMagmaCube;
-/*    */ import net.minecraft.client.renderer.entity.RendererLivingEntity;
-/*    */ import net.minecraft.client.resources.GrassColorReloadListener;
-/*    */ import net.minecraft.entity.EntityLeashKnot;
-/*    */ import net.minecraft.src.nm;
-/*    */ import org.lwjgl.opengl.GL11;
-/*    */ 
-/*    */ public class RenderThrower extends RendererLivingEntity
-/*    */ {
-/* 16 */   private static final GrassColorReloadListener texture = new GrassColorReloadListener("invmod:textures/throwerT1.png");
-/*    */ 
-/*    */   public RenderThrower(ModelMagmaCube modelbase, float f)
-/*    */   {
-/* 20 */     super(modelbase, f);
-/*    */   }
-/*    */ 
-/*    */   protected void preRenderScale(EntityIMThrower entity, float f)
-/*    */   {
-/* 25 */     GL11.glScalef(2.4F, 2.8F, 2.4F);
-/*    */   }
-/*    */ 
-/*    */   protected void a(EntityLeashKnot entityliving, float f)
-/*    */   {
-/* 31 */     preRenderScale((EntityIMThrower)entityliving, f);
-/*    */   }
-/*    */ 
-/*    */   protected GrassColorReloadListener a(nm entity)
-/*    */   {
-/* 37 */     return texture;
-/*    */   }
-/*    */ }
+package invmod.client.render;
 
-/* Location:           C:\Users\PsiCoTix\Downloads\_NOOBHAUS\MCDev\DeOp\DeOpInvasionMod.zip
- * Qualified Name:     invmod.client.render.RenderThrower
- * JD-Core Version:    0.6.2
- */
+import invmod.common.entity.EntityIMThrower;
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.renderer.entity.RenderLiving;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.ResourceLocation;
+
+import org.lwjgl.opengl.GL11;
+
+public class RenderThrower extends RenderLiving {
+	private static final ResourceLocation texture = new ResourceLocation("invmod:textures/throwerT1.png");
+
+	public RenderThrower(ModelBase modelbase, float f) {
+		super(modelbase, f);
+	}
+
+	protected void preRenderScale(EntityIMThrower entity, float f) {
+		GL11.glScalef(2.4F, 2.8F, 2.4F);
+	}
+
+	protected void preRenderCallback(EntityLivingBase entityliving, float f) {
+		preRenderScale((EntityIMThrower) entityliving, f);
+	}
+
+	protected ResourceLocation getEntityTexture(Entity entity) {
+		return texture;
+	}
+}

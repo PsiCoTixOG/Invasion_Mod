@@ -1,76 +1,71 @@
-/*    */ package invmod.common.item;
-/*    */ 
-/*    */ import invmod.common.entity.EntityIMWolf;
-/*    */ import invmod.common.mod_Invasion;
-/*    */ import invmod.common.nexus.BlockNexus;
-/*    */ import invmod.common.nexus.TileEntityNexus;
-/*    */ import net.minecraft.entity.Entity;
-/*    */ import net.minecraft.entity.EntityLeashKnot;
-/*    */ import net.minecraft.entity.passive.EntityWaterMob;
-/*    */ import net.minecraft.entity.player.CallableItemName;
-/*    */ import net.minecraft.item.EnumToolMaterial;
-/*    */ import net.minecraft.util.LongHashMapEntry;
-/*    */ import net.minecraft.world.ColorizerGrass;
-/*    */ 
-/*    */ public class ItemStrangeBone extends ItemIM
-/*    */ {
-/*    */   public ItemStrangeBone(int i)
-/*    */   {
-/* 16 */     super(i);
-/* 17 */     this.maxStackSize = 1;
-/*    */   }
-/*    */ 
-/*    */   public int getDamage(EnumToolMaterial stack)
-/*    */   {
-/* 23 */     return 0;
-/*    */   }
-/*    */ 
-/*    */   public boolean a(EnumToolMaterial itemstack, CallableItemName player, EntityLeashKnot targetEntity)
-/*    */   {
-/* 29 */     if ((!targetEntity.q.I) && ((targetEntity instanceof EntityWaterMob)) && (!(targetEntity instanceof EntityIMWolf)))
-/*    */     {
-/* 31 */       EntityWaterMob wolf = (EntityWaterMob)targetEntity;
-/* 32 */       if (wolf.bT())
-/*    */       {
-/* 34 */         TileEntityNexus nexus = null;
-/* 35 */         int x = LongHashMapEntry.c(wolf.posX);
-/* 36 */         int y = LongHashMapEntry.c(wolf.posY);
-/* 37 */         int z = LongHashMapEntry.c(wolf.posZ);
-/* 38 */         for (int i = -7; i < 8; i++)
-/*    */         {
-/* 40 */           for (int j = -4; j < 5; j++)
-/*    */           {
-/* 42 */             for (int k = -7; k < 8; k++)
-/*    */             {
-/* 44 */               if (wolf.q.a(x + i, y + j, z + k) == mod_Invasion.blockNexus.cF)
-/*    */               {
-/* 46 */                 nexus = (TileEntityNexus)wolf.q.r(x + i, y + j, z + k);
-/* 47 */                 break;
-/*    */               }
-/*    */             }
-/*    */           }
-/*    */         }
-/*    */ 
-/* 53 */         if (nexus != null)
-/*    */         {
-/* 56 */           EntityIMWolf newWolf = new EntityIMWolf(wolf, nexus);
-/* 57 */           wolf.q.d(newWolf);
-/* 58 */           wolf.preparePlayerToSpawn();
-/* 59 */           itemstack.STONE -= 1;
-/*    */         }
-/*    */       }
-/* 62 */       return true;
-/*    */     }
-/* 64 */     return false;
-/*    */   }
-/*    */ 
-/*    */   public boolean a(EnumToolMaterial itemstack, EntityLeashKnot entityLiving, EntityLeashKnot entityLiving1)
-/*    */   {
-/* 70 */     return false;
-/*    */   }
-/*    */ }
+package invmod.common.item;
 
-/* Location:           C:\Users\PsiCoTix\Downloads\_NOOBHAUS\MCDev\DeOp\DeOpInvasionMod.zip
- * Qualified Name:     invmod.common.item.ItemStrangeBone
- * JD-Core Version:    0.6.2
- */
+import invmod.common.entity.EntityIMWolf;
+import invmod.common.mod_Invasion;
+import invmod.common.nexus.TileEntityNexus;
+import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.passive.EntityWolf;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.MathHelper;
+import net.minecraft.world.World;
+
+public class ItemStrangeBone extends ItemIM
+{
+  public ItemStrangeBone(int i)
+  {
+    super(i);
+    this.maxStackSize = 1;
+  }
+
+  public int getDamage(ItemStack stack)
+  {
+    return 0;
+  }
+
+  public boolean func_111207_a(ItemStack itemstack, EntityPlayer player, EntityLivingBase targetEntity)
+  {
+    if ((!targetEntity.worldObj.isRemote) && ((targetEntity instanceof EntityWolf)) && (!(targetEntity instanceof EntityIMWolf)))
+    {
+      EntityWolf wolf = (EntityWolf)targetEntity;
+      if (wolf.isTamed())
+      {
+        TileEntityNexus nexus = null;
+        int x = MathHelper.floor_double(wolf.posX);
+        int y = MathHelper.floor_double(wolf.posY);
+        int z = MathHelper.floor_double(wolf.posZ);
+        for (int i = -7; i < 8; i++)
+        {
+          for (int j = -4; j < 5; j++)
+          {
+            for (int k = -7; k < 8; k++)
+            {
+              if (wolf.worldObj.getBlockId(x + i, y + j, z + k) == mod_Invasion.blockNexus.blockID)
+              {
+                nexus = (TileEntityNexus)wolf.worldObj.getBlockTileEntity(x + i, y + j, z + k);
+                break;
+              }
+            }
+          }
+        }
+
+        if (nexus != null)
+        {
+          EntityIMWolf newWolf = new EntityIMWolf(wolf, nexus);
+          wolf.worldObj.spawnEntityInWorld(newWolf);
+          wolf.setDead();
+          itemstack.stackSize -= 1;
+        }
+      }
+      return true;
+    }
+    return false;
+  }
+
+  public boolean hitEntity(ItemStack itemstack, EntityLivingBase entityLiving, EntityLivingBase entityLiving1)
+  {
+    return false;
+  }
+}

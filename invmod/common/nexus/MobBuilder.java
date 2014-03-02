@@ -1,67 +1,61 @@
-/*    */ package invmod.common.nexus;
-/*    */ 
-/*    */ import invmod.common.entity.EntityIMBurrower;
-/*    */ import invmod.common.entity.EntityIMCreeper;
-/*    */ import invmod.common.entity.EntityIMLiving;
-/*    */ import invmod.common.entity.EntityIMPigEngy;
-/*    */ import invmod.common.entity.EntityIMSkeleton;
-/*    */ import invmod.common.entity.EntityIMSpider;
-/*    */ import invmod.common.entity.EntityIMThrower;
-/*    */ import invmod.common.entity.EntityIMZombie;
-/*    */ import invmod.common.mod_Invasion;
-/*    */ import net.minecraft.world.ColorizerGrass;
-/*    */ 
-/*    */ public class MobBuilder
-/*    */ {
-/*    */   public EntityIMLiving createMobFromConstruct(EntityConstruct mobConstruct, ColorizerGrass world, INexusAccess nexus)
-/*    */   {
-/* 26 */     EntityIMLiving mob = null;
-/* 27 */     switch (1.$SwitchMap$invmod$common$nexus$IMEntityType[mobConstruct.getMobType().ordinal()])
-/*    */     {
-/*    */     case 1:
-/* 30 */       EntityIMZombie zombie = new EntityIMZombie(world, nexus);
-/* 31 */       zombie.setTexture(mobConstruct.getTexture());
-/* 32 */       zombie.setFlavour(mobConstruct.getFlavour());
-/* 33 */       zombie.setTier(mobConstruct.getTier());
-/* 34 */       mob = zombie;
-/* 35 */       break;
-/*    */     case 2:
-/* 37 */       EntityIMSpider spider = new EntityIMSpider(world, nexus);
-/* 38 */       spider.setTexture(mobConstruct.getTexture());
-/* 39 */       spider.setFlavour(mobConstruct.getFlavour());
-/* 40 */       spider.setTier(mobConstruct.getTier());
-/* 41 */       mob = spider;
-/* 42 */       break;
-/*    */     case 3:
-/* 44 */       EntityIMSkeleton skeleton = new EntityIMSkeleton(world, nexus);
-/* 45 */       mob = skeleton;
-/* 46 */       break;
-/*    */     case 4:
-/* 48 */       EntityIMPigEngy pigEngy = new EntityIMPigEngy(world, nexus);
-/* 49 */       mob = pigEngy;
-/* 50 */       break;
-/*    */     case 5:
-/* 52 */       EntityIMThrower thrower = new EntityIMThrower(world, nexus);
-/* 53 */       mob = thrower;
-/* 54 */       break;
-/*    */     case 6:
-/* 56 */       EntityIMBurrower burrower = new EntityIMBurrower(world, nexus);
-/* 57 */       mob = burrower;
-/* 58 */       break;
-/*    */     case 7:
-/* 60 */       EntityIMCreeper creeper = new EntityIMCreeper(world, nexus);
-/* 61 */       mob = creeper;
-/* 62 */       break;
-/*    */     default:
-/* 64 */       mod_Invasion.log("Missing mob type in MobBuilder: " + mobConstruct.getMobType());
-/* 65 */       mob = null;
-/*    */     }
-/*    */ 
-/* 71 */     return mob;
-/*    */   }
-/*    */ }
+package invmod.common.nexus;
 
-/* Location:           C:\Users\PsiCoTix\Downloads\_NOOBHAUS\MCDev\DeOp\DeOpInvasionMod.zip
- * Qualified Name:     invmod.common.nexus.MobBuilder
- * JD-Core Version:    0.6.2
- */
+import invmod.common.mod_Invasion;
+import invmod.common.entity.EntityIMBurrower;
+import invmod.common.entity.EntityIMCreeper;
+import invmod.common.entity.EntityIMLiving;
+import invmod.common.entity.EntityIMPigEngy;
+import invmod.common.entity.EntityIMSkeleton;
+import invmod.common.entity.EntityIMSpider;
+import invmod.common.entity.EntityIMThrower;
+import invmod.common.entity.EntityIMZombie;
+import net.minecraft.world.World;
+
+public class MobBuilder {
+	public EntityIMLiving createMobFromConstruct(EntityConstruct mobConstruct, World world, INexusAccess nexus)
+  {
+    EntityIMLiving mob = null;
+    switch (1.$SwitchMap$invmod$common$nexus$IMEntityType[mobConstruct.getMobType().ordinal()])
+    {
+    case 1:
+      EntityIMZombie zombie = new EntityIMZombie(world, nexus);
+      zombie.setTexture(mobConstruct.getTexture());
+      zombie.setFlavour(mobConstruct.getFlavour());
+      zombie.setTier(mobConstruct.getTier());
+      mob = zombie;
+      break;
+    case 2:
+      EntityIMSpider spider = new EntityIMSpider(world, nexus);
+      spider.setTexture(mobConstruct.getTexture());
+      spider.setFlavour(mobConstruct.getFlavour());
+      spider.setTier(mobConstruct.getTier());
+      mob = spider;
+      break;
+    case 3:
+      EntityIMSkeleton skeleton = new EntityIMSkeleton(world, nexus);
+      mob = skeleton;
+      break;
+    case 4:
+      EntityIMPigEngy pigEngy = new EntityIMPigEngy(world, nexus);
+      mob = pigEngy;
+      break;
+    case 5:
+      EntityIMThrower thrower = new EntityIMThrower(world, nexus);
+      mob = thrower;
+      break;
+    case 6:
+      EntityIMBurrower burrower = new EntityIMBurrower(world, nexus);
+      mob = burrower;
+      break;
+    case 7:
+      EntityIMCreeper creeper = new EntityIMCreeper(world, nexus);
+      mob = creeper;
+      break;
+    default:
+      mod_Invasion.log("Missing mob type in MobBuilder: " + mobConstruct.getMobType());
+      mob = null;
+    }
+
+    return mob;
+  }
+}

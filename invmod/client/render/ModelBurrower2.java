@@ -1,67 +1,62 @@
-/*    */ package invmod.client.render;
-/*    */ 
-/*    */ import invmod.common.util.PosRotate3D;
-/*    */ import net.minecraft.client.model.ModelMagmaCube;
-/*    */ import net.minecraft.src.bcr;
-/*    */ import net.minecraft.src.nm;
-/*    */ 
-/*    */ public class ModelBurrower2 extends ModelMagmaCube
-/*    */ {
-/*    */   bcr head;
-/*    */   bcr[] segments;
-/*    */ 
-/*    */   public ModelBurrower2(int numberOfSegments)
-/*    */   {
-/* 12 */     this.textureWidth = 64;
-/* 13 */     this.textureHeight = 32;
-/*    */ 
-/* 15 */     this.head = new bcr(this, 0, 0);
-/* 16 */     this.head.a(-1.0F, -3.0F, -3.0F, 2, 6, 6);
-/* 17 */     this.head.a(0.0F, 0.0F, 0.0F);
-/* 18 */     this.head.b(64, 32);
-/* 19 */     this.head.i = true;
-/* 20 */     setRotation(this.head, 0.0F, 0.0F, 0.0F);
-/* 21 */     this.segments = new bcr[numberOfSegments];
-/* 22 */     for (int i = 0; i < numberOfSegments; i++)
-/*    */     {
-/* 24 */       this.segments[i] = new bcr(this, 0, 0);
-/*    */ 
-/* 26 */       if (i % 2 == 0)
-/* 27 */         this.segments[i].a(-0.5F, -3.5F, -3.5F, 2, 7, 7);
-/*    */       else {
-/* 29 */         this.segments[i].a(-0.5F, -2.5F, -2.5F, 2, 5, 5);
-/*    */       }
-/* 31 */       this.segments[i].a(-4.0F, 0.0F, 0.0F);
-/* 32 */       this.segments[i].b(64, 32);
-/* 33 */       this.segments[i].i = true;
-/* 34 */       setRotation(this.segments[i], 0.0F, 0.0F, 0.0F);
-/*    */     }
-/*    */   }
-/*    */ 
-/*    */   public void render(nm entity, float partialTick, PosRotate3D[] pos, float modelScale)
-/*    */   {
-/* 40 */     super.a(entity, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, modelScale);
-/*    */ 
-/* 46 */     this.head.a((float)pos[0].getPosX(), (float)pos[0].getPosY(), (float)pos[0].getPosZ());
-/* 47 */     setRotation(this.head, pos[0].getRotX(), pos[0].getRotY(), pos[0].getRotZ());
-/* 48 */     for (int i = 0; i < this.segments.length; i++)
-/*    */     {
-/* 50 */       this.segments[i].a((float)pos[(i + 1)].getPosX(), (float)pos[(i + 1)].getPosY(), (float)pos[(i + 1)].getPosZ());
-/* 51 */       setRotation(this.segments[i], pos[(i + 1)].getRotX(), pos[(i + 1)].getRotY(), pos[(i + 1)].getRotZ());
-/* 52 */       this.segments[i].a(modelScale);
-/*    */     }
-/* 54 */     this.head.a(modelScale);
-/*    */   }
-/*    */ 
-/*    */   private void setRotation(bcr model, float x, float y, float z)
-/*    */   {
-/* 62 */     model.f = x;
-/* 63 */     model.g = y;
-/* 64 */     model.h = z;
-/*    */   }
-/*    */ }
+package invmod.client.render;
 
-/* Location:           C:\Users\PsiCoTix\Downloads\_NOOBHAUS\MCDev\DeOp\DeOpInvasionMod.zip
- * Qualified Name:     invmod.client.render.ModelBurrower2
- * JD-Core Version:    0.6.2
- */
+import invmod.common.util.PosRotate3D;
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+
+public class ModelBurrower2 extends ModelBase
+{
+  ModelRenderer head;
+  ModelRenderer[] segments;
+
+  public ModelBurrower2(int numberOfSegments)
+  {
+    this.textureWidth = 64;
+    this.textureHeight = 32;
+
+    this.head = new ModelRenderer(this, 0, 0);
+    this.head.addBox(-1.0F, -3.0F, -3.0F, 2, 6, 6);
+    this.head.setRotationPoint(0.0F, 0.0F, 0.0F);
+    this.head.setTextureSize(64, 32);
+    this.head.mirror = true;
+    setRotation(this.head, 0.0F, 0.0F, 0.0F);
+    this.segments = new ModelRenderer[numberOfSegments];
+    for (int i = 0; i < numberOfSegments; i++)
+    {
+      this.segments[i] = new ModelRenderer(this, 0, 0);
+
+      if (i % 2 == 0)
+        this.segments[i].addBox(-0.5F, -3.5F, -3.5F, 2, 7, 7);
+      else {
+        this.segments[i].addBox(-0.5F, -2.5F, -2.5F, 2, 5, 5);
+      }
+      this.segments[i].setRotationPoint(-4.0F, 0.0F, 0.0F);
+      this.segments[i].setTextureSize(64, 32);
+      this.segments[i].mirror = true;
+      setRotation(this.segments[i], 0.0F, 0.0F, 0.0F);
+    }
+  }
+
+  public void render(Entity entity, float partialTick, PosRotate3D[] pos, float modelScale)
+  {
+    super.render(entity, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, modelScale);
+
+    this.head.setRotationPoint((float)pos[0].getPosX(), (float)pos[0].getPosY(), (float)pos[0].getPosZ());
+    setRotation(this.head, pos[0].getRotX(), pos[0].getRotY(), pos[0].getRotZ());
+    for (int i = 0; i < this.segments.length; i++)
+    {
+      this.segments[i].setRotationPoint((float)pos[(i + 1)].getPosX(), (float)pos[(i + 1)].getPosY(), (float)pos[(i + 1)].getPosZ());
+      setRotation(this.segments[i], pos[(i + 1)].getRotX(), pos[(i + 1)].getRotY(), pos[(i + 1)].getRotZ());
+      this.segments[i].render(modelScale);
+    }
+    this.head.render(modelScale);
+  }
+
+  private void setRotation(ModelRenderer model, float x, float y, float z)
+  {
+    model.rotateAngleX = x;
+    model.rotateAngleY = y;
+    model.rotateAngleZ = z;
+  }
+}

@@ -10,8 +10,3 @@ public abstract interface ITerrainModify
 
   public abstract ModifyBlockEntry getLastBlockModified();
 }
-
-/* Location:           C:\Users\PsiCoTix\Downloads\_NOOBHAUS\MCDev\DeOp\DeOpInvasionMod.zip
- * Qualified Name:     invmod.common.entity.ITerrainModify
- * JD-Core Version:    0.6.2
- */

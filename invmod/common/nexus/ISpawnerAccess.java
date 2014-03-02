@@ -10,8 +10,3 @@ public abstract interface ISpawnerAccess
 
   public abstract void noSpawnPointNotice();
 }
-
-/* Location:           C:\Users\PsiCoTix\Downloads\_NOOBHAUS\MCDev\DeOp\DeOpInvasionMod.zip
- * Qualified Name:     invmod.common.nexus.ISpawnerAccess
- * JD-Core Version:    0.6.2
- */

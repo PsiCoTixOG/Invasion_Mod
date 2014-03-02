@@ -1,306 +1,301 @@
-/*     */ package invmod.common.entity;
-/*     */ 
-/*     */ import invmod.common.mod_Invasion;
-/*     */ import invmod.common.nexus.BlockNexus;
-/*     */ import invmod.common.nexus.INexusAccess;
-/*     */ import invmod.common.nexus.SpawnPoint;
-/*     */ import invmod.common.nexus.SpawnType;
-/*     */ import invmod.common.nexus.TileEntityNexus;
-/*     */ import invmod.common.util.ComparatorDistanceFrom;
-/*     */ import java.util.ArrayList;
-/*     */ import java.util.Collections;
-/*     */ import java.util.List;
-/*     */ import java.util.Random;
-/*     */ import net.minecraft.entity.Entity;
-/*     */ import net.minecraft.entity.EntityCreature;
-/*     */ import net.minecraft.entity.EntityLivingBase;
-/*     */ import net.minecraft.entity.EntitySelectorArmoredMob;
-/*     */ import net.minecraft.entity.ai.EntityAIBase;
-/*     */ import net.minecraft.entity.ai.EntityAIHurtByTarget;
-/*     */ import net.minecraft.entity.ai.EntityAIRunAroundLikeCrazy;
-/*     */ import net.minecraft.entity.monster.EntityEnderman;
-/*     */ import net.minecraft.entity.passive.EntityWaterMob;
-/*     */ import net.minecraft.entity.player.CallableItemName;
-/*     */ import net.minecraft.entity.player.PlayerCapabilities;
-/*     */ import net.minecraft.item.EnumToolMaterial;
-/*     */ import net.minecraft.item.Item;
-/*     */ import net.minecraft.item.ItemHoe;
-/*     */ import net.minecraft.nbt.NBTTagByte;
-/*     */ import net.minecraft.src.nm;
-/*     */ import net.minecraft.util.CombatTracker;
-/*     */ import net.minecraft.util.LongHashMapEntry;
-/*     */ import net.minecraft.world.ColorizerGrass;
-/*     */ 
-/*     */ public class EntityIMWolf extends EntityWaterMob
-/*     */ {
-/*     */   private static final int META_BOUND = 30;
-/*     */   private INexusAccess nexus;
-/*     */   private int nexusX;
-/*     */   private int nexusY;
-/*     */   private int nexusZ;
-/*     */   private int updateTimer;
-/*     */   private boolean loadedFromNBT;
-/*     */   private float maxHealth;
-/*     */ 
-/*     */   public EntityIMWolf(ColorizerGrass world)
-/*     */   {
-/*  42 */     this(world, null);
-/*     */   }
-/*     */ 
-/*     */   public EntityIMWolf(EntityWaterMob wolf, INexusAccess nexus)
-/*     */   {
-/*  47 */     this(wolf.q, nexus);
-/*  48 */     this.loadedFromNBT = false;
-/*  49 */     setPositionAndRotation(wolf.posX, wolf.posY, wolf.posZ, wolf.rotationYaw, wolf.rotationPitch);
-/*  50 */     this.ah.b(16, Byte.valueOf(wolf.u().a(16)));
-/*  51 */     this.ah.b(17, wolf.u().e(17));
-/*  52 */     this.ah.b(18, Float.valueOf(wolf.u().d(18)));
-/*  53 */     this.bp.a(bU());
-/*     */   }
-/*     */ 
-/*     */   public EntityIMWolf(ColorizerGrass world, INexusAccess nexus)
-/*     */   {
-/*  58 */     super(world);
-/*  59 */     this.d.a(5, new EntityAIHurtByTarget(this, EntityEnderman.class, 0, true));
-/*  60 */     setHealth(getMaxHealth());
-/*  61 */     this.ah.a(30, Byte.valueOf((byte)0));
-/*  62 */     this.nexus = nexus;
-/*  63 */     if (nexus != null)
-/*     */     {
-/*  65 */       this.nexusX = nexus.getXCoord();
-/*  66 */       this.nexusY = nexus.getYCoord();
-/*  67 */       this.nexusZ = nexus.getZCoord();
-/*  68 */       this.ah.b(30, Byte.valueOf((byte)1));
-/*     */     }
-/*     */   }
-/*     */ 
-/*     */   public void setDead()
-/*     */   {
-/*  75 */     super.setDead();
-/*  76 */     if (this.loadedFromNBT)
-/*     */     {
-/*  78 */       this.loadedFromNBT = false;
-/*  79 */       checkNexus();
-/*     */     }
-/*     */ 
-/*  82 */     if ((!this.q.I) && (this.updateTimer++ > 40))
-/*  83 */       checkNexus();
-/*     */   }
-/*     */ 
-/*     */   public boolean m(nm par1Entity)
-/*     */   {
-/*  89 */     int damage = bT() ? 4 : 2;
-/*  90 */     if ((par1Entity instanceof EntityEnderman))
-/*  91 */       damage *= 2;
-/*  92 */     boolean success = par1Entity.a(CombatTracker.a(this), damage);
-/*  93 */     if (success) {
-/*  94 */       heal(4.0F);
-/*     */     }
-/*  96 */     return success;
-/*     */   }
-/*     */ 
-/*     */   public float getMaxHealth()
-/*     */   {
-/* 101 */     return !bT() ? 8.0F : 25.0F;
-/*     */   }
-/*     */ 
-/*     */   public int cd()
-/*     */   {
-/* 107 */     return this.ah.a(30) == 1 ? 10 : 1;
-/*     */   }
-/*     */ 
-/*     */   protected String aN()
-/*     */   {
-/* 113 */     if ((m() instanceof EntityEnderman)) {
-/* 114 */       return "mob.wolf.growl";
-/*     */     }
-/* 116 */     return "mob.wolf.hurt";
-/*     */   }
-/*     */ 
-/*     */   protected void aA()
-/*     */   {
-/* 122 */     this.deathTime += 1;
-/* 123 */     if (this.deathTime == 120)
-/*     */     {
-/*     */       int i;
-/* 125 */       if ((!this.q.I) && ((this.recentlyHit > 0) || (aB())) && (!isChild()))
-/*     */       {
-/* 127 */         for (i = e(this.aS); i > 0; )
-/*     */         {
-/* 129 */           int k = EntitySelectorArmoredMob.a(i);
-/* 130 */           i -= k;
-/* 131 */           this.q.d(new EntitySelectorArmoredMob(this.q, this.posX, this.posY, this.posZ, k));
-/*     */         }
-/*     */       }
-/*     */ 
-/* 135 */       preparePlayerToSpawn();
-/* 136 */       for (int j = 0; j < 20; j++)
-/*     */       {
-/* 138 */         double d = this.rand.nextGaussian() * 0.02D;
-/* 139 */         double d1 = this.rand.nextGaussian() * 0.02D;
-/* 140 */         double d2 = this.rand.nextGaussian() * 0.02D;
-/* 141 */         this.q.a("explode", this.posX + this.rand.nextFloat() * this.width * 2.0F - this.width, this.posY + this.rand.nextFloat() * this.height, this.posZ + this.rand.nextFloat() * this.width * 2.0F - this.width, d, d1, d2);
-/*     */       }
-/*     */     }
-/*     */   }
-/*     */ 
-/*     */   public void preparePlayerToSpawn()
-/*     */   {
-/* 150 */     respawnAtNexus();
-/* 151 */     this.isDead = true;
-/*     */   }
-/*     */ 
-/*     */   public void setHealth(float par1)
-/*     */   {
-/* 158 */     this.ah.b(6, Float.valueOf(LongHashMapEntry.a(par1, 0.0F, getMaxHealth())));
-/*     */   }
-/*     */ 
-/*     */   public boolean respawnAtNexus()
-/*     */   {
-/* 163 */     if ((!this.q.I) && (this.ah.a(30) == 1) && (this.nexus != null))
-/*     */     {
-/* 165 */       EntityIMWolf wolfRecreation = new EntityIMWolf(this, this.nexus);
-/*     */ 
-/* 167 */       int x = this.nexus.getXCoord();
-/* 168 */       int y = this.nexus.getYCoord();
-/* 169 */       int z = this.nexus.getZCoord();
-/* 170 */       List spawnPoints = new ArrayList();
-/* 171 */       setRotation(0.0F, 0.0F);
-/* 172 */       for (int vertical = 0; vertical < 3; vertical = vertical > 0 ? vertical * -1 : vertical * -1 + 1)
-/*     */       {
-/* 174 */         for (int i = -4; i < 5; i++)
-/*     */         {
-/* 176 */           for (int j = -4; j < 5; j++)
-/*     */           {
-/* 178 */             wolfRecreation.setPosition(x + i + 0.5F, y + vertical, z + j + 0.5F);
-/* 179 */             if (wolfRecreation.getCanSpawnHere())
-/* 180 */               spawnPoints.add(new SpawnPoint(x + i, y + vertical, z + i, 0, SpawnType.WOLF));
-/*     */           }
-/*     */         }
-/*     */       }
-/* 184 */       Collections.sort(spawnPoints, new ComparatorDistanceFrom(x, y, z));
-/*     */ 
-/* 187 */       if (spawnPoints.size() > 0)
-/*     */       {
-/* 189 */         SpawnPoint point = (SpawnPoint)spawnPoints.get(spawnPoints.size() / 2);
-/* 190 */         wolfRecreation.setPosition(point.getXCoord() + 0.5D, point.getYCoord(), point.getZCoord() + 0.5D);
-/* 191 */         wolfRecreation.heal(60.0F);
-/* 192 */         this.q.d(wolfRecreation);
-/* 193 */         return true;
-/*     */       }
-/*     */     }
-/* 196 */     mod_Invasion.log("No respawn spot for wolf");
-/* 197 */     return false;
-/*     */   }
-/*     */ 
-/*     */   public boolean getCanSpawnHere()
-/*     */   {
-/* 203 */     return (this.q.b(this.E)) && (this.q.a(this, this.E).size() == 0) && (!this.q.d(this.E));
-/*     */   }
-/*     */ 
-/*     */   public boolean a(CallableItemName player)
-/*     */   {
-/* 209 */     EnumToolMaterial itemstack = player.bn.h();
-/* 210 */     if (itemstack != null)
-/*     */     {
-/* 212 */       if ((itemstack.EMERALD == ItemHoe.aZ.itemID) && (player.bu.equalsIgnoreCase(h_())) && (this.ah.a(30) == 1))
-/*     */       {
-/* 214 */         this.ah.b(30, Byte.valueOf((byte)0));
-/* 215 */         this.nexus = null;
-/*     */ 
-/* 217 */         itemstack.STONE -= 1;
-/* 218 */         if (itemstack.STONE <= 0)
-/* 219 */           player.bn.a(player.bn.allowFlying, null);
-/* 220 */         return false;
-/*     */       }
-/* 222 */       if ((itemstack.EMERALD == mod_Invasion.itemStrangeBone.itemID) && (player.bu.equalsIgnoreCase(h_())))
-/*     */       {
-/* 224 */         INexusAccess newNexus = findNexus();
-/* 225 */         if ((newNexus != null) && (newNexus != this.nexus))
-/*     */         {
-/* 227 */           this.nexus = newNexus;
-/* 228 */           this.ah.b(30, Byte.valueOf((byte)1));
-/* 229 */           this.nexusX = this.nexus.getXCoord();
-/* 230 */           this.nexusY = this.nexus.getYCoord();
-/* 231 */           this.nexusZ = this.nexus.getZCoord();
-/*     */ 
-/* 233 */           itemstack.STONE -= 1;
-/* 234 */           if (itemstack.STONE <= 0) {
-/* 235 */             player.bn.a(player.bn.allowFlying, null);
-/*     */           }
-/* 237 */           this.maxHealth = 25.0F;
-/* 238 */           setHealth(25.0F);
-/*     */         }
-/* 240 */         return true;
-/*     */       }
-/*     */     }
-/* 243 */     return super.a(player);
-/*     */   }
-/*     */ 
-/*     */   public void b(NBTTagByte nbttagcompound)
-/*     */   {
-/* 249 */     super.b(nbttagcompound);
-/* 250 */     if (this.nexus != null)
-/*     */     {
-/* 252 */       nbttagcompound.a("nexusX", this.nexus.getXCoord());
-/* 253 */       nbttagcompound.a("nexusY", this.nexus.getYCoord());
-/* 254 */       nbttagcompound.a("nexusZ", this.nexus.getZCoord());
-/*     */     }
-/* 256 */     nbttagcompound.a("nexusBound", this.ah.a(30));
-/*     */   }
-/*     */ 
-/*     */   public void a(NBTTagByte nbttagcompound)
-/*     */   {
-/* 262 */     super.a(nbttagcompound);
-/* 263 */     this.nexusX = nbttagcompound.e("nexusX");
-/* 264 */     this.nexusY = nbttagcompound.e("nexusY");
-/* 265 */     this.nexusZ = nbttagcompound.e("nexusZ");
-/* 266 */     this.ah.b(30, Byte.valueOf(nbttagcompound.c("nexusBound")));
-/* 267 */     this.loadedFromNBT = true;
-/*     */   }
-/*     */ 
-/*     */   public void l(boolean par1)
-/*     */   {
-/*     */   }
-/*     */ 
-/*     */   private void checkNexus()
-/*     */   {
-/* 277 */     if ((this.q != null) && (this.ah.a(30) == 1))
-/*     */     {
-/* 279 */       if (this.q.a(this.nexusX, this.nexusY, this.nexusZ) == mod_Invasion.blockNexus.cF) {
-/* 280 */         this.nexus = ((TileEntityNexus)this.q.r(this.nexusX, this.nexusY, this.nexusZ));
-/*     */       }
-/* 282 */       if (this.nexus == null)
-/* 283 */         this.ah.b(30, Byte.valueOf((byte)0));
-/*     */     }
-/*     */   }
-/*     */ 
-/*     */   private INexusAccess findNexus()
-/*     */   {
-/* 289 */     TileEntityNexus nexus = null;
-/* 290 */     int x = LongHashMapEntry.c(this.posX);
-/* 291 */     int y = LongHashMapEntry.c(this.posY);
-/* 292 */     int z = LongHashMapEntry.c(this.posZ);
-/* 293 */     for (int i = -7; i < 8; i++)
-/*     */     {
-/* 295 */       for (int j = -4; j < 5; j++)
-/*     */       {
-/* 297 */         for (int k = -7; k < 8; k++)
-/*     */         {
-/* 299 */           if (this.q.a(x + i, y + j, z + k) == mod_Invasion.blockNexus.cF)
-/*     */           {
-/* 301 */             nexus = (TileEntityNexus)this.q.r(x + i, y + j, z + k);
-/* 302 */             break;
-/*     */           }
-/*     */         }
-/*     */       }
-/*     */     }
-/*     */ 
-/* 308 */     return nexus;
-/*     */   }
-/*     */ }
+package invmod.common.entity;
 
-/* Location:           C:\Users\PsiCoTix\Downloads\_NOOBHAUS\MCDev\DeOp\DeOpInvasionMod.zip
- * Qualified Name:     invmod.common.entity.EntityIMWolf
- * JD-Core Version:    0.6.2
- */
+import invmod.common.mod_Invasion;
+import invmod.common.nexus.INexusAccess;
+import invmod.common.nexus.SpawnPoint;
+import invmod.common.nexus.SpawnType;
+import invmod.common.nexus.TileEntityNexus;
+import invmod.common.util.ComparatorDistanceFrom;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import net.minecraft.block.Block;
+import net.minecraft.entity.DataWatcher;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.ai.EntityAISit;
+import net.minecraft.entity.ai.EntityAITasks;
+import net.minecraft.entity.item.EntityXPOrb;
+import net.minecraft.entity.monster.IMob;
+import net.minecraft.entity.passive.EntityTameable;
+import net.minecraft.entity.passive.EntityWolf;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.MathHelper;
+import net.minecraft.world.World;
+
+public class EntityIMWolf extends EntityWolf
+{
+  private static final int META_BOUND = 30;
+  private INexusAccess nexus;
+  private int nexusX;
+  private int nexusY;
+  private int nexusZ;
+  private int updateTimer;
+  private boolean loadedFromNBT;
+  private float maxHealth;
+
+  public EntityIMWolf(World world)
+  {
+    this(world, null);
+  }
+
+  public EntityIMWolf(EntityWolf wolf, INexusAccess nexus)
+  {
+    this(wolf.worldObj, nexus);
+    this.loadedFromNBT = false;
+    setPositionAndRotation(wolf.posX, wolf.posY, wolf.posZ, wolf.rotationYaw, wolf.rotationPitch);
+    this.dataWatcher.updateObject(16, Byte.valueOf(wolf.getDataWatcher().getWatchableObjectByte(16)));
+    this.dataWatcher.updateObject(17, wolf.getDataWatcher().getWatchableObjectString(17));
+    this.dataWatcher.updateObject(18, Float.valueOf(wolf.getDataWatcher().func_111145_d(18)));
+    this.aiSit.setSitting(isSitting());
+  }
+
+  public EntityIMWolf(World world, INexusAccess nexus)
+  {
+    super(world);
+    this.targetTasks.addTask(5, new EntityAINearestAttackableTarget(this, IMob.class, 0, true));
+    setEntityHealth(getMaxHealth());
+    this.dataWatcher.addObject(30, Byte.valueOf((byte)0));
+    this.nexus = nexus;
+    if (nexus != null)
+    {
+      this.nexusX = nexus.getXCoord();
+      this.nexusY = nexus.getYCoord();
+      this.nexusZ = nexus.getZCoord();
+      this.dataWatcher.updateObject(30, Byte.valueOf((byte)1));
+    }
+  }
+
+  public void onEntityUpdate()
+  {
+    super.onEntityUpdate();
+    if (this.loadedFromNBT)
+    {
+      this.loadedFromNBT = false;
+      checkNexus();
+    }
+
+    if ((!this.worldObj.isRemote) && (this.updateTimer++ > 40))
+      checkNexus();
+  }
+
+  public boolean attackEntityAsMob(Entity par1Entity)
+  {
+    int damage = isTamed() ? 4 : 2;
+    if ((par1Entity instanceof IMob))
+      damage *= 2;
+    boolean success = par1Entity.attackEntityFrom(DamageSource.causeMobDamage(this), damage);
+    if (success) {
+      heal(4.0F);
+    }
+    return success;
+  }
+
+  public float getMaxHealth()
+  {
+    return !isTamed() ? 8.0F : 25.0F;
+  }
+
+  public int getCollarColor()
+  {
+    return this.dataWatcher.getWatchableObjectByte(30) == 1 ? 10 : 1;
+  }
+
+  protected String getHurtSound()
+  {
+    if ((getAttackTarget() instanceof IMob)) {
+      return "mob.wolf.growl";
+    }
+    return "mob.wolf.hurt";
+  }
+
+  protected void onDeathUpdate()
+  {
+    this.deathTime += 1;
+    if (this.deathTime == 120)
+    {
+      int i;
+      if ((!this.worldObj.isRemote) && ((this.recentlyHit > 0) || (isPlayer())) && (!isChild()))
+      {
+        for (i = getExperiencePoints(this.attackingPlayer); i > 0; )
+        {
+          int k = EntityXPOrb.getXPSplit(i);
+          i -= k;
+          this.worldObj.spawnEntityInWorld(new EntityXPOrb(this.worldObj, this.posX, this.posY, this.posZ, k));
+        }
+      }
+
+      setDead();
+      for (int j = 0; j < 20; j++)
+      {
+        double d = this.rand.nextGaussian() * 0.02D;
+        double d1 = this.rand.nextGaussian() * 0.02D;
+        double d2 = this.rand.nextGaussian() * 0.02D;
+        this.worldObj.spawnParticle("explode", this.posX + this.rand.nextFloat() * this.width * 2.0F - this.width, this.posY + this.rand.nextFloat() * this.height, this.posZ + this.rand.nextFloat() * this.width * 2.0F - this.width, d, d1, d2);
+      }
+    }
+  }
+
+  public void setDead()
+  {
+    respawnAtNexus();
+    this.isDead = true;
+  }
+
+  public void setEntityHealth(float par1)
+  {
+    this.dataWatcher.updateObject(6, Float.valueOf(MathHelper.clamp_float(par1, 0.0F, getMaxHealth())));
+  }
+
+  public boolean respawnAtNexus()
+  {
+    if ((!this.worldObj.isRemote) && (this.dataWatcher.getWatchableObjectByte(30) == 1) && (this.nexus != null))
+    {
+      EntityIMWolf wolfRecreation = new EntityIMWolf(this, this.nexus);
+
+      int x = this.nexus.getXCoord();
+      int y = this.nexus.getYCoord();
+      int z = this.nexus.getZCoord();
+      List spawnPoints = new ArrayList();
+      setRotation(0.0F, 0.0F);
+      for (int vertical = 0; vertical < 3; vertical = vertical > 0 ? vertical * -1 : vertical * -1 + 1)
+      {
+        for (int i = -4; i < 5; i++)
+        {
+          for (int j = -4; j < 5; j++)
+          {
+            wolfRecreation.setPosition(x + i + 0.5F, y + vertical, z + j + 0.5F);
+            if (wolfRecreation.getCanSpawnHere())
+              spawnPoints.add(new SpawnPoint(x + i, y + vertical, z + i, 0, SpawnType.WOLF));
+          }
+        }
+      }
+      Collections.sort(spawnPoints, new ComparatorDistanceFrom(x, y, z));
+
+      if (spawnPoints.size() > 0)
+      {
+        SpawnPoint point = (SpawnPoint)spawnPoints.get(spawnPoints.size() / 2);
+        wolfRecreation.setPosition(point.getXCoord() + 0.5D, point.getYCoord(), point.getZCoord() + 0.5D);
+        wolfRecreation.heal(60.0F);
+        this.worldObj.spawnEntityInWorld(wolfRecreation);
+        return true;
+      }
+    }
+    mod_Invasion.log("No respawn spot for wolf");
+    return false;
+  }
+
+  public boolean getCanSpawnHere()
+  {
+    return (this.worldObj.checkNoEntityCollision(this.boundingBox)) && (this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).size() == 0) && (!this.worldObj.isAnyLiquid(this.boundingBox));
+  }
+
+  public boolean interact(EntityPlayer player)
+  {
+    ItemStack itemstack = player.inventory.getCurrentItem();
+    if (itemstack != null)
+    {
+      if ((itemstack.itemID == Item.bone.itemID) && (player.username.equalsIgnoreCase(getOwnerName())) && (this.dataWatcher.getWatchableObjectByte(30) == 1))
+      {
+        this.dataWatcher.updateObject(30, Byte.valueOf((byte)0));
+        this.nexus = null;
+
+        itemstack.stackSize -= 1;
+        if (itemstack.stackSize <= 0)
+          player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+        return false;
+      }
+      if ((itemstack.itemID == mod_Invasion.itemStrangeBone.itemID) && (player.username.equalsIgnoreCase(getOwnerName())))
+      {
+        INexusAccess newNexus = findNexus();
+        if ((newNexus != null) && (newNexus != this.nexus))
+        {
+          this.nexus = newNexus;
+          this.dataWatcher.updateObject(30, Byte.valueOf((byte)1));
+          this.nexusX = this.nexus.getXCoord();
+          this.nexusY = this.nexus.getYCoord();
+          this.nexusZ = this.nexus.getZCoord();
+
+          itemstack.stackSize -= 1;
+          if (itemstack.stackSize <= 0) {
+            player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+          }
+          this.maxHealth = 25.0F;
+          setEntityHealth(25.0F);
+        }
+        return true;
+      }
+    }
+    return super.interact(player);
+  }
+
+  public void writeEntityToNBT(NBTTagCompound nbttagcompound)
+  {
+    super.writeEntityToNBT(nbttagcompound);
+    if (this.nexus != null)
+    {
+      nbttagcompound.setInteger("nexusX", this.nexus.getXCoord());
+      nbttagcompound.setInteger("nexusY", this.nexus.getYCoord());
+      nbttagcompound.setInteger("nexusZ", this.nexus.getZCoord());
+    }
+    nbttagcompound.setByte("nexusBound", this.dataWatcher.getWatchableObjectByte(30));
+  }
+
+  public void readEntityFromNBT(NBTTagCompound nbttagcompound)
+  {
+    super.readEntityFromNBT(nbttagcompound);
+    this.nexusX = nbttagcompound.getInteger("nexusX");
+    this.nexusY = nbttagcompound.getInteger("nexusY");
+    this.nexusZ = nbttagcompound.getInteger("nexusZ");
+    this.dataWatcher.updateObject(30, Byte.valueOf(nbttagcompound.getByte("nexusBound")));
+    this.loadedFromNBT = true;
+  }
+
+  public void setAngry(boolean par1)
+  {
+  }
+
+  private void checkNexus()
+  {
+    if ((this.worldObj != null) && (this.dataWatcher.getWatchableObjectByte(30) == 1))
+    {
+      if (this.worldObj.getBlockId(this.nexusX, this.nexusY, this.nexusZ) == mod_Invasion.blockNexus.blockID) {
+        this.nexus = ((TileEntityNexus)this.worldObj.getBlockTileEntity(this.nexusX, this.nexusY, this.nexusZ));
+      }
+      if (this.nexus == null)
+        this.dataWatcher.updateObject(30, Byte.valueOf((byte)0));
+    }
+  }
+
+  private INexusAccess findNexus()
+  {
+    TileEntityNexus nexus = null;
+    int x = MathHelper.floor_double(this.posX);
+    int y = MathHelper.floor_double(this.posY);
+    int z = MathHelper.floor_double(this.posZ);
+    for (int i = -7; i < 8; i++)
+    {
+      for (int j = -4; j < 5; j++)
+      {
+        for (int k = -7; k < 8; k++)
+        {
+          if (this.worldObj.getBlockId(x + i, y + j, z + k) == mod_Invasion.blockNexus.blockID)
+          {
+            nexus = (TileEntityNexus)this.worldObj.getBlockTileEntity(x + i, y + j, z + k);
+            break;
+          }
+        }
+      }
+    }
+
+    return nexus;
+  }
+}

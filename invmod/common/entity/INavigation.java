@@ -1,7 +1,7 @@
 package invmod.common.entity;
 
 import invmod.common.INotifyTask;
-import net.minecraft.src.nm;
+import net.minecraft.entity.Entity;
 
 public abstract interface INavigation extends INotifyTask
 {
@@ -17,11 +17,11 @@ public abstract interface INavigation extends INotifyTask
 
   public abstract boolean tryMoveTowardsXZ(double paramDouble1, double paramDouble2, int paramInt1, int paramInt2, int paramInt3, float paramFloat);
 
-  public abstract Path getPathToEntity(nm paramnm, float paramFloat);
+  public abstract Path getPathToEntity(Entity paramEntity, float paramFloat);
 
-  public abstract boolean tryMoveToEntity(nm paramnm, float paramFloat1, float paramFloat2);
+  public abstract boolean tryMoveToEntity(Entity paramEntity, float paramFloat1, float paramFloat2);
 
-  public abstract void autoPathToEntity(nm paramnm);
+  public abstract void autoPathToEntity(Entity paramEntity);
 
   public abstract boolean setPath(Path paramPath, float paramFloat);
 
@@ -43,12 +43,7 @@ public abstract interface INavigation extends INotifyTask
 
   public abstract void haltForTick();
 
-  public abstract nm getTargetEntity();
+  public abstract Entity getTargetEntity();
 
   public abstract String getStatus();
 }
-
-/* Location:           C:\Users\PsiCoTix\Downloads\_NOOBHAUS\MCDev\DeOp\DeOpInvasionMod.zip
- * Qualified Name:     invmod.common.entity.INavigation
- * JD-Core Version:    0.6.2
- */

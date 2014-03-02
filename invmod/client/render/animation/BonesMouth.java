@@ -1,11 +1,6 @@
-/*   */ package invmod.client.render.animation;
-/*   */ 
-/*   */ public enum BonesMouth
-/*   */ {
-/* 5 */   UPPER_MOUTH, LOWER_MOUTH;
-/*   */ }
+package invmod.client.render.animation;
 
-/* Location:           C:\Users\PsiCoTix\Downloads\_NOOBHAUS\MCDev\DeOp\DeOpInvasionMod.zip
- * Qualified Name:     invmod.client.render.animation.BonesMouth
- * JD-Core Version:    0.6.2
- */
+public enum BonesMouth
+{
+  UPPER_MOUTH, LOWER_MOUTH;
+}
