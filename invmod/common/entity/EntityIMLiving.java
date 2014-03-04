@@ -29,7 +29,8 @@ import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public abstract class EntityIMLiving extends EntityCreature implements IMob, IPathfindable, IPosition, IHasNexus, SparrowAPI {
+public abstract class EntityIMLiving extends EntityCreature implements IMob, IPathfindable, IPosition, IHasNexus, SparrowAPI 
+{
 	private final NavigatorIM bo;
 	private final PathNavigateAdapter oldNavAdapter;
 	private PathCreator pathSource;
@@ -105,11 +106,13 @@ public abstract class EntityIMLiving extends EntityCreature implements IMob, IPa
 	private static final Map<Integer, BlockSpecial> blockSpecials = new HashMap();
 	private static final Map<Integer, Integer> blockType = new HashMap();
 
-	public EntityIMLiving(World world) {
+	public EntityIMLiving(World world) 
+	{
 		this(world, null);
 	}
 
-	public EntityIMLiving(World world, INexusAccess nexus) {
+	public EntityIMLiving(World world, INexusAccess nexus) 
+	{
 		super(world);
 		this.targetNexus = nexus;
 		this.currentGoal = Goal.NONE;
@@ -144,7 +147,7 @@ public abstract class EntityIMLiving extends EntityCreature implements IMob, IPa
 		this.attackStrength = 2;
 		this.attackRange = 0.0F;
 		setMaxHealth(20.0F);
-		setEntityHealth(20.0F);
+		setHealth(20.0F);
 		this.selfDamage = 2;
 		this.maxSelfDamage = 6;
 		this.flammability = 2;
@@ -527,21 +530,13 @@ public abstract class EntityIMLiving extends EntityCreature implements IMob, IPa
 		return this.attackRange;
 	}
 
-	public float getMaxHealth() {
-		return getMaxHealth();
-	}
-
-	public float getHealth() {
-		return getHealth();
-	}
-
 	public void setMaxHealth(float health) {
 		this.maxHealth = health;
 	}
 
 	public void setMaxHealthAndHealth(float health) {
 		this.maxHealth = health;
-		setEntityHealth(health);
+		setHealth(health);
 	}
 
 	public boolean getCanSpawnHere() {

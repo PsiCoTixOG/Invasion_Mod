@@ -54,7 +54,7 @@ public class EntityIMWolf extends EntityWolf
     setPositionAndRotation(wolf.posX, wolf.posY, wolf.posZ, wolf.rotationYaw, wolf.rotationPitch);
     this.dataWatcher.updateObject(16, Byte.valueOf(wolf.getDataWatcher().getWatchableObjectByte(16)));
     this.dataWatcher.updateObject(17, wolf.getDataWatcher().getWatchableObjectString(17));
-    this.dataWatcher.updateObject(18, Float.valueOf(wolf.getDataWatcher().func_111145_d(18)));
+    this.dataWatcher.updateObject(18, Float.valueOf(wolf.getDataWatcher().getWatchableObjectFloat(18)));
     this.aiSit.setSitting(isSitting());
   }
 

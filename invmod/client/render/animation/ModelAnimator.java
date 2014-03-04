@@ -25,7 +25,7 @@ public class ModelAnimator<T extends Enum<T>> {
 		this.animationPeriod = animation.getAnimationPeriod();
 		this.parts = new ArrayList(((Enum[]) animation.getSkeletonType().getEnumConstants()).length);
 		for (Map.Entry entry : modelParts.entrySet()) {
-			List keyFrames = animation.getKeyFramesFor((Enum) entry.getKey());
+			List keyFrames = animation.getKeyFramesFor((T) entry.getKey());
 			if (keyFrames != null) {
 				this.parts.add(new Triplet(entry.getValue(), Integer.valueOf(0), keyFrames));
 			}
