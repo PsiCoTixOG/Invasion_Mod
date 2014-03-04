@@ -272,14 +272,18 @@ public class IMWaveSpawner implements ISpawnerAccess {
 
 		}
 
-		if (spawnPoints.size() > 15) {
+		if (spawnPoints.size() > 15) 
+		{
+			int i;
 			int amountToRemove = (int) ((spawnPoints.size() - 15) * 0.3F);
-			for (int i = spawnPoints.size() - 1; i >= spawnPoints.size() - amountToRemove; i--) {
+			for (i = spawnPoints.size() - 1; i >= spawnPoints.size() - amountToRemove; i--) 
+				{
 				if (Math.abs(((SpawnPoint) spawnPoints.get(i)).getYCoord() - y) < 30) {
 					break;
 				}
 			}
-			for (; i >= 20; i--) {
+			for (; i >= 20; i--) 
+			{
 				SpawnPoint spawnPoint = (SpawnPoint) spawnPoints.get(i);
 				if (spawnPoint.getYCoord() - y <= 35) {
 					this.spawnPointContainer.addSpawnPointXZ(spawnPoint);

@@ -808,11 +808,15 @@ public class TileEntityNexus extends TileEntity implements INexusAccess, IInvent
 
 	private void bindPlayers() {
 		List players = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.boundingBoxToRadius);
-		for (EntityPlayer entityPlayer : players) {
+		for (EntityPlayer entityPlayer : players) 
+		{
 			long time = System.currentTimeMillis();
-			if (!this.boundPlayers.containsKey(entityPlayer.username)) {
+			if (!this.boundPlayers.containsKey(entityPlayer.username)) 
+			{
 				mod_Invasion.broadcastToAll(entityPlayer.username + (entityPlayer.username.toLowerCase().endsWith("s") ? "'" : "'s") + " life is now bound to the nexus");
-			} else if (time - ((Long) this.boundPlayers.get(entityPlayer.username)).longValue() > 300000L) {
+			} 
+			else if (time - ((Long) this.boundPlayers.get(entityPlayer.username)).longValue() > 300000L) 
+			{
 				mod_Invasion.broadcastToAll(entityPlayer.username + (entityPlayer.username.toLowerCase().endsWith("s") ? "'" : "'s") + " life is now bound to the nexus");
 			}
 			this.boundPlayers.put(entityPlayer.username, Long.valueOf(time));
