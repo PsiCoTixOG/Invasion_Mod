@@ -551,7 +551,8 @@ public class EntityIMZombie extends EntityIMMob implements ICanDig {
 		}
 
 		List entities = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(1.5D, 1.5D, 1.5D));
-		for (Entity entity : entities) {
+		for (Entity entity : entities) 
+		{
 			entity.setFire(8);
 		}
 		attackEntityFrom(DamageSource.inFire, 500.0F);

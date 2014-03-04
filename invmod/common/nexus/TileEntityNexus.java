@@ -807,7 +807,7 @@ public class TileEntityNexus extends TileEntity implements INexusAccess, IInvent
 	}
 
 	private void bindPlayers() {
-		List players = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.boundingBoxToRadius);
+		List<EntityPlayer> players = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.boundingBoxToRadius);
 		for (EntityPlayer entityPlayer : players) 
 		{
 			long time = System.currentTimeMillis();
@@ -850,7 +850,7 @@ public class TileEntityNexus extends TileEntity implements INexusAccess, IInvent
 	private int acquireEntities() {
 		AxisAlignedBB bb = this.boundingBoxToRadius.expand(10.0D, 128.0D, 10.0D);
 
-		List entities = this.worldObj.getEntitiesWithinAABB(EntityIMLiving.class, bb);
+		List<EntityIMLiving> entities = this.worldObj.getEntitiesWithinAABB(EntityIMLiving.class, bb);
 		for (EntityIMLiving entity : entities) {
 			entity.acquiredByNexus(this);
 		}
@@ -893,7 +893,7 @@ public class TileEntityNexus extends TileEntity implements INexusAccess, IInvent
 	}
 
 	private void killAllMobs() {
-		List mobs = this.worldObj.getEntitiesWithinAABB(EntityIMLiving.class, this.boundingBoxToRadius);
+		List<EntityIMLiving> mobs = this.worldObj.getEntitiesWithinAABB(EntityIMLiving.class, this.boundingBoxToRadius);
 		for (EntityIMLiving mob : mobs) {
 			mob.attackEntityFrom(DamageSource.magic, 500.0F);
 		}

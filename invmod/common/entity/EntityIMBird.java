@@ -230,8 +230,9 @@ public class EntityIMBird extends EntityIMFlying
       if (entity != null)
       {
         double d0 = entity.posX - this.posX;
+        double d1 = entity.posZ - this.posZ;
 
-        for (double d1 = entity.posZ - this.posZ; d0 * d0 + d1 * d1 < 0.0001D; d1 = (Math.random() - Math.random()) * 0.01D)
+        for (d1 = entity.posZ - this.posZ; d0 * d0 + d1 * d1 < 0.0001D; d1 = (Math.random() - Math.random()) * 0.01D)
         {
           d0 = (Math.random() - Math.random()) * 0.01D;
         }

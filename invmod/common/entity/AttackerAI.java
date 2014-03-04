@@ -305,7 +305,7 @@ public class AttackerAI {
 
 	private void updateDensityData() {
 		this.entityDensityData.clearMap();
-		List mobs = this.nexus.getMobList();
+		List<EntityIMLiving> mobs = this.nexus.getMobList();
 		for (EntityIMLiving mob : mobs) {
 			int coordHash = PathNode.makeHash(mob.getXCoord(), mob.getYCoord(), mob.getZCoord(), PathAction.NONE);
 			if (this.entityDensityData.containsItem(coordHash)) {

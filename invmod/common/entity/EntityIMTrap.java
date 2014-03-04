@@ -95,7 +95,7 @@ public class EntityIMTrap extends Entity
       return;
     }
 
-    List entities = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, this.boundingBox);
+    List<EntityLivingBase> entities = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, this.boundingBox);
     if ((entities.size() > 0) && (!this.isEmpty))
     {
       for (EntityLivingBase entity : entities)
@@ -119,7 +119,7 @@ public class EntityIMTrap extends Entity
     {
       triggerEntity.attackEntityFrom(DamageSource.magic, (triggerEntity instanceof EntityPlayer) ? 12.0F : 38.0F);
 
-      List entities = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(1.899999976158142D, 1.0D, 1.899999976158142D));
+      List<EntityLivingBase> entities = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(1.899999976158142D, 1.0D, 1.899999976158142D));
       for (Entity entity : entities)
       {
         entity.attackEntityFrom(DamageSource.magic, 8.0F);
@@ -239,7 +239,7 @@ public class EntityIMTrap extends Entity
       }
     }
 
-    List entities = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(size, size, size));
+    List<EntityLivingBase> entities = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(size, size, size));
     for (Entity entity : entities)
     {
       entity.setFire(8);
