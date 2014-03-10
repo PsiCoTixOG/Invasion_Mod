@@ -134,8 +134,8 @@ public class SimplyID
     return loadedIDs;
   }
 
-  public static void setLoadedIDs(Set<String> loadedIDs) {
-    loadedIDs = loadedIDs;
+  public static void setLoadedIDs(Set<String> _loadedIDs) {
+    loadedIDs = _loadedIDs;
   }
 
   public static void addID(String newID) {
