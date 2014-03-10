@@ -414,7 +414,7 @@ public class NavigatorIM implements INotifyTask, INavigation {
 			wantsUpdate = true;
 		} else {
 			double d1 = Distance.distanceBetween(this.pathEndEntity, this.pathEndEntityLastPos);
-			double d2 = 6.0D + Distance.distanceBetween(this.theEntity, this.pathEndEntityLastPos);
+			double d2 = 6.0D + Distance.distanceBetween((Entity)this.theEntity, this.pathEndEntityLastPos);
 			if (d1 / d2 > 0.1D)
 				wantsUpdate = true;
 			else {
