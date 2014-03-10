@@ -117,7 +117,7 @@ public class NavigatorFlying extends NavigatorIM implements INavigationFlying {
 				pathUpdate = true;
 			} else {
 				double d1 = Distance.distanceBetween(this.pathEndEntity, this.pathEndEntityLastPos);
-				double d2 = Distance.distanceBetween(this.theEntity, this.pathEndEntityLastPos);
+				double d2 = Distance.distanceBetween((Entity)this.theEntity, this.pathEndEntityLastPos);
 				if (d1 / d2 > 0.1D) {
 					pathUpdate = true;
 				}
