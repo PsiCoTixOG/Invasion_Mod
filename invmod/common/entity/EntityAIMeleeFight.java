@@ -64,9 +64,9 @@ public class EntityAIMeleeFight<T extends EntityLivingBase> extends EntityAIMele
 	}
 
 	protected void attackEntity(EntityLivingBase target) {
-		float h = target.func_110143_aJ();
+		float h = target.getHealth();
 		super.attackEntity(target);
-		h -= target.func_110143_aJ();
+		h -= target.getHealth();
 		if (h <= 0.0F) {
 			this.invulnCount += 1;
 		}
