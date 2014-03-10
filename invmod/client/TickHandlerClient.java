@@ -8,11 +8,11 @@ import java.util.EnumSet;
 public class TickHandlerClient
   implements ITickHandler
 {
-  public void tickStart(EnumSet<TickType> type, Object[] tickData)
+  public void tickStart(EnumSet<TickType> type, Object...tickData)
   {
   }
 
-  public void tickEnd(EnumSet<TickType> type, Object[] tickData)
+  public void tickEnd(EnumSet<TickType> type, Object...tickData)
   {
     if (type.contains(TickType.CLIENT))
     {
