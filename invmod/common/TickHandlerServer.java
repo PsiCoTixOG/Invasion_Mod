@@ -10,11 +10,11 @@ public class TickHandlerServer
   private int elapsed;
   private long timer;
 
-  public void tickStart(EnumSet<TickType> type, Object[] tickData)
+  public void tickStart(EnumSet<TickType> type, Object...tickData)
   {
   }
 
-  public void tickEnd(EnumSet<TickType> type, Object[] tickData)
+  public void tickEnd(EnumSet<TickType> type, Object...tickData)
   {
     if (type.contains(TickType.SERVER))
     {
