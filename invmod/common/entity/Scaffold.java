@@ -275,7 +275,7 @@ public class Scaffold
       minDistance = this.nexus.getAttackerAI().getMinDistanceBetweenScaffolds();
       for (int sl = scaffolds.size()-1; sl >= 0; sl--)
       {
-        Scaffold scaffold = scaffolds.get(sl);
+        Scaffold scaffold = (Scaffold) scaffolds.get(sl);
         if (Distance.distanceBetween(scaffold, currentNode.xCoord, currentNode.yCoord, currentNode.zCoord) < minDistance) {
           return;
         }
