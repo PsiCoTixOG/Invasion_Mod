@@ -24,7 +24,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class EntityIMZombie extends EntityIMMob implements ICanDig {
+public class EntityIMZombie extends EntityIMMob implements ICanDig 
+{
 	private static final int META_CHANGED = 29;
 	private static final int META_TIER = 30;
 	private static final int META_TEXTURE = 31;
@@ -536,15 +537,20 @@ public class EntityIMZombie extends EntityIMMob implements ICanDig {
 		}
 	}
 
-	private void doFireball() {
+	private void doFireball() 
+	{
 		int x = MathHelper.floor_double(this.posX);
 		int y = MathHelper.floor_double(this.posY);
 		int z = MathHelper.floor_double(this.posZ);
-		for (int i = -1; i < 2; i++) {
-			for (int j = -1; j < 2; j++) {
-				for (int k = -1; k < 2; k++) {
-					if ((this.worldObj.getBlockId(x + i, y + j, z + k) == 0) || (this.worldObj.getBlockMaterial(x + i, y + j, z + k).getCanBurn())) {
-						this.worldObj.setBlock(x + i, y + j, z + k, Block.fire.blockID);
+		int ii;
+		for (ii = -1; ii < 2; ii++) 
+		{
+			for (int j = -1; j < 2; j++) 
+			{
+				for (int k = -1; k < 2; k++) 
+				{
+					if ((this.worldObj.getBlockId(x + ii, y + j, z + k) == 0) || (this.worldObj.getBlockMaterial(x + ii, y + j, z + k).getCanBurn())) {
+						this.worldObj.setBlock(x + ii, y + j, z + k, Block.fire.blockID);
 					}
 				}
 			}
@@ -553,7 +559,7 @@ public class EntityIMZombie extends EntityIMMob implements ICanDig {
 		List entities = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(1.5D, 1.5D, 1.5D));
 		for (int el=entities.size()-1; el >= 0; el--) 
 		{
-			Entity entity = entities.get(i);
+			Entity entity = (Entity) entities.get(ii);
 			entity.setFire(8);
 		}
 		attackEntityFrom(DamageSource.inFire, 500.0F);

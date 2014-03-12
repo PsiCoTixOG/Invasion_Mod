@@ -20,7 +20,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class EntityIMPigEngy extends EntityIMMob implements ICanDig {
+public class EntityIMPigEngy extends EntityIMMob implements ICanDig 
+{
 	private static final ItemStack itemLadder;
 	private static final ItemStack itemPick;
 	private static final ItemStack itemHammer;
@@ -39,7 +40,8 @@ public class EntityIMPigEngy extends EntityIMMob implements ICanDig {
 	private TerrainBuilder terrainBuilder;
 	private ItemStack currentItem;
 
-	public EntityIMPigEngy(World world, INexusAccess nexus) {
+	public EntityIMPigEngy(World world, INexusAccess nexus) 
+	{
 		super(world, nexus);
 
 		IPathSource pathSource = getPathSource();
@@ -81,11 +83,13 @@ public class EntityIMPigEngy extends EntityIMMob implements ICanDig {
 			setCurrentItem(itemLadder);
 	}
 
-	public EntityIMPigEngy(World world) {
+	public EntityIMPigEngy(World world) 
+	{
 		this(world, null);
 	}
 
-	protected void setAI() {
+	protected void setAI() 
+	{
 		this.c = new EntityAITasks(this.worldObj.theProfiler);
 		this.c.addTask(0, new EntityAIKillEntity(this, EntityPlayer.class, 60));
 		this.c.addTask(1, new EntityAIAttackNexus(this));
@@ -100,12 +104,14 @@ public class EntityIMPigEngy extends EntityIMMob implements ICanDig {
 		this.d.addTask(3, new EntityAIHurtByTarget(this, false));
 	}
 
-	public void updateAITasks() {
+	public void updateAITasks() 
+	{
 		super.updateAITasks();
 		this.terrainModifier.onUpdate();
 	}
 
-	public void updateAITick() {
+	public void updateAITick() 
+	{
 		super.updateAITick();
 		this.terrainBuilder.setBuildRate(1.0F + this.supportThisTick * 0.33F);
 
@@ -125,16 +131,19 @@ public class EntityIMPigEngy extends EntityIMMob implements ICanDig {
 		}
 	}
 
-	public void onLivingUpdate() {
+	public void onLivingUpdate() 
+	{
 		super.onLivingUpdate();
 		updateAnimation();
 	}
 
-	public void onPathSet() {
+	public void onPathSet() 
+	{
 		this.terrainModifier.cancelTask();
 	}
 
-	public PathNavigateAdapter getNavigator() {
+	public PathNavigateAdapter getNavigator() 
+	{
 		return this.oldNavAdapter;
 	}
 
