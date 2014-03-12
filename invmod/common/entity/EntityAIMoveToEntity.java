@@ -3,7 +3,8 @@ package invmod.common.entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
 
-public class EntityAIMoveToEntity<T extends EntityLivingBase> extends EntityAIBase {
+public class EntityAIMoveToEntity<T extends EntityLivingBase> extends EntityAIBase 
+{
 	private EntityIMLiving theEntity;
 	private T targetEntity;
 	private Class<? extends T> targetClass;
@@ -15,7 +16,7 @@ public class EntityAIMoveToEntity<T extends EntityLivingBase> extends EntityAIBa
 	private int pathFailedCount;
 
 	public EntityAIMoveToEntity(EntityIMLiving entity) {
-		this(entity, EntityLivingBase.class);
+		this(entity, (Class<? extends T>) EntityLivingBase.class);
 	}
 
 	public EntityAIMoveToEntity(EntityIMLiving entity, Class<? extends T> target) {
@@ -31,7 +32,7 @@ public class EntityAIMoveToEntity<T extends EntityLivingBase> extends EntityAIBa
 		if (--this.pathRequestTimer <= 0) {
 			EntityLivingBase target = this.theEntity.getAttackTarget();
 			if ((target != null) && (this.targetClass.isAssignableFrom(this.theEntity.getAttackTarget().getClass()))) {
-				this.targetEntity = ((EntityLivingBase) this.targetClass.cast(target));
+				this.targetEntity = (T) ((EntityLivingBase) this.targetClass.cast(target));
 				return true;
 			}
 		}

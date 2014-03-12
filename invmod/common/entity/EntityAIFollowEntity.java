@@ -1,15 +1,15 @@
 package invmod.common.entity;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 
-public class EntityAIFollowEntity<T extends EntityLiving> extends EntityAIMoveToEntity<T>
+public class EntityAIFollowEntity<T extends EntityLivingBase> extends EntityAIMoveToEntity<T>
 {
   private float followDistanceSq;
 
   public EntityAIFollowEntity(EntityIMLiving entity, float followDistance)
   {
-    this(entity, EntityLiving.class, followDistance);
+    this(entity, (Class<? extends T>) EntityLivingBase.class, followDistance);
   }
 
   public EntityAIFollowEntity(EntityIMLiving entity, Class<? extends T> target, float followDistance)

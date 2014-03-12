@@ -29,8 +29,7 @@ public class FiniteSelectionPool<T> implements ISelect<T> {
 		this.originalAmount = (this.totalAmount += amount);
 	}
 
-	public T selectNext() 
-	{
+	public T selectNext() {
 		if (this.totalAmount < 1) {
 			regeneratePool();
 		}
@@ -40,7 +39,7 @@ public class FiniteSelectionPool<T> implements ISelect<T> {
 			if (r < amountLeft) {
 				entry.setVal2(Integer.valueOf(amountLeft - 1));
 				this.totalAmount -= 1;
-				return ((ISelect) entry.getVal1()).selectNext();
+				return (T) ((ISelect) entry.getVal1()).selectNext();
 			}
 
 			r -= amountLeft;
@@ -49,8 +48,7 @@ public class FiniteSelectionPool<T> implements ISelect<T> {
 		return null;
 	}
 
-	public FiniteSelectionPool<T> clone() 
-	{
+	public FiniteSelectionPool<T> clone() {
 		FiniteSelectionPool clone = new FiniteSelectionPool();
 		for (int i = 0; i < this.currentPool.size(); i++) {
 			clone.addEntry((ISelect) ((Pair) this.currentPool.get(i)).getVal1(), ((Integer) this.originalPool.get(i)).intValue());
