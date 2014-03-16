@@ -36,8 +36,8 @@ public abstract class EntityIMLiving extends EntityCreature implements IMob, IPa
 	private PathCreator pathSource;
 	protected Goal currentGoal;
 	protected Goal prevGoal;
-	protected EntityAITasks c;
-	protected EntityAITasks d;
+	protected EntityAITasks tasks;
+	protected EntityAITasks targetTasks;
 	private IMMoveHelper i;
 	private MoveState moveState;
 	private float rotationRoll;
@@ -118,8 +118,8 @@ public abstract class EntityIMLiving extends EntityCreature implements IMob, IPa
 		this.currentGoal = Goal.NONE;
 		this.prevGoal = Goal.NONE;
 		this.moveState = MoveState.STANDING;
-		this.c = new EntityAITasks(world.theProfiler);
-		this.d = new EntityAITasks(world.theProfiler);
+		this.tasks = new EntityAITasks(world.theProfiler);
+		this.targetTasks = new EntityAITasks(world.theProfiler);
 		this.pathSource = new PathCreator(700, 50);
 		this.bo = new NavigatorIM(this, this.pathSource);
 		this.oldNavAdapter = new PathNavigateAdapter(this.bo);
@@ -530,18 +530,22 @@ public abstract class EntityIMLiving extends EntityCreature implements IMob, IPa
 		return this.attackRange;
 	}
 
-	public void setMaxHealth(float health) {
+	public void setMaxHealth(float health) 
+	{
 		this.maxHealth = health;
 	}
 
-	public void setMaxHealthAndHealth(float health) {
+	public void setMaxHealthAndHealth(float health) 
+	{
 		this.maxHealth = health;
 		setHealth(health);
 	}
 
-	public boolean getCanSpawnHere() {
+	public boolean getCanSpawnHere() 
+	{
 		boolean lightFlag = false;
-		if ((this.nexusBound) || (getLightLevelBelow8())) {
+		if ((this.nexusBound) || (getLightLevelBelow8())) 
+		{
 			lightFlag = true;
 		}
 		return (super.getCanSpawnHere()) && (lightFlag) && (this.worldObj.isBlockNormalCube(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY + 0.5D) - 1, MathHelper.floor_double(this.posZ)));
@@ -889,9 +893,9 @@ public abstract class EntityIMLiving extends EntityCreature implements IMob, IPa
 		this.entityAge += 1;
 		despawnEntity();
 		getEntitySenses().clearSensingCache();
-		this.d.onUpdateTasks();
+		this.targetTasks.onUpdateTasks();
 		updateAITick();
-		this.c.onUpdateTasks();
+		this.tasks.onUpdateTasks();
 		getNavigatorNew().onUpdateNavigation();
 		getLookHelper().onUpdateLook();
 		getMoveHelper().onUpdateMoveHelper();

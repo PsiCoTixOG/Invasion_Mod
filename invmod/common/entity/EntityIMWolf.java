@@ -6,15 +6,18 @@ import invmod.common.nexus.SpawnPoint;
 import invmod.common.nexus.SpawnType;
 import invmod.common.nexus.TileEntityNexus;
 import invmod.common.util.ComparatorDistanceFrom;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.DataWatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISit;
 import net.minecraft.entity.ai.EntityAITasks;
@@ -99,9 +102,19 @@ public class EntityIMWolf extends EntityWolf
     return success;
   }
 
-  public float getMaxHealth()
+  protected void applyEntityAttributes()
   {
-    return !isTamed() ? 8.0F : 25.0F;
+      super.applyEntityAttributes();
+      this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.30000001192092896D);
+
+      if (this.isTamed())
+      {
+          this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(25.0D);
+      }
+      else
+      {
+          this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(8.0D);
+      }
   }
 
   public int getCollarColor()

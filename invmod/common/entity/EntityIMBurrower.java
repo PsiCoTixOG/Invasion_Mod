@@ -9,8 +9,9 @@ import net.minecraft.pathfinding.PathPoint;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-
-public class EntityIMBurrower extends EntityIMMob implements ICanDig {
+//NOOB HAUS: This one is done I think...
+public class EntityIMBurrower extends EntityIMMob implements ICanDig 
+{
 	public static final int NUMBER_OF_SEGMENTS = 16;
 	private final NavigatorBurrower bo;
 	private final PathNavigateAdapter oldNavAdapter;
@@ -26,11 +27,13 @@ public class EntityIMBurrower extends EntityIMMob implements ICanDig {
 	protected float prevRotY;
 	protected float prevRotZ;
 
-	public EntityIMBurrower(World world) {
+	public EntityIMBurrower(World world) 
+	{
 		this(world, null);
 	}
 
-	public EntityIMBurrower(World world, INexusAccess nexus) {
+	public EntityIMBurrower(World world, INexusAccess nexus) 
+	{
 		super(world, nexus);
 
 		IPathSource pathSource = getPathSource();
@@ -44,7 +47,7 @@ public class EntityIMBurrower extends EntityIMMob implements ICanDig {
 
 		setName("Burrower");
 		setGender(0);
-		setSize(0.5F, 0.5F);
+		this.setSize(0.5F, 0.5F);
 		setJumpHeight(0);
 		setCanClimb(true);
 		setDestructiveness(2);
