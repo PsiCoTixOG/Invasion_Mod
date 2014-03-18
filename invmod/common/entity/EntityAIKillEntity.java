@@ -8,7 +8,8 @@ public class EntityAIKillEntity<T extends EntityLivingBase> extends EntityAIMove
 	private int attackDelay;
 	private int nextAttack;
 
-	public EntityAIKillEntity(EntityIMLiving entity, Class<? extends T> targetClass, int attackDelay) {
+	public EntityAIKillEntity(EntityIMLiving entity, Class<? extends T> targetClass, int attackDelay)
+	{
 		super(entity, targetClass);
 		this.attackDelay = attackDelay;
 		this.nextAttack = 0;
