@@ -1,5 +1,12 @@
 package invmod.common;
 
+/* NOOB HAUS NOTES:
+ * PsiCoTix 03/17/2014
+ *   As this is a rather Complex Mod; and I'm a serious NOOB (snicker snicker)
+ *   I'm going to go thru this mammer jammer and fill it with comments explaining
+ *   as much as I can. Good way to learn it I hope?
+ */
+
 import invmod.client.BowHackHandler;
 import invmod.client.TickHandlerClient;
 import invmod.common.entity.EntityIMArrowOld;
@@ -78,10 +85,14 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 
+
+//NOOB HAUS: basic @Mod 
 @Mod(modid = "mod_Invasion", name = "Invasion", version = "0.12.0")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
-public class mod_Invasion {
+public class mod_Invasion 
+{
 
+	//NOOB HAUS: The client server Proxies, a packetHandler, soundHandler and then your basic render handler
 	@SidedProxy(clientSide = "invmod.client.PacketHandlerClient", serverSide = "invmod.common.PacketHandlerCommon")
 	public static PacketHandlerCommon packetHandler;
 
@@ -90,6 +101,8 @@ public class mod_Invasion {
 
 	@SidedProxy(clientSide = "invmod.client.ProxyClient", serverSide = "invmod.common.ProxyCommon")
 	public static ProxyCommon proxy;
+
+	
 	public static ResourceLoader resourceLoader;
 	public static GuiHandler guiHandler;
 	public static ConfigInvasion configInvasion;
@@ -111,6 +124,9 @@ public class mod_Invasion {
 	private static boolean soundInstalled = false;
 	public static final byte PACKET_SFX = 0;
 	public static final byte PACKET_INV_MOB_SPAWN = 2;
+	
+	/*NOOB HAUS: Default settings for blocks/items etc; used to write config (common.Config) on first run 
+	 */
 	private static final int DEFAULT_NEXUS_BLOCK_ID = 216;
 	private static final int DEFAULT_GUI_ID_NEXUS = 76;
 	private static final int DEFAULT_ITEM_ID_DEBUGWAND = 24399;
@@ -146,6 +162,9 @@ public class mod_Invasion {
 	public static final float[] DEFAULT_NIGHT_MOB_PATTERN_1_SLOT_WEIGHTS = { 1.0F, 1.0F, 0.5F, 0.0F, 0.0F, 0.0F };
 
 	public static final BowHackHandler bowHandler = new BowHackHandler();
+	
+	/*NOOB HAUS: Declare them values.. Declare em good
+	 */
 	private static boolean soundsEnabled;
 	private static boolean craftItemsEnabled;
 	private static boolean debugMode;
@@ -161,7 +180,11 @@ public class mod_Invasion {
 	private static int maxNightMobs;
 	private static float nightMobStatsScaling;
 	private static boolean nightMobsBurnInDay;
+	
+	//NOOB HAUS: The almighty Nexus Block Declaration
 	public static BlockNexus blockNexus;
+	
+	//NOOB HAUS: Item Declarations
 	public static Item itemPhaseCrystal;
 	public static Item itemRiftFlux;
 	public static Item itemRemnants;
@@ -179,6 +202,8 @@ public class mod_Invasion {
 	public static Item itemStrongCatalyst;
 	public static Item itemEngyHammer;
 	public static Item itemDebugWand;
+	
+	//NOOB HAUS: Wtf ?
 	public static mod_Invasion instance;
 
 	public mod_Invasion() 
@@ -191,10 +216,16 @@ public class mod_Invasion {
 		clientElapsed = 0L;
 		guiHandler = new GuiHandler();
 	}
+	//NOOB HAUS: End wtf? I am not certain what this method is for..
 
+	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) 
 	{
+		/*NOOB HAUS: Let the real fun begin!
+		 *
+		 *First up, we check for the config file, write it if it don't exsit; or capture and return an error to the log
+		 */
 		File logFile = proxy.getFile("/invasion_log.log");
 		try 
 		{
@@ -209,6 +240,7 @@ public class mod_Invasion {
 			log(e.getMessage());
 		}
 
+		//NOOB HAUS: Get the config file - store it into a variable; pass all that shiz thru common.configInvasion
 		configFile = proxy.getFile("/invasion_config.txt");
 
 		configInvasion = new ConfigInvasion();
@@ -224,13 +256,17 @@ public class mod_Invasion {
 		maxContinuousModeDays = configInvasion.getPropertyValueInt("max-days-to-attack", 3);
 
 		nightSpawnConfig();
-
+		 
+		//NOOB HAUS: Here a hashmap is done up for the block strength (what it takes for IM mob to dig thru it)
 		HashMap strengthOverrides = new HashMap();
-		for (int i = 1; i < 4096; i++) {
+		for (int i = 1; i < 4096; i++) 
+		{
 			String property = configInvasion.getProperty("block" + i + "-strength", "null");
-			if (property != "null") {
+			if (property != "null") 
+			{
 				float strength = Float.parseFloat(property);
-				if (strength > 0.0F) {
+				if (strength > 0.0F) 
+				{
 					strengthOverrides.put(Integer.valueOf(i), Float.valueOf(strength));
 					EntityIMLiving.putBlockStrength(i, strength);
 					float pathCost = 1.0F + strength * 0.4F;
@@ -241,12 +277,16 @@ public class mod_Invasion {
 		}
 
 		configInvasion.saveConfig(configFile, strengthOverrides, debugMode);
+		//NOOB HAUS: End of Config shinnanigans
 	}
 
 	@EventHandler
-	public void load(FMLInitializationEvent event) {
+	public void load(FMLInitializationEvent event) 
+	{
+		//NOOB HAUS: register sound handler
 		MinecraftForge.EVENT_BUS.register(soundHandler);
 
+		//NOOB HAUS: register moar all the handler
 		NetworkRegistry.instance().registerGuiHandler(instance, guiHandler);
 		NetworkRegistry.instance().registerChannel(packetHandler, "data");
 		TickRegistry.registerTickHandler(new TickHandlerClient(), Side.CLIENT);
@@ -257,10 +297,12 @@ public class mod_Invasion {
 		loadEntities();
 		loadNames();
 
-		if (craftItemsEnabled) {
+		if (craftItemsEnabled) 
+		{
 			addRecipes();
 		}
-		if (nightSpawnsEnabled) {
+		if (nightSpawnsEnabled) 
+		{
 			BiomeGenBase[] biomes = { BiomeGenBase.plains, BiomeGenBase.extremeHills, BiomeGenBase.forest, BiomeGenBase.taiga, BiomeGenBase.swampland, BiomeGenBase.forestHills, BiomeGenBase.taigaHills, BiomeGenBase.extremeHillsEdge, BiomeGenBase.jungle, BiomeGenBase.jungleHills };
 
 			EntityRegistry.addSpawn(EntityIMSpawnProxy.class, nightMobSpawnChance, 1, 1, EnumCreatureType.monster, biomes);
@@ -269,8 +311,10 @@ public class mod_Invasion {
 			EntityRegistry.addSpawn(EntitySkeleton.class, 1, 1, 1, EnumCreatureType.monster, biomes);
 		}
 
-		if (maxNightMobs != 70) {
-			try {
+		if (maxNightMobs != 70) 
+		{
+			try 
+			{
 				System.out.println(EnumCreatureType.monster.getMaxNumberOfCreature());
 				Class c = EnumCreatureType.class;
 				Object[] consts = c.getEnumConstants();
@@ -279,7 +323,9 @@ public class mod_Invasion {
 				field.setAccessible(true);
 				field.set(EnumCreatureType.monster, Integer.valueOf(maxNightMobs));
 				System.out.println(EnumCreatureType.monster.getMaxNumberOfCreature());
-			} catch (Exception e) {
+			} 
+			catch (Exception e) 
+			{
 				log(e.getMessage());
 			}
 		}
@@ -288,14 +334,17 @@ public class mod_Invasion {
 	}
 
 	@EventHandler
-	public void onServerStart(FMLServerStartingEvent event) {
+	public void onServerStart(FMLServerStartingEvent event) 
+	{
 		ICommandManager commandManager = FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager();
-		if ((commandManager instanceof CommandHandler)) {
+		if ((commandManager instanceof CommandHandler)) 
+		{
 			((CommandHandler) commandManager).registerCommand(new InvasionCommand());
 		}
 	}
 
-	protected void loadBlocks() {
+	protected void loadBlocks() 
+	{
 		blockNexus = new BlockNexus(configInvasion.getPropertyValueInt("blockID-Nexus", 216));
 		blockNexus.setResistance(6000000.0F).setHardness(3.0F).setStepSound(Block.soundGlassFootstep).setUnlocalizedName("blockNexus");
 		blockNexus.setCreativeTab(CreativeTabs.tabMisc);
@@ -379,7 +428,8 @@ public class mod_Invasion {
 		proxy.registerEntityRenderers();
 	}
 
-	protected void loadNames() {
+	protected void loadNames() 
+	{
 		LanguageRegistry.addName(blockNexus, "Nexus");
 		LanguageRegistry.addName(itemPhaseCrystal, "Phase Crystal");
 		LanguageRegistry.addName(itemNexusCatalyst, "Nexus Catalyst");
@@ -410,7 +460,8 @@ public class mod_Invasion {
 			LanguageRegistry.addName(itemDebugWand, "Debug Wand");
 	}
 
-	protected void addRecipes() {
+	protected void addRecipes() 
+	{
 		GameRegistry.addRecipe(new ItemStack(blockNexus, 1), new Object[] { " X ", "#D#", " # ", Character.valueOf('X'), itemPhaseCrystal, Character.valueOf('#'), Item.redstone, Character.valueOf('D'), Block.obsidian });
 
 		GameRegistry.addRecipe(new ItemStack(itemPhaseCrystal, 1), new Object[] { " X ", "#D#", " X ", Character.valueOf('X'), new ItemStack(Item.dyePowder, 1, 4), Character.valueOf('#'), Item.redstone, Character.valueOf('D'), Item.diamond });
@@ -461,7 +512,8 @@ public class mod_Invasion {
 		GameRegistry.addSmelting(itemStableCataMixture.itemID, new ItemStack(itemStableNexusCatalyst), 1.0F);
 	}
 
-	protected void nightSpawnConfig() {
+	protected void nightSpawnConfig() 
+	{
 		nightSpawnsEnabled = configInvasion.getPropertyValueBoolean("night-spawns-enabled", false);
 		nightMobSightRange = configInvasion.getPropertyValueInt("night-mob-sight-range", 20);
 		nightMobSenseRange = configInvasion.getPropertyValueInt("night-mob-sense-range", 8);
@@ -474,26 +526,37 @@ public class mod_Invasion {
 		float[] pool1Weights = new float[DEFAULT_NIGHT_MOB_PATTERN_1_SLOT_WEIGHTS.length];
 		RandomSelectionPool mobPool = new RandomSelectionPool();
 		nightSpawnPool1 = mobPool;
-		if (DEFAULT_NIGHT_MOB_PATTERN_1_SLOTS.length == DEFAULT_NIGHT_MOB_PATTERN_1_SLOT_WEIGHTS.length) {
-			for (int i = 0; i < DEFAULT_NIGHT_MOB_PATTERN_1_SLOTS.length; i++) {
+		if (DEFAULT_NIGHT_MOB_PATTERN_1_SLOTS.length == DEFAULT_NIGHT_MOB_PATTERN_1_SLOT_WEIGHTS.length) 
+		{
+			for (int i = 0; i < DEFAULT_NIGHT_MOB_PATTERN_1_SLOTS.length; i++) 
+			{
 				pool1Patterns[i] = configInvasion.getPropertyValueString("nm-spawnpool1-slot" + (1 + i), DEFAULT_NIGHT_MOB_PATTERN_1_SLOTS[i]);
 				pool1Weights[i] = configInvasion.getPropertyValueFloat("nm-spawnpool1-slot" + (1 + i) + "-weight", DEFAULT_NIGHT_MOB_PATTERN_1_SLOT_WEIGHTS[i]);
-				if (IMWaveBuilder.isPatternNameValid(pool1Patterns[i])) {
+				
+				if (IMWaveBuilder.isPatternNameValid(pool1Patterns[i])) 
+				{
 					log("Added entry for pattern 1 slot " + (i + 1));
 					mobPool.addEntry(IMWaveBuilder.getPattern(pool1Patterns[i]), pool1Weights[i]);
-				} else {
+				} 
+				else 
+				{
 					log("Pattern 1 slot " + (i + 1) + " in config not recognised. Proceeding as blank.");
 					configInvasion.setProperty("nm-spawnpool1-slot" + (1 + i), "none");
 				}
 			}
-		} else {
+		} 
+		else 
+		{
 			log("Mob pattern table element mismatch. Ensure each slot has a probability weight");
 		}
 	}
 
-	public static boolean onClientTick() {
-		if (runFlag) {
-			if ((soundsEnabled) && (!soundHandler.soundsInstalled())) {
+	public static boolean onClientTick() 
+	{
+		if (runFlag) 
+		{
+			if ((soundsEnabled) && (!soundHandler.soundsInstalled())) 
+			{
 				proxy.printGuiMessage("Invasion Mod Warning: Failed to auto-install sounds. You can disable this process in config or give a bug report");
 			}
 			runFlag = false;
@@ -502,8 +565,10 @@ public class mod_Invasion {
 		return true;
 	}
 
-	public static boolean onServerTick() {
-		if (serverRunFlag) {
+	public static boolean onServerTick() 
+	{
+		if (serverRunFlag)
+		{
 			timer = System.currentTimeMillis();
 			serverRunFlag = false;
 		}
@@ -511,23 +576,32 @@ public class mod_Invasion {
 		serverElapsed -= timer;
 		timer = System.currentTimeMillis();
 		serverElapsed += timer;
-		if (serverElapsed >= 100L) {
+		if (serverElapsed >= 100L) 
+		{
 			serverElapsed -= 100L;
 
-			if (loginFlag) {
+			if (loginFlag) 
+			{
 				killTimer += 1;
 			}
 
-			if (killTimer > 35) {
+			if (killTimer > 35) 
+			{
 				killTimer = 0;
 				loginFlag = false;
-				for (Map.Entry entry : deathList.entrySet()) {
-					if (System.currentTimeMillis() - ((Long) entry.getValue()).longValue() > 300000L) {
+				for (Map.Entry entry : deathList.entrySet()) 
+				{
+					if (System.currentTimeMillis() - ((Long) entry.getValue()).longValue() > 300000L) 
+					{
 						deathList.remove(entry.getKey());
-					} else {
-						for (World world : DimensionManager.getWorlds()) {
+					}
+					else 
+					{
+						for (World world : DimensionManager.getWorlds()) 
+						{
 							EntityPlayer player = world.getPlayerEntityByName((String) entry.getKey());
-							if (player != null) {
+							if (player != null) 
+							{
 								player.attackEntityFrom(DamageSource.magic, 500.0F);
 								player.setDead();
 								deathList.remove(player.username);
@@ -542,38 +616,52 @@ public class mod_Invasion {
 		return true;
 	}
 
-	public static void addToDeathList(String username, long timeStamp) {
+	public static void addToDeathList(String username, long timeStamp) 
+	{
 		deathList.put(username, Long.valueOf(timeStamp));
 	}
 
-	public String toString() {
+	public String toString() 
+	{
 		return "mod_Invasion";
 	}
 
-	protected void finalize() throws Throwable {
-		try {
+	protected void finalize() throws Throwable 
+	{
+		try
+		{
 			if (logOut != null)
 				logOut.close();
-		} catch (Exception e) {
+		} 
+		catch (Exception e) 
+		{
 			logOut = null;
 			log("Error closing invasion log file");
-		} finally {
+		} 
+		finally
+		{
 			super.finalize();
 		}
 	}
 
-	public static boolean isInvasionActive() {
+	public static boolean isInvasionActive() 
+	{
 		return isInvasionActive;
 	}
 
-	public static boolean tryGetInvasionPermission(TileEntityNexus nexus) {
-		if (nexus == activeNexus) {
+	public static boolean tryGetInvasionPermission(TileEntityNexus nexus)
+	{
+		if (nexus == activeNexus)
+		{
 			return true;
 		}
-		if (nexus == null) {
+		if (nexus == null)
+		{
 			String s = "Nexus entity invalid";
 			log(s);
-		} else {
+		}
+		else
+		{
 			activeNexus = nexus;
 			isInvasionActive = true;
 			return true;
@@ -581,20 +669,25 @@ public class mod_Invasion {
 		return false;
 	}
 
-	public static void setInvasionEnded(TileEntityNexus nexus) {
-		if (activeNexus == nexus) {
+	public static void setInvasionEnded(TileEntityNexus nexus) 
+	{
+		if (activeNexus == nexus)
+		{
 			isInvasionActive = false;
 		}
 	}
 
-	public static void setNexusUnloaded(TileEntityNexus nexus) {
-		if (activeNexus == nexus) {
+	public static void setNexusUnloaded(TileEntityNexus nexus)
+	{
+		if (activeNexus == nexus) 
+		{
 			nexus = null;
 			isInvasionActive = false;
 		}
 	}
 
-	public static void setNexusClicked(TileEntityNexus nexus) {
+	public static void setNexusClicked(TileEntityNexus nexus) 
+	{
 		focusNexus = nexus;
 	}
 

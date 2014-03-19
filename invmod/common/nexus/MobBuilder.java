@@ -1,4 +1,6 @@
 package invmod.common.nexus;
+//NOOB HAUS: This files is done!! (figured out how to fix the case select)
+
 
 import invmod.common.mod_Invasion;
 import invmod.common.entity.EntityIMBurrower;
@@ -11,43 +13,44 @@ import invmod.common.entity.EntityIMThrower;
 import invmod.common.entity.EntityIMZombie;
 import net.minecraft.world.World;
 
-public class MobBuilder {
+public class MobBuilder 
+{
 	public EntityIMLiving createMobFromConstruct(EntityConstruct mobConstruct, World world, INexusAccess nexus)
   {
     EntityIMLiving mob = null;
-    switch (1.$SwitchMap$invmod$common$nexus$IMEntityType[mobConstruct.getMobType().ordinal()])
+    switch (mobConstruct.getMobType())
     {
-    case 1:
+    case ZOMBIE:
       EntityIMZombie zombie = new EntityIMZombie(world, nexus);
       zombie.setTexture(mobConstruct.getTexture());
       zombie.setFlavour(mobConstruct.getFlavour());
       zombie.setTier(mobConstruct.getTier());
       mob = zombie;
       break;
-    case 2:
+    case SPIDER:
       EntityIMSpider spider = new EntityIMSpider(world, nexus);
       spider.setTexture(mobConstruct.getTexture());
       spider.setFlavour(mobConstruct.getFlavour());
       spider.setTier(mobConstruct.getTier());
       mob = spider;
       break;
-    case 3:
+    case SKELETON:
       EntityIMSkeleton skeleton = new EntityIMSkeleton(world, nexus);
       mob = skeleton;
       break;
-    case 4:
+    case PIG_ENGINEER:
       EntityIMPigEngy pigEngy = new EntityIMPigEngy(world, nexus);
       mob = pigEngy;
       break;
-    case 5:
+    case THROWER:
       EntityIMThrower thrower = new EntityIMThrower(world, nexus);
       mob = thrower;
       break;
-    case 6:
+    case BURROWER:
       EntityIMBurrower burrower = new EntityIMBurrower(world, nexus);
       mob = burrower;
       break;
-    case 7:
+    case CREEPER:
       EntityIMCreeper creeper = new EntityIMCreeper(world, nexus);
       mob = creeper;
       break;
