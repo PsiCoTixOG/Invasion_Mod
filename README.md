@@ -2,6 +2,14 @@ Invasion_Mod
 ============
 NOOB HAUS takes a stab at updating Lieus Minecraft Invasion Mod to 1.6.4
 
+Completed class files:
+MobBuilder.class
+
+UPDATE 03/18/2014
+-----------------
+Started to comment the heck out of the main class; I plan on doing the same thing to all the files.. mostly
+also added a list of the classes I can confirm are good to go
+
 UPDATE 03/03/2014
 -----------------
 Way better source base; lets see what needs to be changed now??
