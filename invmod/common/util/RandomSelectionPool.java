@@ -6,38 +6,46 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class RandomSelectionPool<T> implements ISelect<T> {
+public class RandomSelectionPool<T> implements ISelect<T> 
+{
 	private List<Pair<ISelect<T>, Float>> pool;
 	private float totalWeight;
 	private Random rand;
 
-	public RandomSelectionPool() {
+	public RandomSelectionPool() 
+	{
 		this.pool = new ArrayList();
 		this.totalWeight = 0.0F;
 		this.rand = new Random();
 	}
 
-	public void addEntry(T entry, float weight) {
+	public void addEntry(T entry, float weight) 
+	{
 		SingleSelection selection = new SingleSelection(entry);
 		addEntry(selection, weight);
 	}
 
-	public void addEntry(ISelect<T> entry, float weight) {
+	public void addEntry(ISelect<T> entry, float weight) 
+	{
 		this.pool.add(new Pair(entry, Float.valueOf(weight)));
 		this.totalWeight += weight;
 	}
 
-	public T selectNext() {
+	public T selectNext() 
+	{
 		float r = this.rand.nextFloat() * this.totalWeight;
-		for (Pair entry : this.pool) {
-			if (r < ((Float) entry.getVal2()).floatValue()) {
+		for (Pair entry : this.pool) 
+		{
+			if (r < ((Float) entry.getVal2()).floatValue()) 
+			{
 				return ((ISelect) entry.getVal1()).selectNext();
 			}
 
 			r -= ((Float) entry.getVal2()).floatValue();
 		}
 
-		if (this.pool.size() > 0) {
+		if (this.pool.size() > 0)
+		{
 			mod_Invasion.log("RandomSelectionPool invalid setup or rounding error. Failing safe.");
 			return ((ISelect) ((Pair) this.pool.get(0)).getVal1()).selectNext();
 		}

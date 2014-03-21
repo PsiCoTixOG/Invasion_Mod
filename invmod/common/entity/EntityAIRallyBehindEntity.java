@@ -2,7 +2,8 @@ package invmod.common.entity;
 
 import net.minecraft.entity.EntityLiving;
 
-public class EntityAIRallyBehindEntity<T extends EntityLiving, ILeader> extends EntityAIFollowEntity<T> {
+public class EntityAIRallyBehindEntity<T extends EntityLiving, ILeader> extends EntityAIFollowEntity<T> 
+{
 	private static final float DEFAULT_FOLLOW_DISTANCE = 5.0F;
 
 	public EntityAIRallyBehindEntity(EntityIMLiving entity, Class<T> leader) {

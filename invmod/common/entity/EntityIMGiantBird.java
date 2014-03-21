@@ -186,21 +186,21 @@ public class EntityIMGiantBird extends EntityIMBird
 
   private void setAI()
   {
-    this.c = new EntityAITasks(this.worldObj.theProfiler);
+    this.tasks = new EntityAITasks(this.worldObj.theProfiler);
 
-    this.c.addTask(0, new EntityAISwoop(this));
+    this.tasks.addTask(0, new EntityAISwoop(this));
 
-    this.c.addTask(3, new EntityAIBoP(this));
-    this.c.addTask(4, new EntityAIFlyingStrike(this));
-    this.c.addTask(4, new EntityAIFlyingTackle(this));
-    this.c.addTask(4, new EntityAIPickUpEntity(this, 0.0F, 0.2F, 0.0F, 1.5F, 1.5F, 20, 45.0F, 45.0F));
-    this.c.addTask(4, new EntityAIStabiliseFlying(this, 35));
-    this.c.addTask(4, new EntityAICircleTarget(this, 300, 16.0F, 45.0F));
-    this.c.addTask(4, new EntityAIBirdFight(this, EntityZombie.class, 25, 0.4F));
-    this.c.addTask(4, new EntityAIWatchTarget(this));
+    this.tasks.addTask(3, new EntityAIBoP(this));
+    this.tasks.addTask(4, new EntityAIFlyingStrike(this));
+    this.tasks.addTask(4, new EntityAIFlyingTackle(this));
+    this.tasks.addTask(4, new EntityAIPickUpEntity(this, 0.0F, 0.2F, 0.0F, 1.5F, 1.5F, 20, 45.0F, 45.0F));
+    this.tasks.addTask(4, new EntityAIStabiliseFlying(this, 35));
+    this.tasks.addTask(4, new EntityAICircleTarget(this, 300, 16.0F, 45.0F));
+    this.tasks.addTask(4, new EntityAIBirdFight(this, EntityZombie.class, 25, 0.4F));
+    this.tasks.addTask(4, new EntityAIWatchTarget(this));
 
-    this.d = new EntityAITasks(this.worldObj.theProfiler);
+    this.targetTasks = new EntityAITasks(this.worldObj.theProfiler);
 
-    this.d.addTask(2, new EntityAISimpleTarget(this, EntityZombie.class, 58.0F, true));
+    this.targetTasks.addTask(2, new EntityAISimpleTarget(this, EntityZombie.class, 58.0F, true));
   }
 }

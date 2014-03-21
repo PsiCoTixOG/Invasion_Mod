@@ -90,18 +90,18 @@ public class EntityIMPigEngy extends EntityIMMob implements ICanDig
 
 	protected void setAI() 
 	{
-		this.c = new EntityAITasks(this.worldObj.theProfiler);
-		this.c.addTask(0, new EntityAIKillEntity(this, EntityPlayer.class, 60));
-		this.c.addTask(1, new EntityAIAttackNexus(this));
-		this.c.addTask(2, new EntityAIGoToNexus(this));
-		this.c.addTask(6, new EntityAIWanderIM(this));
-		this.c.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 7.0F));
-		this.c.addTask(8, new EntityAIWatchClosest(this, EntityIMCreeper.class, 12.0F));
-		this.c.addTask(8, new EntityAILookIdle(this));
+		this.tasks = new EntityAITasks(this.worldObj.theProfiler);
+		this.tasks.addTask(0, new EntityAIKillEntity(this, EntityPlayer.class, 60));
+		this.tasks.addTask(1, new EntityAIAttackNexus(this));
+		this.tasks.addTask(2, new EntityAIGoToNexus(this));
+		this.tasks.addTask(6, new EntityAIWanderIM(this));
+		this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 7.0F));
+		this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityIMCreeper.class, 12.0F));
+		this.tasks.addTask(8, new EntityAILookIdle(this));
 
-		this.d = new EntityAITasks(this.worldObj.theProfiler);
-		this.d.addTask(2, new EntityAISimpleTarget(this, EntityPlayer.class, 3.0F, true));
-		this.d.addTask(3, new EntityAIHurtByTarget(this, false));
+		this.targetTasks = new EntityAITasks(this.worldObj.theProfiler);
+		this.targetTasks.addTask(2, new EntityAISimpleTarget(this, EntityPlayer.class, 3.0F, true));
+		this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, false));
 	}
 
 	public void updateAITasks() 
@@ -352,30 +352,31 @@ public class EntityIMPigEngy extends EntityIMMob implements ICanDig
 				pathFinder.addNode(currentNode.xCoord, currentNode.yCoord + 1, currentNode.zCoord, PathAction.ladderIndexOrient[i]);
 		}
 	}
-
+//NOOB HAUS: possible cases?  LADDER_UP_PX, LADDER_UP_NX, LADDER_UP_PZ, LADDER_UP_NZ, LADDER_TOWER_UP_PX, 
+//	  LADDER_TOWER_UP_NX, LADDER_TOWER_UP_PZ, LADDER_TOWER_UP_NZ, SCAFFOLD_UP
 	protected boolean continueLadder(IBlockAccess terrainMap, PathNode currentNode, PathfinderIM pathFinder)
   {
-    switch (1.$SwitchMap$invmod$common$entity$PathAction[currentNode.action.ordinal()])
+    switch (currentNode.action)
     {
-    case 1:
+    case LADDER_TOWER_UP_PX:
       if (terrainMap.isBlockNormalCube(currentNode.xCoord + 1, currentNode.yCoord + 1, currentNode.zCoord))
       {
         pathFinder.addNode(currentNode.xCoord, currentNode.yCoord + 1, currentNode.zCoord, PathAction.LADDER_UP_PX);
       }
       return true;
-    case 2:
+    case LADDER_TOWER_UP_NX:
       if (terrainMap.isBlockNormalCube(currentNode.xCoord - 1, currentNode.yCoord + 1, currentNode.zCoord))
       {
         pathFinder.addNode(currentNode.xCoord, currentNode.yCoord + 1, currentNode.zCoord, PathAction.LADDER_UP_NX);
       }
       return true;
-    case 3:
+    case LADDER_TOWER_UP_PZ:
       if (terrainMap.isBlockNormalCube(currentNode.xCoord, currentNode.yCoord + 1, currentNode.zCoord + 1))
       {
         pathFinder.addNode(currentNode.xCoord, currentNode.yCoord + 1, currentNode.zCoord, PathAction.LADDER_UP_PZ);
       }
       return true;
-    case 4:
+    case LADDER_TOWER_UP_NZ:
       if (terrainMap.isBlockNormalCube(currentNode.xCoord, currentNode.yCoord + 1, currentNode.zCoord - 1))
       {
         pathFinder.addNode(currentNode.xCoord, currentNode.yCoord + 1, currentNode.zCoord, PathAction.LADDER_UP_NZ);
@@ -390,53 +391,66 @@ public class EntityIMPigEngy extends EntityIMMob implements ICanDig
 		return getCurrentItem();
 	}
 
-	protected void dropFewItems(boolean flag, int bonus) {
+	protected void dropFewItems(boolean flag, int bonus) 
+	{
 		super.dropFewItems(flag, bonus);
-		if (this.rand.nextInt(2) == 0) {
+		if (this.rand.nextInt(2) == 0) 
+		{
 			entityDropItem(new ItemStack(Item.leather, 1, 0), 0.0F);
-		} else if (isBurning())
+		} 
+		else if (isBurning())
 			entityDropItem(new ItemStack(Item.porkCooked, 1, 0), 0.0F);
 		else
 			entityDropItem(new ItemStack(Item.porkRaw, 1, 0), 0.0F);
 	}
 
-	protected void updateAnimation() {
-		if ((!this.worldObj.isRemote) && (this.terrainModifier.isBusy())) {
+	protected void updateAnimation() 
+	{
+		if ((!this.worldObj.isRemote) && (this.terrainModifier.isBusy())) 
+		{
 			setSwinging(true);
 			PathAction currentAction = getNavigatorNew().getCurrentWorkingAction();
 			if (currentAction == PathAction.NONE)
 				setCurrentItem(itemPick);
-			else {
+			else
+			{
 				setCurrentItem(itemHammer);
 			}
 		}
 		int swingSpeed = getSwingSpeed();
 		if (isSwinging()) {
 			this.swingTimer += 1;
-			if (this.swingTimer >= swingSpeed) {
+			if (this.swingTimer >= swingSpeed)
+			{
 				this.swingTimer = 0;
 				setSwinging(false);
 			}
-		} else {
+		} 
+		else 
+		{
 			this.swingTimer = 0;
 		}
 
 		this.swingProgress = (this.swingTimer / swingSpeed);
 	}
 
-	protected boolean isSwinging() {
+	protected boolean isSwinging()
+	{
 		return getDataWatcher().getWatchableObjectByte(30) != 0;
 	}
 
-	protected void setSwinging(boolean flag) {
+	protected void setSwinging(boolean flag)
+	{
 		getDataWatcher().updateObject(30, Byte.valueOf((byte) (flag == true ? 1 : 0)));
 	}
 
-	protected int getSwingSpeed() {
+	protected int getSwingSpeed()
+	{
 		return 10;
 	}
 
-	protected ItemStack getCurrentItem() {
+	protected ItemStack getCurrentItem()
+	{
 		if (this.worldObj.isRemote) {
 			int id = getDataWatcher().getWatchableObjectShort(29);
 			if (id != this.currentItem.itemID)
