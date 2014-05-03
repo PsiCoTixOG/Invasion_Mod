@@ -16,7 +16,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class EntityIMThrower extends EntityIMMob {
+public class EntityIMThrower extends EntityIMMob 
+{
 	private int throwTime;
 	private int ammo;
 	private int punchTimer;
@@ -24,11 +25,13 @@ public class EntityIMThrower extends EntityIMMob {
 	private IPosition pointToClear;
 	private INotifyTask clearPointNotifee;
 
-	public EntityIMThrower(World world) {
+	public EntityIMThrower(World world) 
+	{
 		this(world, null);
 	}
 
-	public EntityIMThrower(World world, INexusAccess nexus) {
+	public EntityIMThrower(World world, INexusAccess nexus) 
+	{
 		super(world, nexus);
 		setBaseMoveSpeedStat(0.13F);
 		this.attackStrength = 10;
@@ -46,20 +49,20 @@ public class EntityIMThrower extends EntityIMMob {
 	}
 
 	protected void setAI() {
-		this.c = new EntityAITasks(this.worldObj.theProfiler);
-		this.c.addTask(0, new EntityAIThrowerKillEntity(this, EntityPlayer.class, 55, 40.0F, 1.0F, 5));
-		this.c.addTask(1, new EntityAIAttackNexus(this));
-		this.c.addTask(2, new EntityAIRandomBoulder(this, 3));
-		this.c.addTask(3, new EntityAIGoToNexus(this));
-		this.c.addTask(6, new EntityAIWanderIM(this));
-		this.c.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-		this.c.addTask(8, new EntityAIWatchClosest(this, EntityIMCreeper.class, 12.0F));
-		this.c.addTask(9, new EntityAIWatchClosest(this, EntityPlayer.class, 16.0F));
-		this.c.addTask(9, new EntityAILookIdle(this));
+		this.tasks = new EntityAITasks(this.worldObj.theProfiler);
+		this.tasks.addTask(0, new EntityAIThrowerKillEntity(this, EntityPlayer.class, 55, 40.0F, 1.0F, 5));
+		this.tasks.addTask(1, new EntityAIAttackNexus(this));
+		this.tasks.addTask(2, new EntityAIRandomBoulder(this, 3));
+		this.tasks.addTask(3, new EntityAIGoToNexus(this));
+		this.tasks.addTask(6, new EntityAIWanderIM(this));
+		this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+		this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityIMCreeper.class, 12.0F));
+		this.tasks.addTask(9, new EntityAIWatchClosest(this, EntityPlayer.class, 16.0F));
+		this.tasks.addTask(9, new EntityAILookIdle(this));
 
-		this.d = new EntityAITasks(this.worldObj.theProfiler);
-		this.d.addTask(2, new EntityAISimpleTarget(this, EntityPlayer.class, 16.0F, true));
-		this.d.addTask(3, new EntityAIHurtByTarget(this, false));
+		this.targetTasks = new EntityAITasks(this.worldObj.theProfiler);
+		this.targetTasks.addTask(2, new EntityAISimpleTarget(this, EntityPlayer.class, 16.0F, true));
+		this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, false));
 	}
 
 	public void updateAITick() {

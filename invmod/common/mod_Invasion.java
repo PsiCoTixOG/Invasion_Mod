@@ -291,7 +291,8 @@ public class mod_Invasion
 		NetworkRegistry.instance().registerChannel(packetHandler, "data");
 		TickRegistry.registerTickHandler(new TickHandlerClient(), Side.CLIENT);
 		TickRegistry.registerTickHandler(new TickHandlerServer(), Side.SERVER);
-
+		
+		//NOOB HAUS: Load the Things!!
 		loadBlocks();
 		loadItems();
 		loadEntities();
@@ -343,6 +344,8 @@ public class mod_Invasion
 		}
 	}
 
+	
+	//NOOB HAUS: Method to load blocks, I like this process.. I think I'll use it in Keen Mod
 	protected void loadBlocks() 
 	{
 		blockNexus = new BlockNexus(configInvasion.getPropertyValueInt("blockID-Nexus", 216));
@@ -352,6 +355,7 @@ public class mod_Invasion
 		GameRegistry.registerTileEntity(TileEntityNexus.class, "Nexus");
 	}
 
+	//NOOB HAUS: doing all these Item declaces
 	protected void loadItems() 
 	{
 		itemPhaseCrystal = new ItemIM(configInvasion.getPropertyValueInt("itemID-PhaseCrystal", 24400)).setUnlocalizedName("phaseCrystal").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabMisc);
@@ -381,6 +385,7 @@ public class mod_Invasion
 		}
 	}
 
+	//NOOB HAUS: Register The Entities!! 
 	protected void loadEntities() 
 	{
 		EntityRegistry.registerGlobalEntityID(EntityIMZombie.class, "IMZombie", 110);
@@ -460,6 +465,7 @@ public class mod_Invasion
 			LanguageRegistry.addName(itemDebugWand, "Debug Wand");
 	}
 
+	//NOOB HAUS: registering the recipes
 	protected void addRecipes() 
 	{
 		GameRegistry.addRecipe(new ItemStack(blockNexus, 1), new Object[] { " X ", "#D#", " # ", Character.valueOf('X'), itemPhaseCrystal, Character.valueOf('#'), Item.redstone, Character.valueOf('D'), Block.obsidian });
@@ -717,47 +723,58 @@ public class mod_Invasion
 		return entities;
 	}
 
-	public static MobBuilder getMobBuilder() {
+	public static MobBuilder getMobBuilder() 
+	{
 		return defaultMobBuilder;
 	}
 
-	public static ISelect<IEntityIMPattern> getMobSpawnPool() {
+	public static ISelect<IEntityIMPattern> getMobSpawnPool() 
+	{
 		return nightSpawnPool1;
 	}
 
-	public static int getMinContinuousModeDays() {
+	public static int getMinContinuousModeDays() 
+	{
 		return minContinuousModeDays;
 	}
 
-	public static int getMaxContinuousModeDays() {
+	public static int getMaxContinuousModeDays() 
+	{
 		return maxContinuousModeDays;
 	}
 
-	public static int getNightMobSightRange() {
+	public static int getNightMobSightRange() 
+	{
 		return nightMobSightRange;
 	}
 
-	public static int getNightMobSenseRange() {
+	public static int getNightMobSenseRange() 
+	{
 		return nightMobSenseRange;
 	}
 
-	public static boolean getNightMobsBurnInDay() {
+	public static boolean getNightMobsBurnInDay() 
+	{
 		return nightMobsBurnInDay;
 	}
 
-	public static ItemStack getRenderHammerItem() {
+	public static ItemStack getRenderHammerItem() 
+	{
 		return new ItemStack(itemEngyHammer, 1);
 	}
 
-	public static int getGuiIdNexus() {
+	public static int getGuiIdNexus() 
+	{
 		return guiIdNexus;
 	}
 
-	public static mod_Invasion getLoadedInstance() {
+	public static mod_Invasion getLoadedInstance() 
+	{
 		return instance;
 	}
 
-	public static void sendInvasionPacketToAll(byte[] data) {
+	public static void sendInvasionPacketToAll(byte[] data) 
+	{
 		Packet250CustomPayload packet = new Packet250CustomPayload();
 		packet.channel = "data";
 		packet.data = data;
@@ -765,42 +782,55 @@ public class mod_Invasion
 		FMLCommonHandler.instance().getMinecraftServerInstance().getConfigurationManager().sendPacketToAllPlayers(packet);
 	}
 
-	public static void broadcastToAll(String message) {
+	public static void broadcastToAll(String message) 
+	{
 		FMLCommonHandler.instance().getMinecraftServerInstance().getConfigurationManager().sendChatMsg(ChatMessageComponent.createFromText(message));
 	}
 
-	public static void sendMessageToPlayer(String user, String message) {
+	public static void sendMessageToPlayer(String user, String message) 
+	{
 		EntityPlayerMP player = FMLCommonHandler.instance().getMinecraftServerInstance().getConfigurationManager().getPlayerForUsername(user);
 		if (player != null) {
 			player.sendChatToPlayer(ChatMessageComponent.createFromText(message));
 		}
 	}
 
-	public static void playGlobalSFX(String s) {
+	public static void playGlobalSFX(String s) 
+	{
 		soundHandler.playGlobalSFX(s);
 	}
 
-	public static void playSingleSFX(String s) {
+	public static void playSingleSFX(String s) 
+	{
 		soundHandler.playSingleSFX(s);
 	}
 
-	public static void playSingleSFX(byte id) {
+	public static void playSingleSFX(byte id) 
+	{
 		soundHandler.playSingleSFX(id);
 	}
 
-	public static void log(String s) {
-		if (s == null) {
+	public static void log(String s) 
+	{
+		if (s == null) 
+		{
 			return;
 		}
-		try {
-			if (logOut != null) {
+		try
+		{
+			if (logOut != null) 
+			{
 				logOut.write(s);
 				logOut.newLine();
 				logOut.flush();
-			} else {
+			}
+			else 
+			{
 				System.out.println(s);
 			}
-		} catch (IOException e) {
+		} 
+		catch (IOException e) 
+		{
 			System.out.println("Couldn't write to invasion log file");
 			System.out.println(s);
 		}

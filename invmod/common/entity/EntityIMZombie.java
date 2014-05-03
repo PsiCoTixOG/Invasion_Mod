@@ -41,11 +41,13 @@ public class EntityIMZombie extends EntityIMMob implements ICanDig
 	private float dropChance;
 	private int swingTimer;
 
-	public EntityIMZombie(World world) {
+	public EntityIMZombie(World world) 
+	{
 		this(world, null);
 	}
 
-	public EntityIMZombie(World world, INexusAccess nexus) {
+	public EntityIMZombie(World world, INexusAccess nexus) 
+	{
 		super(world, nexus);
 		this.terrainModifier = new TerrainModifier(this, 2.0F);
 		this.terrainDigger = new TerrainDigger(this, this.terrainModifier, 1.0F);
@@ -68,16 +70,19 @@ public class EntityIMZombie extends EntityIMMob implements ICanDig
 		setAI();
 	}
 
-	public void onUpdate() {
+	public void onUpdate() 
+	{
 		super.onUpdate();
-		if (this.metaChanged != getDataWatcher().getWatchableObjectByte(29)) {
+		if (this.metaChanged != getDataWatcher().getWatchableObjectByte(29)) 
+		{
 			DataWatcher data = getDataWatcher();
 			this.metaChanged = data.getWatchableObjectByte(29);
 			setTexture(data.getWatchableObjectInt(31));
 
 			if (this.tier != data.getWatchableObjectInt(30))
 				setTier(data.getWatchableObjectInt(30));
-			if (this.flavour != data.getWatchableObjectInt(28)) {
+			if (this.flavour != data.getWatchableObjectInt(28)) 
+			{
 				setFlavour(data.getWatchableObjectInt(28));
 			}
 		}
@@ -85,120 +90,150 @@ public class EntityIMZombie extends EntityIMMob implements ICanDig
 			doFireball();
 	}
 
-	public void onLivingUpdate() {
+	public void onLivingUpdate() 
+	{
 		super.onLivingUpdate();
 		updateAnimation();
 		updateSound();
 	}
 
-	public void onPathSet() {
+	public void onPathSet() 
+	{
 		this.terrainModifier.cancelTask();
 	}
 
-	protected void setAI() {
-		this.c = new EntityAITasks(this.worldObj.theProfiler);
-		this.c.addTask(0, new EntityAIKillEntity(this, EntityPlayer.class, 40));
-		this.c.addTask(1, new EntityAIAttackNexus(this));
-		this.c.addTask(2, new EntityAIWaitForEngy(this, 4.0F, true));
-		this.c.addTask(3, new EntityAIKillEntity(this, EntityLiving.class, 40));
-		this.c.addTask(4, new EntityAIGoToNexus(this));
-		this.c.addTask(6, new EntityAIWanderIM(this));
-		this.c.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-		this.c.addTask(8, new EntityAIWatchClosest(this, EntityIMCreeper.class, 12.0F));
-		this.c.addTask(8, new EntityAILookIdle(this));
+	protected void setAI() 
+	{
+		this.tasks = new EntityAITasks(this.worldObj.theProfiler);
+		this.tasks.addTask(0, new EntityAIKillEntity(this, EntityPlayer.class, 40));
+		this.tasks.addTask(1, new EntityAIAttackNexus(this));
+		this.tasks.addTask(2, new EntityAIWaitForEngy(this, 4.0F, true));
+		this.tasks.addTask(3, new EntityAIKillEntity(this, EntityLiving.class, 40));
+		this.tasks.addTask(4, new EntityAIGoToNexus(this));
+		this.tasks.addTask(6, new EntityAIWanderIM(this));
+		this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+		this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityIMCreeper.class, 12.0F));
+		this.tasks.addTask(8, new EntityAILookIdle(this));
 
-		this.d = new EntityAITasks(this.worldObj.theProfiler);
-		this.d.addTask(0, new EntityAITargetRetaliate(this, EntityLiving.class, 12.0F));
-		this.d.addTask(2, new EntityAISimpleTarget(this, EntityPlayer.class, 12.0F, true));
-		this.d.addTask(5, new EntityAIHurtByTarget(this, false));
+		this.targetTasks = new EntityAITasks(this.worldObj.theProfiler);
+		this.targetTasks.addTask(0, new EntityAITargetRetaliate(this, EntityLiving.class, 12.0F));
+		this.targetTasks.addTask(2, new EntityAISimpleTarget(this, EntityPlayer.class, 12.0F, true));
+		this.targetTasks.addTask(5, new EntityAIHurtByTarget(this, false));
 
-		if (this.tier == 3) {
-			this.c.addTask(3, new EntityAIStoop(this));
-			this.c.addTask(2, new EntityAISprint(this));
-		} else {
-			this.c.addTask(0, new EntityAIRallyBehindEntity(this, EntityIMCreeper.class, 4.0F));
-			this.d.addTask(1, new EntityAISimpleTarget(this, EntityPlayer.class, 6.0F, true));
-			this.d.addTask(3, new EntityAILeaderTarget(this, EntityIMCreeper.class, 10.0F, true));
-			this.d.addTask(4, new EntityAITargetOnNoNexusPath(this, EntityIMPigEngy.class, 3.5F));
+		if (this.tier == 3) 
+		{
+			this.tasks.addTask(3, new EntityAIStoop(this));
+			this.tasks.addTask(2, new EntityAISprint(this));
+		} else 
+		{
+			this.tasks.addTask(0, new EntityAIRallyBehindEntity(this, EntityIMCreeper.class, 4.0F));
+			this.targetTasks.addTask(1, new EntityAISimpleTarget(this, EntityPlayer.class, 6.0F, true));
+			this.targetTasks.addTask(3, new EntityAILeaderTarget(this, EntityIMCreeper.class, 10.0F, true));
+			this.targetTasks.addTask(4, new EntityAITargetOnNoNexusPath(this, EntityIMPigEngy.class, 3.5F));
 		}
 	}
 
-	public void setTier(int tier) {
+	public void setTier(int tier) 
+	{
 		this.tier = tier;
 		getDataWatcher().updateObject(30, Integer.valueOf(tier));
 		setAttributes(tier, this.flavour);
 		setAI();
 
-		if (getDataWatcher().getWatchableObjectInt(31) == 0) {
-			if (tier == 1) {
+		if (getDataWatcher().getWatchableObjectInt(31) == 0) 
+		{
+			if (tier == 1) 
+			{
 				int r = this.rand.nextInt(2);
 				if (r == 0)
 					setTexture(0);
 				else if (r == 1)
 					setTexture(1);
-			} else if (tier == 2) {
-				if (this.flavour == 2) {
+			}
+			else if (tier == 2) 
+			{
+				if (this.flavour == 2) 
+				{
 					setTexture(5);
-				} else if (this.flavour == 3) {
+				} 
+				else if (this.flavour == 3) 
+				{
 					setTexture(3);
-				} else {
+				} 
+				else 
+				{
 					int r = this.rand.nextInt(2);
 					if (r == 0)
 						setTexture(2);
 					else if (r == 1)
 						setTexture(4);
 				}
-			} else if (tier == 3) {
+			} 
+			else if (tier == 3) 
+			{
 				setTexture(6);
 			}
 		}
 	}
 
-	public void setTexture(int textureId) {
+	public void setTexture(int textureId) 
+	{
 		getDataWatcher().updateObject(31, Integer.valueOf(textureId));
 	}
 
-	public void setFlavour(int flavour) {
+	public void setFlavour(int flavour) 
+	{
 		getDataWatcher().updateObject(28, Integer.valueOf(flavour));
 		this.flavour = flavour;
 		setAttributes(this.tier, flavour);
 	}
 
-	public int getTextureId() {
+	public int getTextureId() 
+	{
 		return getDataWatcher().getWatchableObjectInt(31);
 	}
 
-	public String toString() {
+	public String toString() 
+	{
 		return "EntityIMZombie#" + this.tier + "-" + getDataWatcher().getWatchableObjectInt(31) + "-" + this.flavour;
 	}
 
-	public IBlockAccess getTerrain() {
+	public IBlockAccess getTerrain() 
+	{
 		return this.worldObj;
 	}
 
-	public ItemStack getHeldItem() {
+	public ItemStack getHeldItem() 
+	{
 		return this.defaultHeldItem;
 	}
 
-	public boolean avoidsBlock(int id) {
-		if ((this.isImmuneToFire) && ((id == 51) || (id == 10) || (id == 11))) {
+	public boolean avoidsBlock(int id) 
+	{
+		if ((this.isImmuneToFire) && ((id == 51) || (id == 10) || (id == 11))) 
+		{
 			return false;
 		}
 		return super.avoidsBlock(id);
 	}
 
-	public float getBlockRemovalCost(int x, int y, int z) {
+	public float getBlockRemovalCost(int x, int y, int z) 
+	{
 		return getBlockStrength(x, y, z) * 20.0F;
 	}
 
-	public boolean canClearBlock(int x, int y, int z) {
+	public boolean canClearBlock(int x, int y, int z) 
+	{
 		int id = this.worldObj.getBlockId(x, y, z);
 		return (id == 0) || (isBlockDestructible(this.worldObj, x, y, z, id));
 	}
 
-	protected boolean onPathBlocked(Path path, INotifyTask notifee) {
-		if ((!path.isFinished()) && ((isNexusBound()) || (getAttackTarget() != null))) {
-			if ((path.getFinalPathPoint().distanceTo(path.getIntendedTarget()) > 2.2D) && (path.getCurrentPathIndex() + 2 >= path.getCurrentPathLength() / 2)) {
+	protected boolean onPathBlocked(Path path, INotifyTask notifee) 
+	{
+		if ((!path.isFinished()) && ((isNexusBound()) || (getAttackTarget() != null))) 
+		{
+			if ((path.getFinalPathPoint().distanceTo(path.getIntendedTarget()) > 2.2D) && (path.getCurrentPathIndex() + 2 >= path.getCurrentPathLength() / 2))
+			{
 				return false;
 			}
 			PathNode node = path.getPathPointFromIndex(path.getCurrentPathIndex());
@@ -208,20 +243,25 @@ public class EntityIMZombie extends EntityIMMob implements ICanDig
 		return false;
 	}
 
-	public boolean isBigRenderTempHack() {
+	public boolean isBigRenderTempHack() 
+	{
 		return this.tier == 3;
 	}
 
-	public boolean attackEntityAsMob(Entity entity) {
+	public boolean attackEntityAsMob(Entity entity) 
+	{
 		return (this.tier == 3) && (isSprinting()) ? chargeAttack(entity) : super.attackEntityAsMob(entity);
 	}
 
-	public boolean canBePushed() {
+	public boolean canBePushed() 
+	{
 		return this.tier != 3;
 	}
 
-	public void knockBack(Entity par1Entity, float par2, double par3, double par5) {
-		if (this.tier == 3) {
+	public void knockBack(Entity par1Entity, float par2, double par3, double par5) 
+	{
+		if (this.tier == 3) 
+		{
 			return;
 		}
 		this.isAirBorne = true;
@@ -234,20 +274,25 @@ public class EntityIMZombie extends EntityIMMob implements ICanDig
 		this.motionY += f1;
 		this.motionZ -= par5 / f * f1;
 
-		if (this.motionY > 0.4000000059604645D) {
+		if (this.motionY > 0.4000000059604645D) 
+		{
 			this.motionY = 0.4000000059604645D;
 		}
 	}
 
-	public float getBlockPathCost(PathNode prevNode, PathNode node, IBlockAccess terrainMap) {
-		if ((this.tier == 2) && (this.flavour == 2) && (node.action == PathAction.SWIM)) {
+	public float getBlockPathCost(PathNode prevNode, PathNode node, IBlockAccess terrainMap) 
+	{
+		if ((this.tier == 2) && (this.flavour == 2) && (node.action == PathAction.SWIM)) 
+		{
 			float multiplier = 1.0F;
-			if ((terrainMap instanceof IBlockAccessExtended)) {
+			if ((terrainMap instanceof IBlockAccessExtended)) 
+			{
 				int mobDensity = ((IBlockAccessExtended) terrainMap).getLayeredData(node.xCoord, node.yCoord, node.zCoord) & 0x7;
 				multiplier += mobDensity * 3;
 			}
 
-			if ((node.yCoord > prevNode.yCoord) && (getCollide(terrainMap, node.xCoord, node.yCoord, node.zCoord) == 2)) {
+			if ((node.yCoord > prevNode.yCoord) && (getCollide(terrainMap, node.xCoord, node.yCoord, node.zCoord) == 2)) 
+			{
 				multiplier += 2.0F;
 			}
 
@@ -257,12 +302,15 @@ public class EntityIMZombie extends EntityIMMob implements ICanDig
 		return super.getBlockPathCost(prevNode, node, terrainMap);
 	}
 
-	public boolean canBreatheUnderwater() {
+	public boolean canBreatheUnderwater() 
+	{
 		return (this.tier == 2) && (this.flavour == 2);
 	}
 
-	public boolean isBlockDestructible(IBlockAccess terrainMap, int x, int y, int z, int id) {
-		if (getDestructiveness() == 0) {
+	public boolean isBlockDestructible(IBlockAccess terrainMap, int x, int y, int z, int id) 
+	{
+		if (getDestructiveness() == 0) 
+		{
 			return false;
 		}
 
@@ -280,59 +328,76 @@ public class EntityIMZombie extends EntityIMMob implements ICanDig
 		return (!isTooSteep) && (isBlockTypeDestructible(id));
 	}
 
-	public boolean isBlockTypeDestructible(int id) {
-		if ((id == 0) || (id == Block.bedrock.blockID) || (id == Block.ladder.blockID)) {
+	public boolean isBlockTypeDestructible(int id) 
+	{
+		if ((id == 0) || (id == Block.bedrock.blockID) || (id == Block.ladder.blockID)) 
+		{
 			return false;
 		}
-		if ((id == Block.doorIron.blockID) || (id == Block.doorWood.blockID) || (id == Block.trapdoor.blockID)) {
+		if ((id == Block.doorIron.blockID) || (id == Block.doorWood.blockID) || (id == Block.trapdoor.blockID)) 
+		{
 			return true;
 		}
-		if (Block.blocksList[id].blockMaterial.isSolid()) {
+		if (Block.blocksList[id].blockMaterial.isSolid()) 
+		{
 			return true;
 		}
 
 		return false;
 	}
 
-	public void onFollowingEntity(Entity entity) {
-		if (entity == null) {
+	public void onFollowingEntity(Entity entity) 
+	{
+		if (entity == null) 
+		{
 			setDestructiveness(1);
-		} else if (((entity instanceof EntityIMPigEngy)) || ((entity instanceof EntityIMCreeper))) {
+		}
+		else if (((entity instanceof EntityIMPigEngy)) || ((entity instanceof EntityIMCreeper)))
+		{
 			setDestructiveness(0);
-		} else {
+		}
+		else
+		{
 			setDestructiveness(1);
 		}
 	}
 
-	public float scaleAmount() {
+	public float scaleAmount() 
+	{
 		if (this.tier == 2)
 			return 1.12F;
-		if (this.tier == 3) {
+		if (this.tier == 3)
+		{
 			return 1.21F;
 		}
 		return 1.0F;
 	}
 
-	public String getSpecies() {
+	public String getSpecies() 
+	{
 		return "Zombie";
 	}
 
-	public int getTier() {
+	public int getTier() 
+	{
 		return this.tier < 3 ? 2 : 3;
 	}
 
-	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+	public void writeEntityToNBT(NBTTagCompound nbttagcompound) 
+	{
 		nbttagcompound.setInteger("tier", this.tier);
 		nbttagcompound.setInteger("flavour", this.flavour);
 		nbttagcompound.setInteger("textureId", this.dataWatcher.getWatchableObjectInt(31));
 		super.writeEntityToNBT(nbttagcompound);
 	}
 
-	public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+	public void readEntityFromNBT(NBTTagCompound nbttagcompound) 
+	{
 		setTexture(nbttagcompound.getInteger("textureId"));
 		this.flavour = nbttagcompound.getInteger("flavour");
 		this.tier = nbttagcompound.getInteger("tier");
-		if (this.tier == 0) {
+		if (this.tier == 0) 
+		{
 			this.tier = 1;
 		}
 		setFlavour(this.flavour);
@@ -340,53 +405,67 @@ public class EntityIMZombie extends EntityIMMob implements ICanDig
 		super.readEntityFromNBT(nbttagcompound);
 	}
 
-	protected void sunlightDamageTick() {
+	protected void sunlightDamageTick() 
+	{
 		if ((this.tier == 2) && (this.flavour == 2))
 			damageEntity(DamageSource.generic, 3.0F);
 		else
 			setFire(8);
 	}
 
-	protected void updateAnimation() {
-		if ((!this.worldObj.isRemote) && (this.terrainModifier.isBusy())) {
+	protected void updateAnimation() 
+	{
+		if ((!this.worldObj.isRemote) && (this.terrainModifier.isBusy())) 
+		{
 			setSwinging(true);
 		}
 		int swingSpeed = getSwingSpeed();
-		if (isSwinging()) {
+		if (isSwinging())
+		{
 			this.swingTimer += 1;
-			if (this.swingTimer >= swingSpeed) {
+			if (this.swingTimer >= swingSpeed) 
+			{
 				this.swingTimer = 0;
 				setSwinging(false);
 			}
-		} else {
+		}
+		else 
+		{
 			this.swingTimer = 0;
 		}
 
 		this.swingProgress = (this.swingTimer / swingSpeed);
 	}
 
-	protected boolean isSwinging() {
+	protected boolean isSwinging() 
+	{
 		return getDataWatcher().getWatchableObjectByte(27) != 0;
 	}
 
-	protected void setSwinging(boolean flag) {
+	protected void setSwinging(boolean flag) 
+	{
 		getDataWatcher().updateObject(27, Byte.valueOf((byte) (flag == true ? 1 : 0)));
 	}
 
-	protected void updateSound() {
-		if (this.terrainModifier.isBusy()) {
-			if (--this.throttled2 <= 0) {
+	protected void updateSound() 
+	{
+		if (this.terrainModifier.isBusy()) 
+		{
+			if (--this.throttled2 <= 0) 
+			{
 				this.worldObj.playSoundAtEntity(this, "invmod:scrape", 0.85F, 1.0F / (this.rand.nextFloat() * 0.5F + 1.0F));
 				this.throttled2 = (45 + this.rand.nextInt(20));
 			}
 		}
 	}
 
-	protected int getSwingSpeed() {
+	protected int getSwingSpeed() 
+	{
 		return 10;
 	}
 
-	protected boolean chargeAttack(Entity entity) {
+	protected boolean chargeAttack(Entity entity) 
+	{
 		int knockback = 4;
 		entity.attackEntityFrom(DamageSource.causeMobDamage(this), this.attackStrength + 3);
 		entity.addVelocity(-MathHelper.sin(this.rotationYaw * 3.141593F / 180.0F) * knockback * 0.5F, 0.4D, MathHelper.cos(this.rotationYaw * 3.141593F / 180.0F) * knockback * 0.5F);

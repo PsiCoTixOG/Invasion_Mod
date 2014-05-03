@@ -60,31 +60,31 @@ public class EntityIMSpider extends EntityIMMob implements ISpawnsOffspring {
 	}
 
 	protected void setAI() {
-		this.c = new EntityAITasks(this.worldObj.theProfiler);
-		this.c.addTask(0, new EntityAIKillEntity(this, EntityPlayer.class, 40));
-		this.c.addTask(1, new EntityAIAttackNexus(this));
-		this.c.addTask(2, new EntityAIWaitForEngy(this, 5.0F, false));
-		this.c.addTask(3, new EntityAIKillEntity(this, EntityLiving.class, 40));
-		this.c.addTask(4, new EntityAIGoToNexus(this));
-		this.c.addTask(6, new EntityAIWanderIM(this));
-		this.c.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+		this.tasks = new EntityAITasks(this.worldObj.theProfiler);
+		this.tasks.addTask(0, new EntityAIKillEntity(this, EntityPlayer.class, 40));
+		this.tasks.addTask(1, new EntityAIAttackNexus(this));
+		this.tasks.addTask(2, new EntityAIWaitForEngy(this, 5.0F, false));
+		this.tasks.addTask(3, new EntityAIKillEntity(this, EntityLiving.class, 40));
+		this.tasks.addTask(4, new EntityAIGoToNexus(this));
+		this.tasks.addTask(6, new EntityAIWanderIM(this));
+		this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 
-		this.c.addTask(8, new EntityAILookIdle(this));
+		this.tasks.addTask(8, new EntityAILookIdle(this));
 
-		this.d = new EntityAITasks(this.worldObj.theProfiler);
-		this.d.addTask(0, new EntityAITargetRetaliate(this, EntityLiving.class, 12.0F));
-		this.d.addTask(2, new EntityAISimpleTarget(this, EntityPlayer.class, 14.0F, true));
-		this.d.addTask(3, new EntityAITargetOnNoNexusPath(this, EntityIMPigEngy.class, 3.5F));
-		this.d.addTask(4, new EntityAIHurtByTarget(this, false));
+		this.targetTasks = new EntityAITasks(this.worldObj.theProfiler);
+		this.targetTasks.addTask(0, new EntityAITargetRetaliate(this, EntityLiving.class, 12.0F));
+		this.targetTasks.addTask(2, new EntityAISimpleTarget(this, EntityPlayer.class, 14.0F, true));
+		this.targetTasks.addTask(3, new EntityAITargetOnNoNexusPath(this, EntityIMPigEngy.class, 3.5F));
+		this.targetTasks.addTask(4, new EntityAIHurtByTarget(this, false));
 
-		this.c.addTask(0, new EntityAIRallyBehindEntity(this, EntityIMCreeper.class, 4.0F));
-		this.c.addTask(8, new EntityAIWatchClosest(this, EntityIMCreeper.class, 12.0F));
+		this.tasks.addTask(0, new EntityAIRallyBehindEntity(this, EntityIMCreeper.class, 4.0F));
+		this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityIMCreeper.class, 12.0F));
 
 		if (this.tier == 2) {
 			if (this.flavour == 0) {
-				this.c.addTask(2, new EntityAIPounce(this, 0.2F, 1.55F, 18));
+				this.tasks.addTask(2, new EntityAIPounce(this, 0.2F, 1.55F, 18));
 			} else if (this.flavour == 1) {
-				this.c.addTask(0, new EntityAILayEgg(this, 1));
+				this.tasks.addTask(0, new EntityAILayEgg(this, 1));
 			}
 		}
 	}

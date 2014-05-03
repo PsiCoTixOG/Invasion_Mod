@@ -400,7 +400,8 @@ public abstract class EntityIMLiving extends EntityCreature implements IMob, IPa
 		return isInWater;
 	}
 
-	public void rally(Entity leader) {
+	public void rally(Entity leader) 
+	{
 		this.rallyCooldown = 300;
 	}
 

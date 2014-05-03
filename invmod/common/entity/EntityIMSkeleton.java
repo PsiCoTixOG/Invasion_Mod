@@ -33,20 +33,20 @@ public class EntityIMSkeleton extends EntityIMMob
     setGender(0);
     setBaseMoveSpeedStat(0.21F);
 
-    this.c.addTask(0, new EntityAIKillWithArrow(this, EntityPlayer.class, 65, 16.0F));
-    this.c.addTask(1, new EntityAIKillWithArrow(this, EntityLiving.class, 65, 16.0F));
-    this.c.addTask(2, new EntityAIAttackNexus(this));
-    this.c.addTask(3, new EntityAIGoToNexus(this));
-    this.c.addTask(4, new EntityAIWanderIM(this));
-    this.c.addTask(5, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-    this.c.addTask(5, new EntityAILookIdle(this));
-    this.d.addTask(1, new EntityAIHurtByTarget(this, false));
-    this.d.addTask(2, new EntityAISimpleTarget(this, EntityPlayer.class, 16.0F, true));
+    this.tasks.addTask(0, new EntityAIKillWithArrow(this, EntityPlayer.class, 65, 16.0F));
+    this.tasks.addTask(1, new EntityAIKillWithArrow(this, EntityLiving.class, 65, 16.0F));
+    this.tasks.addTask(2, new EntityAIAttackNexus(this));
+    this.tasks.addTask(3, new EntityAIGoToNexus(this));
+    this.tasks.addTask(4, new EntityAIWanderIM(this));
+    this.tasks.addTask(5, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+    this.tasks.addTask(5, new EntityAILookIdle(this));
+    this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
+    this.targetTasks.addTask(2, new EntityAISimpleTarget(this, EntityPlayer.class, 16.0F, true));
 
-    this.c.addTask(0, new EntityAIRallyBehindEntity(this, EntityIMCreeper.class, 4.0F));
-    this.c.addTask(8, new EntityAIWatchClosest(this, EntityIMCreeper.class, 12.0F));
-    this.d.addTask(0, new EntityAISimpleTarget(this, EntityPlayer.class, 6.0F, true));
-    this.d.addTask(1, new EntityAILeaderTarget(this, EntityIMCreeper.class, 10.0F, true));
+    this.tasks.addTask(0, new EntityAIRallyBehindEntity(this, EntityIMCreeper.class, 4.0F));
+    this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityIMCreeper.class, 12.0F));
+    this.targetTasks.addTask(0, new EntityAISimpleTarget(this, EntityPlayer.class, 6.0F, true));
+    this.targetTasks.addTask(1, new EntityAILeaderTarget(this, EntityIMCreeper.class, 10.0F, true));
   }
 
   protected String getLivingSound()

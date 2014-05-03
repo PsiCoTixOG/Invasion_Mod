@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class RandomSelectionPool<T> implements ISelect<T> 
+public class RandomSelectionPool<EntityIMLiving> implements ISelect<EntityIMLiving> 
 {
-	private List<Pair<ISelect<T>, Float>> pool;
+	private List<Pair<ISelect<EntityIMLiving>, Float>> pool;
 	private float totalWeight;
 	private Random rand;
 
@@ -19,26 +19,26 @@ public class RandomSelectionPool<T> implements ISelect<T>
 		this.rand = new Random();
 	}
 
-	public void addEntry(T entry, float weight) 
+	public void addEntry(EntityIMLiving entry, float weight) 
 	{
 		SingleSelection selection = new SingleSelection(entry);
 		addEntry(selection, weight);
 	}
 
-	public void addEntry(ISelect<T> entry, float weight) 
+	public void addEntry(ISelect<EntityIMLiving> entry, float weight) 
 	{
 		this.pool.add(new Pair(entry, Float.valueOf(weight)));
 		this.totalWeight += weight;
 	}
 
-	public T selectNext() 
+	public EntityIMLiving selectNext() 
 	{
 		float r = this.rand.nextFloat() * this.totalWeight;
 		for (Pair entry : this.pool) 
 		{
 			if (r < ((Float) entry.getVal2()).floatValue()) 
 			{
-				return ((ISelect) entry.getVal1()).selectNext();
+				return (EntityIMLiving) ((ISelect) entry.getVal1()).selectNext();
 			}
 
 			r -= ((Float) entry.getVal2()).floatValue();
@@ -47,12 +47,12 @@ public class RandomSelectionPool<T> implements ISelect<T>
 		if (this.pool.size() > 0)
 		{
 			mod_Invasion.log("RandomSelectionPool invalid setup or rounding error. Failing safe.");
-			return ((ISelect) ((Pair) this.pool.get(0)).getVal1()).selectNext();
+			return (EntityIMLiving) ((ISelect) ((Pair) this.pool.get(0)).getVal1()).selectNext();
 		}
 		return null;
 	}
 
-	public RandomSelectionPool<T> clone() 
+	public RandomSelectionPool<EntityIMLiving> clone() 
 	{
 		RandomSelectionPool clone = new RandomSelectionPool();
 		for (Pair entry : this.pool) 
