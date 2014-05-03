@@ -52,9 +52,11 @@ public class RandomSelectionPool<T> implements ISelect<T>
 		return null;
 	}
 
-	public RandomSelectionPool<T> clone() {
+	public RandomSelectionPool<T> clone() 
+	{
 		RandomSelectionPool clone = new RandomSelectionPool();
-		for (Pair entry : this.pool) {
+		for (Pair entry : this.pool) 
+		{
 			clone.addEntry((ISelect) entry.getVal1(), ((Float) entry.getVal2()).floatValue());
 		}
 
@@ -64,9 +66,11 @@ public class RandomSelectionPool<T> implements ISelect<T>
 	public void reset() {
 	}
 
-	public String toString() {
+	public String toString() 
+	{
 		String s = "RandomSelectionPool@" + Integer.toHexString(hashCode()) + "#Size=" + this.pool.size();
-		for (int i = 0; i < this.pool.size(); i++) {
+		for (int i = 0; i < this.pool.size(); i++) 
+		{
 			s = s + "\n\tEntry " + i + "   Weight: " + ((Pair) this.pool.get(i)).getVal2();
 			s = s + "\n\t" + ((ISelect) ((Pair) this.pool.get(i)).getVal1()).toString();
 		}
