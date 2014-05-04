@@ -5,6 +5,20 @@ NOOB HAUS takes a stab at updating Lieus Minecraft Invasion Mod to 1.6.4
 Completed class files:
 MobBuilder.class
 
+common.entity.AttackerAI
+common.entity.BlockSpecial
+common.entity.EntityAIAttackNexus
+common.entity.EntityAIBoP
+common.entity.EntityAICircleTarget
+common.entity.EntityAICreeperIMSwell
+common.entity.EntityAIFlyingMoveToEntity
+common.entity.EntityAIFlyingStrike
+common.entity.EntityAIFlyingTackle
+common.entity.EntityAILayEgg
+
+
+
+
 UPDATE 03/18/2014
 -----------------
 Started to comment the heck out of the main class; I plan on doing the same thing to all the files.. mostly
