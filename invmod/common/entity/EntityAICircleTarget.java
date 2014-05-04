@@ -1,9 +1,8 @@
 package invmod.common.entity;
 
-import java.util.Random;
-import net.minecraft.entity.Entity;
+
 import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.world.World;
+
 
 public class EntityAICircleTarget extends EntityAIBase
 {

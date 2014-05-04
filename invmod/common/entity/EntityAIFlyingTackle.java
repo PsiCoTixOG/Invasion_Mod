@@ -1,6 +1,7 @@
 package invmod.common.entity;
 
-import net.minecraft.entity.Entity;
+//NOOB HAUS: Done
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
 

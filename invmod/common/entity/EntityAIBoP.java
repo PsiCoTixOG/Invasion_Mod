@@ -1,10 +1,9 @@
 package invmod.common.entity;
 
-import java.util.Random;
-import net.minecraft.entity.Entity;
+//NOOB HAUS: DONE - not certain if actually used ?
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.world.World;
 
 public class EntityAIBoP extends EntityAIBase
 {
@@ -89,7 +88,8 @@ public class EntityAIBoP extends EntityAIBase
     }
   }
 
-  protected void chooseTargetAction(EntityLivingBase target) {
+  protected void chooseTargetAction(EntityLivingBase target) 
+  {
     if (this.theEntity.getMoveState() != MoveState.FLYING)
     {
       if ((this.theEntity.getDistanceToEntity(target) < 10.0F) && (this.theEntity.worldObj.rand.nextFloat() > 0.3F))

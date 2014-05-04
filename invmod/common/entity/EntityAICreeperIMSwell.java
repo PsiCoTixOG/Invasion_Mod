@@ -1,8 +1,9 @@
 package invmod.common.entity;
 
+//NOOB HAUS: Done 
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.ai.EntitySenses;
 
 public class EntityAICreeperIMSwell extends EntityAIBase
 {

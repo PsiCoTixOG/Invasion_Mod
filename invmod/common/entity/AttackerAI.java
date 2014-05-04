@@ -1,5 +1,7 @@
 package invmod.common.entity;
 
+//NOOB HAUS: Done
+
 import invmod.common.IBlockAccessExtended;
 import invmod.common.IPathfindable;
 import invmod.common.TerrainDataLayer;
@@ -17,7 +19,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkCache;
 import net.minecraft.world.IBlockAccess;
 
-public class AttackerAI {
+public class AttackerAI 
+{
 	private INexusAccess nexus;
 	private IPathSource pathSource;
 	private IntHashMap entityDensityData;
@@ -28,7 +31,8 @@ public class AttackerAI {
 	private int updateScaffoldTimer;
 	private int nextEntityDensityUpdate;
 
-	public AttackerAI(INexusAccess nexus) {
+	public AttackerAI(INexusAccess nexus) 
+	{
 		this.nexus = nexus;
 		this.pathSource = new PathCreator();
 		this.pathSource.setSearchDepth(8500);
@@ -37,9 +41,11 @@ public class AttackerAI {
 		this.scaffolds = new ArrayList();
 	}
 
-	public void update() {
+	public void update() 
+	{
 		this.nextScaffoldCalcTimer -= 1;
-		if (--this.updateScaffoldTimer <= 0) {
+		if (--this.updateScaffoldTimer <= 0) 
+		{
 			this.updateScaffoldTimer = 40;
 			updateScaffolds();
 
@@ -47,33 +53,40 @@ public class AttackerAI {
 			this.minDistanceBetweenScaffolds = (90 / (this.nexus.getCurrentWave() + 10));
 		}
 
-		if (--this.nextEntityDensityUpdate <= 0) {
+		if (--this.nextEntityDensityUpdate <= 0) 
+		{
 			this.nextEntityDensityUpdate = 20;
 			updateDensityData();
 		}
 	}
 
-	public IBlockAccessExtended wrapEntityData(IBlockAccess terrainMap) {
+	public IBlockAccessExtended wrapEntityData(IBlockAccess terrainMap) 
+	{
 		TerrainDataLayer newTerrain = new TerrainDataLayer(terrainMap);
 		newTerrain.setAllData(this.entityDensityData);
 		return newTerrain;
 	}
 
-	public int getMinDistanceBetweenScaffolds() {
+	public int getMinDistanceBetweenScaffolds() 
+	{
 		return this.minDistanceBetweenScaffolds;
 	}
 
-	public List<Scaffold> getScaffolds() {
+	public List<Scaffold> getScaffolds() 
+	{
 		return this.scaffolds;
 	}
 
-	public boolean askGenerateScaffolds(EntityIMLiving entity) {
-		if ((this.nextScaffoldCalcTimer > 0) || (this.scaffolds.size() > this.scaffoldLimit)) {
+	public boolean askGenerateScaffolds(EntityIMLiving entity) 
+	{
+		if ((this.nextScaffoldCalcTimer > 0) || (this.scaffolds.size() > this.scaffoldLimit)) 
+		{
 			return false;
 		}
 		this.nextScaffoldCalcTimer = 200;
 		List newScaffolds = findMinScaffolds(entity, MathHelper.floor_double(entity.posX), MathHelper.floor_double(entity.posY), MathHelper.floor_double(entity.posZ));
-		if ((newScaffolds != null) && (newScaffolds.size() > 0)) {
+		if ((newScaffolds != null) && (newScaffolds.size() > 0)) 
+		{
 			addNewScaffolds(newScaffolds);
 			return true;
 		}
@@ -81,7 +94,8 @@ public class AttackerAI {
 		return false;
 	}
 
-	public List<Scaffold> findMinScaffolds(IPathfindable pather, int x, int y, int z) {
+	public List<Scaffold> findMinScaffolds(IPathfindable pather, int x, int y, int z) 
+	{
 		Scaffold scaffold = new Scaffold(this.nexus);
 		scaffold.setPathfindBase(pather);
 		Path basePath = createPath(scaffold, x, y, z, this.nexus.getXCoord(), this.nexus.getYCoord(), this.nexus.getZCoord(), 12.0F);

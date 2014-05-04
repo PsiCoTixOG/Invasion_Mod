@@ -1,14 +1,12 @@
 package invmod.common.entity;
 
+//NOOB HAUS: File Done
+
 import invmod.common.mod_Invasion;
 import invmod.common.nexus.INexusAccess;
 import invmod.common.nexus.TileEntityNexus;
 import invmod.common.util.CoordsInt;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.world.World;
 
 public class EntityAIAttackNexus extends EntityAIBase
 {

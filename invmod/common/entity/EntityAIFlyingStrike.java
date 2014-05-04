@@ -1,10 +1,9 @@
 package invmod.common.entity;
 
-import java.util.Random;
-import net.minecraft.entity.Entity;
+//NOOB HAUS:Done
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.world.World;
 
 public class EntityAIFlyingStrike extends EntityAIBase
 {

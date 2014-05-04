@@ -1,5 +1,7 @@
 package invmod.common.entity;
 
+//NOOB HAUS: Done
+
 public enum BlockSpecial
 {
   CONSTRUCTION_1, 

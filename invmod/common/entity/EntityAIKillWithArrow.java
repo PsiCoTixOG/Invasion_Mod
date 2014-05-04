@@ -4,7 +4,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityArrow;
 
-public class EntityAIKillWithArrow<T extends EntityLivingBase> extends EntityAIKillEntity<T> {
+public class EntityAIKillWithArrow<T extends EntityLivingBase> extends EntityAIKillEntity<T> 
+{
 	private float attackRangeSq;
 
 	public EntityAIKillWithArrow(EntityIMLiving entity, Class<? extends T> targetClass, int attackDelay, float attackRange) {

@@ -3,7 +3,8 @@ package invmod.common.entity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 
-public class EntityAIKillEntity<T extends EntityLivingBase> extends EntityAIMoveToEntity<T> {
+public class EntityAIKillEntity<T extends EntityLivingBase> extends EntityAIMoveToEntity<T> 
+{
 	private static final float ATTACK_RANGE = 1.0F;
 	private int attackDelay;
 	private int nextAttack;

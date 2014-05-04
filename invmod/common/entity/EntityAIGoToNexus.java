@@ -1,13 +1,12 @@
 package invmod.common.entity;
 
+//NOOB HAUS:Done
+
 import invmod.common.nexus.INexusAccess;
 import invmod.common.util.CoordsInt;
 import invmod.common.util.Distance;
 import invmod.common.util.IPosition;
-import java.util.Random;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.world.World;
 
 public class EntityAIGoToNexus extends EntityAIBase
 {
