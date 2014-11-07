@@ -1,4 +1,4 @@
-Invasion_Mod
+Invasion_Mod  - THIS PROJECT IS DEAD
 ============
 NOOB HAUS takes a stab at updating Lieus Minecraft Invasion Mod to 1.6.4
 
